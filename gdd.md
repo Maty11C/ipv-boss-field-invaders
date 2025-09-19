@@ -64,20 +64,3 @@ El juego se desarrolla en una cancha de fútbol pixelada y la estética es caric
 ---
 
 ## 🚀 Alcance del Proyecto
-
-
----
-
-## 👥 Equipo
-
----
-
-## 📅 Cronograma Tentativo
-
----
-
-## 📌 Estado del Proyecto
-En desarrollo 🚧  
-Prototipo jugable pronto disponible en HTML5.  
-
-[Backlog (tablero)](trello.com.ar)
