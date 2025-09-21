@@ -1,18 +1,18 @@
 extends CharacterBody2D
 
-@onready var body_animation: AnimationPlayer = $BodyAnimation
+@onready var body_anim: AnimatedSprite2D = $Body
 
 @export var speed = 400 # (pixels/sec).
 
-func _ready() -> void:
-	initialize()
-
-func initialize() -> void:
-	body_animation.play("idle")
+var input_vector: Vector2 = Vector2.ZERO
 
 func _physics_process(delta: float) -> void:
-	var input_vector = Vector2.ZERO
+	_process_input()
+	_process_animation()
 
+func _process_input() -> void:
+	input_vector = Vector2.ZERO
+	
 	if Input.is_action_pressed("move_right"):
 		input_vector.x += 1
 	if Input.is_action_pressed("move_left"):
@@ -23,6 +23,18 @@ func _physics_process(delta: float) -> void:
 		input_vector.y -= 1
 
 	input_vector = input_vector.normalized()
-
+	
 	velocity = input_vector * speed
 	move_and_slide()
+
+func _process_animation() -> void:
+	if input_vector == Vector2.ZERO:
+		body_anim.play("idle")
+	else:
+		if abs(input_vector.x) > abs(input_vector.y):
+			body_anim.flip_h = input_vector.x < 0
+			body_anim.play("walk_side")
+		elif input_vector.y > 0:
+			body_anim.play("walk_front")
+		else:
+			body_anim.play("walk_back")
