@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3 uid="uid://dw4kwo4qls4mc"]
+
+[ext_resource type="Texture2D" uid="uid://c54jo5g2epmj5" path="res://assets/Free Football Assets/Footballers/Argentina/idle.png" id="1_4m8ck"]
+[ext_resource type="Script" uid="uid://ca7didutkcm0g" path="res://src/entities/player/player.gd" id="1_vt6n5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4m8ck"]
+size = Vector2(12, 18)
+
+[sub_resource type="Animation" id="Animation_vt6n5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodyPivot/Body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_4m8ck"]
+resource_name = "idle"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("BodyPivot/Body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_muk8e"]
+_data = {
+&"RESET": SubResource("Animation_vt6n5"),
+&"idle": SubResource("Animation_4m8ck")
+}
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_vt6n5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -9)
+shape = SubResource("RectangleShape2D_4m8ck")
+
+[node name="BodyAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_muk8e")
+}
+
+[node name="BodyPivot" type="Node2D" parent="."]
+
+[node name="Body" type="Sprite2D" parent="BodyPivot"]
+position = Vector2(0, -9)
+texture = ExtResource("1_4m8ck")
+hframes = 4
+frame = 1

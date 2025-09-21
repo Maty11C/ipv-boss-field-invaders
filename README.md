@@ -7,7 +7,7 @@
 
 Videojuego desarrollado en Godot como proyecto final ("boss") para la materia *Introducción al Desarrollo de Videojuegos*.
 
-## 📄 [Game Design Document (GDD)](./GDD.md)
+## 📄 [Game Design Document (GDD)](./gdd.md)
 
 ## 👥 Equipo
 - [Matías Aduco](https://github.com/matiasaduco)
