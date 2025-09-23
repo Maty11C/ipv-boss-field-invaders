@@ -33,7 +33,6 @@ one_shot = true
 [node name="ScoreTimer" type="Timer" parent="."]
 
 [node name="EnemyTimer" type="Timer" parent="."]
-one_shot = true
 
 [node name="HUD" parent="." instance=ExtResource("4_3cfgd")]
 
