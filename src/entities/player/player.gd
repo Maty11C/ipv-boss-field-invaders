@@ -5,6 +5,7 @@ extends CharacterBody2D
 @onready var body_anim: AnimatedSprite2D = $Body
 
 @export var speed = 400 # (pixels/sec).
+@export var clamp_offset: Vector2 = Vector2(20.0, 40.0)
 
 var input_vector: Vector2 = Vector2.ZERO
 
@@ -29,6 +30,19 @@ func _process_input() -> void:
 	input_vector = input_vector.normalized()
 	
 	velocity = input_vector * speed
+	
+	var screenSize = get_viewport()
+	position.x = clamp(
+		position.x,
+		clamp_offset.x,
+		screenSize.size.x - clamp_offset.x
+	)
+	position.y = clamp(
+		position.y,
+		clamp_offset.y,
+		screenSize.size.y
+	)
+	
 	move_and_slide()
 
 func _process_animation() -> void:
