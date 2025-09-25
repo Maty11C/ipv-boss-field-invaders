@@ -144,7 +144,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Police" type="Node2D"]
+[node name="Police" type="Node2D" groups=["police"]]
 scale = Vector2(2, 2)
 script = ExtResource("1_c0qsn")
 
@@ -157,3 +157,5 @@ shape = SubResource("RectangleShape2D_yrcc6")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_5jymh")
 animation = &"walk_side"
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -1,3 +1,5 @@
+class_name Player
+
 extends CharacterBody2D
 
 @onready var body_anim: AnimatedSprite2D = $Body
@@ -5,6 +7,8 @@ extends CharacterBody2D
 @export var speed = 400 # (pixels/sec).
 
 var input_vector: Vector2 = Vector2.ZERO
+
+signal caught_by_police(police)
 
 func _physics_process(delta: float) -> void:
 	_process_input()
