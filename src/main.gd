@@ -13,11 +13,15 @@ extends Node
 
 var score = 0
 
+signal open_loser_hud
+
 func _ready() -> void:
-	player.invasion_finished.connect(_on_invasion_finished)
-	new_game()
-	
+	player.hide()
+
 func new_game():
+	player.show()
+	player.invasion_finished.connect(_on_invasion_finished)
+	
 	clean_game()
 	music.play()
 	
@@ -61,5 +65,10 @@ func _on_invasion_finished():
 	enemy_timer.start()
 
 func game_over() -> void:
-	print("Game over!")
+	player.hide()
+	clean_game()
+	open_loser_hud.emit()
+
+
+func _on_hud_start_game() -> void:
 	new_game()
