@@ -6,10 +6,10 @@ extends Node2D
 
 var target: Node2D
 
-signal player_caught(player)
+signal player_caught
 
 func _ready() -> void:
-	anim.play("idle")
+	_play_animation("idle")
 
 func set_target(enemy: Node2D) -> void:
 	target = enemy
@@ -21,13 +21,16 @@ func _physics_process(delta: float) -> void:
 		
 		if abs(direction.x) > abs(direction.y):
 			anim.flip_h = direction.x < 0
-			anim.play("walk_side")
+			_play_animation("walk_side")
 		elif direction.y > 0:
-			anim.play("walk_front")
+			_play_animation("walk_front")
 		else:
-			anim.play("walk_back")
+			_play_animation("walk_back")
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is Player:
-		print("Hincha capturado!")
-		player_caught.emit(body)
+		player_caught.emit()
+
+func _play_animation(animation: String) -> void:
+	if anim.sprite_frames.has_animation(animation):
+		anim.play(animation)

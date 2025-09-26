@@ -5,7 +5,7 @@ extends Node
 @onready var score_timer: Timer = $ScoreTimer
 @onready var enemy_timer: Timer = $EnemyTimer
 @onready var hud: CanvasLayer = $HUD
-@onready var enemy_target: Node2D = $Environment/Entities/Player
+@onready var player: Node2D = $Environment/Entities/Player
 @onready var enemy_spawn_location: PathFollow2D = $EnemyPath/EnemySpawnLocation
 
 @export var enemy_scene: PackedScene
@@ -14,14 +14,18 @@ extends Node
 var score = 0
 
 func _ready() -> void:
+	player.invasion_finished.connect(_on_invasion_finished)
 	new_game()
 	
 func new_game():
 	clean_game()
 	music.play()
-	start_timer.start()
-	enemy_timer.wait_time = enemy_spawn_time
-	enemy_timer.start()
+	
+	# Animación de invasión del jugador al centro de la cancha
+	var screen_size = get_viewport().get_visible_rect().size
+	var player_final_position = screen_size / 2
+	player.start_invasion(player_final_position)
+	
 	hud.update_score(score)
 	
 func clean_game():
@@ -45,12 +49,17 @@ func _on_enemy_timer_timeout() -> void:
 
 	enemy_spawn_location.progress_ratio = randf()
 	enemy.position = enemy_spawn_location.position
-	enemy.set_target(enemy_target)
+	enemy.set_target(player)
 	
 	enemy.player_caught.connect(game_over)
 
 	add_child(enemy)
 
-func game_over(player: CharacterBody2D) -> void:
+func _on_invasion_finished():
+	start_timer.start()
+	enemy_timer.wait_time = enemy_spawn_time
+	enemy_timer.start()
+
+func game_over() -> void:
 	print("Game over!")
 	new_game()

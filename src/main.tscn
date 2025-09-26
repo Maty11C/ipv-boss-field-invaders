@@ -2060,13 +2060,14 @@ tile_set = SubResource("TileSet_rlaii")
 
 [node name="Music" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("1_gh0ne")
+volume_db = 10.0
 
 [node name="Environment" type="Node2D" parent="."]
 
 [node name="Entities" type="Node2D" parent="Environment"]
 
 [node name="Player" parent="Environment/Entities" instance=ExtResource("1_eewff")]
-position = Vector2(277, 162)
+position = Vector2(960, 540)
 scale = Vector2(2, 2)
 
 [node name="StartTimer" type="Timer" parent="."]
