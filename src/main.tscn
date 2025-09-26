@@ -2084,6 +2084,8 @@ curve = SubResource("Curve2D_3cfgd")
 
 [node name="EnemySpawnLocation" type="PathFollow2D" parent="EnemyPath"]
 
+[connection signal="open_loser_hud" from="." to="HUD" method="_on_main_open_loser_hud"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="EnemyTimer" to="." method="_on_enemy_timer_timeout"]
+[connection signal="start_game" from="HUD" to="." method="_on_hud_start_game"]
