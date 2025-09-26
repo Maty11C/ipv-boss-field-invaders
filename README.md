@@ -21,4 +21,4 @@ Videojuego desarrollado en Godot como proyecto final ("boss") para la materia *I
     - **Entregables:**
         - GDD
         - Build jugable básico
-    - **Versión:**  [v0.1.0](https://github.com/Maty11C/ipv-boss-field-invaders/releases/tag/?)
+    - **Versión:**  [v0.1.0](https://github.com/Maty11C/ipv-boss-field-invaders/tree/v0.1.0)
