@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dt6k0o713vafu"]
+[gd_scene load_steps=4 format=3 uid="uid://dt6k0o713vafu"]
 
 [ext_resource type="Script" uid="uid://cuobua60xuvxa" path="res://src/ui/hud.gd" id="1_eqvli"]
+[ext_resource type="AudioStream" uid="uid://boj4au3yx4yfd" path="res://assets/Free Football Assets/Muchachos 8-bit simple.wav" id="2_4rn03"]
+[ext_resource type="AudioStream" uid="uid://gex5ybimwcmc" path="res://assets/Sfx/referee-whistle.mp3" id="3_snmo6"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_eqvli")
@@ -40,6 +42,13 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "MAIN MENU
 "
+
+[node name="Music" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_4rn03")
+volume_db = 10.0
+
+[node name="PlaySound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_snmo6")
 
 [connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MainMenuButton" to="." method="_on_main_menu_button_pressed"]
