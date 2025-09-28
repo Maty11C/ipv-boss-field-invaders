@@ -12,13 +12,24 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Export Godot Project to HTML5
-        uses: firebelley/godot-export@v5.2.1
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v1
         with:
-          godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.4/Godot_v4.4-stable_linux.x86_64.zip
-          godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.4/Godot_v4.4-stable_export_templates.tpz
-          relative_project_path: ./
-          archive: false
+          version: 4.4.0
+          use-dotnet: false
+
+      - name: Verify setup
+        run: |
+          godot --version
+
+      - name: Import project
+        run: |
+          godot --headless --verbose --import
+
+      - name: Export project
+        run: |
+          mkdir -p build/web
+          godot --headless --verbose --export-release "Web" build/web/index.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
