@@ -35,6 +35,13 @@ jobs:
           EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
           godot --headless --verbose --export-release "Web" "$EXPORT_DIR/web/index.html"
+      - name: Add Web Configuration
+        run: |
+          # Add .nojekyll to prevent GitHub Pages from processing files
+          touch build/web/.nojekyll
+          # Fix MIME types and headers issues
+          echo 'User-agent: *' > build/web/robots.txt
+          echo 'Allow: /' >> build/web/robots.txt
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload to GitHub Pages
