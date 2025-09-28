@@ -34,7 +34,12 @@ jobs:
           mkdir -v -p build/web
           EXPORT_DIR="$(readlink -f build)"
           cd $PROJECT_PATH
-          godot --headless --verbose --export-release "Web" "$EXPORT_DIR/web/index.html"
+          # Import resources first to ensure all UIDs are resolved
+          godot --headless --verbose --import
+          # Export with debug info for better error reporting
+          godot --headless --verbose --export-debug "Web" "$EXPORT_DIR/web/index.html"
+          # List generated files for debugging
+          ls -la "$EXPORT_DIR/web/"
       - name: Add Web Configuration
         run: |
           # Add .nojekyll to prevent GitHub Pages from processing files
