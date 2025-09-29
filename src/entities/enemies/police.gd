@@ -1,8 +1,10 @@
 extends Node2D
 
 @export var speed: int = 200
+
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var detection_area: Area2D = $Area2D
+@onready var offset = Vector2(randf_range(-128, 128), randf_range(-128, 128))
 
 var target: Node2D
 
@@ -16,7 +18,13 @@ func set_target(enemy: Node2D) -> void:
 
 func _physics_process(delta: float) -> void:
 	if target:
-		var direction = (target.global_position - global_position).normalized()
+		# Se obtiene la distancia hacia el objetivo
+		# y se le aplica un offset el cual empieza a reducirse
+		# a medida que el enemigo se acerca
+		var dist = global_position.distance_to(target.global_position)
+		var factor = clamp(dist / 200.0, 0.0, 1.0)
+		var target_position = target.global_position + offset * factor
+		var direction = (target_position - global_position).normalized()
 		global_position += direction * speed * delta
 		
 		if abs(direction.x) > abs(direction.y):
