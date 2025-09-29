@@ -21,6 +21,10 @@ window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/stretch/aspect="expand"
 
+[gui]
+
+theme/custom_font="uid://cyqk73vghc7sb"
+
 [input]
 
 move_left={
