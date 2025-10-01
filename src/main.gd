@@ -6,6 +6,8 @@ extends Node
 @onready var enemy_timer: Timer = $EnemyTimer
 @onready var hud: CanvasLayer = $HUD
 @onready var player: Node2D = $Environment/Entities/Player
+@onready var soccer_player: Node2D = $Environment/Entities/SoccerPlayer
+@onready var soccer_player2: Node2D = $Environment/Entities/SoccerPlayer2
 @onready var enemy_spawn_location: PathFollow2D = $EnemyPath/EnemySpawnLocation
 
 @export var enemy_scene: PackedScene
@@ -17,6 +19,16 @@ signal open_loser_hud
 
 func _ready() -> void:
 	player.hide()
+	spawn_soccer_players()
+
+func spawn_soccer_players() -> void:
+	soccer_player.show()
+	soccer_player2.show()
+	
+	# Configurar posiciones iniciales de los jugadores de fútbol
+	var screen_size = get_viewport().get_visible_rect().size
+	soccer_player.set_idle_position(Vector2(screen_size.x * 0.3, screen_size.y * 0.6))
+	soccer_player2.set_idle_position(Vector2(screen_size.x * 0.7, screen_size.y * 0.4))
 
 func new_game():
 	player.show()

@@ -2,22 +2,24 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ca80kiti67spf"
-path="res://.godot/imported/back.png-50c7c72299feae6b1e06a6a8b3ea2cf1.ctex"
+uid="uid://be6n0oxppr603"
+path="res://.godot/imported/idle.png-1220eb2592e9bdca324ef5d9ad7e6fa9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Free Football Assets/Footballers/Independiente/back.png"
-dest_files=["res://.godot/imported/back.png-50c7c72299feae6b1e06a6a8b3ea2cf1.ctex"]
+source_file="res://assets/Player/idle.png"
+dest_files=["res://.godot/imported/idle.png-1220eb2592e9bdca324ef5d9ad7e6fa9.ctex"]
 
 [params]
 
 compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
@@ -25,6 +27,10 @@ mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
+process/channel_remap/red=0
+process/channel_remap/green=1
+process/channel_remap/blue=2
+process/channel_remap/alpha=3
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

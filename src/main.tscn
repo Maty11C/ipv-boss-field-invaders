@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=4 uid="uid://b8dbb33q34baa"]
+[gd_scene load_steps=13 format=4 uid="uid://b8dbb33q34baa"]
 
 [ext_resource type="Script" uid="uid://c6frtrysqxj2l" path="res://src/main.gd" id="1_5q4o7"]
 [ext_resource type="PackedScene" uid="uid://dw4kwo4qls4mc" path="res://src/entities/player/player.tscn" id="1_eewff"]
 [ext_resource type="AudioStream" uid="uid://boj4au3yx4yfd" path="res://assets/Free Football Assets/Muchachos 8-bit simple.wav" id="1_gh0ne"]
 [ext_resource type="PackedScene" uid="uid://d38o8rpqaubat" path="res://src/entities/enemies/police.tscn" id="2_fyndt"]
 [ext_resource type="Texture2D" uid="uid://cetbnkpmuy2kh" path="res://assets/2D Soccer.png" id="3_kmhfv"]
+[ext_resource type="PackedScene" uid="uid://bkhf5j1o3e2tc" path="res://src/entities/soccer_players/soccer_player.tscn" id="3_sk8j2"]
 [ext_resource type="PackedScene" uid="uid://dt6k0o713vafu" path="res://src/ui/hud.tscn" id="4_3cfgd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rlaii"]
@@ -2067,6 +2068,13 @@ volume_db = 10.0
 [node name="Entities" type="Node2D" parent="Environment"]
 
 [node name="Player" parent="Environment/Entities" instance=ExtResource("1_eewff")]
+scale = Vector2(2, 2)
+
+[node name="SoccerPlayer" parent="Environment/Entities" instance=ExtResource("3_sk8j2")]
+position = Vector2(400, 300)
+scale = Vector2(2, 2)
+
+[node name="SoccerPlayer2" parent="Environment/Entities" instance=ExtResource("3_sk8j2")]
 position = Vector2(960, 540)
 scale = Vector2(2, 2)
 

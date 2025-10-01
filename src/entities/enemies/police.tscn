@@ -145,6 +145,7 @@ animations = [{
 }]
 
 [node name="Police" type="Node2D" groups=["police"]]
+position = Vector2(0, -20)
 scale = Vector2(2, 2)
 script = ExtResource("1_c0qsn")
 speed = 300
