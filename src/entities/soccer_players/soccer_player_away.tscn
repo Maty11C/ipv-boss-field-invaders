@@ -1,0 +1,55 @@
+[gd_scene load_steps=9 format=3 uid="uid://d6lal3p5f4uc"]
+
+[ext_resource type="Script" uid="uid://bb7pdr3x1opct" path="res://src/entities/soccer_players/soccer_player_away.gd" id="1_0f3eg"]
+[ext_resource type="Texture2D" uid="uid://bxkejyvpgafjd" path="res://assets/SoccerPlayer/Francia/idle.png" id="2_1g4kh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p8m1c"]
+size = Vector2(12, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k3m5n"]
+atlas = ExtResource("2_1g4kh")
+region = Rect2(0, 0, 13, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b6j4m"]
+atlas = ExtResource("2_1g4kh")
+region = Rect2(13, 0, 13, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f8n2l"]
+atlas = ExtResource("2_1g4kh")
+region = Rect2(26, 0, 13, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1k9p"]
+atlas = ExtResource("2_1g4kh")
+region = Rect2(39, 0, 13, 19)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_r6t8s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k3m5n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b6j4m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f8n2l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h1k9p")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}]
+
+[node name="SoccerPlayerAway" type="CharacterBody2D"]
+script = ExtResource("1_0f3eg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -9)
+shape = SubResource("RectangleShape2D_p8m1c")
+
+[node name="Body" type="AnimatedSprite2D" parent="." groups=["soccer_players"]]
+position = Vector2(0, -9)
+sprite_frames = SubResource("SpriteFrames_r6t8s")
+animation = &"idle"

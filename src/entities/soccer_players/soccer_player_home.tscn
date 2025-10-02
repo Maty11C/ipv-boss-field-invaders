@@ -1,6 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://bkhf5j1o3e2tc"]
+[gd_scene load_steps=9 format=3 uid="uid://c5h8j2o4e3tc"]
 
-[ext_resource type="Script" path="res://src/entities/soccer_players/soccer_player.gd" id="1_0f3eg"]
+[ext_resource type="Script" uid="uid://idpsl6ep7enh" path="res://src/entities/soccer_players/soccer_player_home.gd" id="1_0f3eg"]
 [ext_resource type="Texture2D" uid="uid://c54jo5g2epmj5" path="res://assets/Free Football Assets/Footballers/Argentina/idle.png" id="2_1g4kh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p8m1c"]
@@ -42,7 +42,7 @@ animations = [{
 "speed": 3.0
 }]
 
-[node name="SoccerPlayer" type="CharacterBody2D"]
+[node name="SoccerPlayerHome" type="CharacterBody2D"]
 script = ExtResource("1_0f3eg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -12,7 +12,7 @@ var is_invading: bool = false
 
 signal invasion_finished
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	_process_input()
 	_process_animation()
 

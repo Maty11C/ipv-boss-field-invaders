@@ -2047,8 +2047,7 @@ script = ExtResource("1_5q4o7")
 enemy_scene = ExtResource("2_fyndt")
 soccer_player_home_scene = ExtResource("3_sk8j2")
 soccer_player_away_scene = ExtResource("4_sk8j3")
-home_players = 4
-away_players = 4
+home_players = 3
 
 [node name="Background" type="Node" parent="."]
 
