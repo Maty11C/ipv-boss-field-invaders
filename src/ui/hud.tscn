@@ -10,8 +10,15 @@ script = ExtResource("1_eqvli")
 [node name="ScoreLabel" type="Label" parent="."]
 offset_left = 13.0
 offset_top = 10.0
-offset_right = 53.0
+offset_right = 138.0
 offset_bottom = 33.0
+
+[node name="PowerupLabel" type="Label" parent="ScoreLabel"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = 31.0
+offset_right = 125.0
+offset_bottom = 54.0
 
 [node name="PlayButton" type="Button" parent="."]
 anchors_preset = 8

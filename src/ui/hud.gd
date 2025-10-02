@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 @onready var score_label: Label = $ScoreLabel
+@onready var powerup_label: Label = $ScoreLabel/PowerupLabel
 @onready var play_button: Button = $PlayButton
 @onready var main_menu_button: Button = $MainMenuButton
 @onready var music: AudioStreamPlayer2D = $Music
@@ -13,6 +14,14 @@ func _ready() -> void:
 
 func update_score(score):
 	score_label.text = "Score: %d" % [score]
+
+func show_powerup(text: String):
+	powerup_label.text = text
+	powerup_label.show()
+	powerup_label.modulate = Color.YELLOW
+
+func hide_powerup():
+	powerup_label.hide()
 
 func _on_play_button_pressed() -> void:
 	play_sound.play()
