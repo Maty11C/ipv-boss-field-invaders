@@ -1,10 +1,27 @@
-[gd_scene load_steps=9 format=3 uid="uid://d6lal3p5f4uc"]
+[gd_scene load_steps=14 format=3 uid="uid://d6lal3p5f4uc"]
 
-[ext_resource type="Script" uid="uid://bb7pdr3x1opct" path="res://src/entities/soccer_players/soccer_player_away.gd" id="1_0f3eg"]
+[ext_resource type="Script" uid="uid://bb7pdr3x1opct" path="res://src/environment/entities/soccer_players/soccer_player_away.gd" id="1_0f3eg"]
 [ext_resource type="Texture2D" uid="uid://bxkejyvpgafjd" path="res://assets/SoccerPlayer/Francia/idle.png" id="2_1g4kh"]
+[ext_resource type="Texture2D" uid="uid://dl2v42jjvc3ml" path="res://assets/SoccerPlayer/Francia/goalkeeper_idle.png" id="2_xlw50"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_p8m1c"]
 size = Vector2(12, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_15fg1"]
+atlas = ExtResource("2_xlw50")
+region = Rect2(0, 0, 13, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7deu8"]
+atlas = ExtResource("2_xlw50")
+region = Rect2(13, 0, 13, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7bc25"]
+atlas = ExtResource("2_xlw50")
+region = Rect2(26, 0, 13, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_62itr"]
+atlas = ExtResource("2_xlw50")
+region = Rect2(39, 0, 13, 19)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k3m5n"]
 atlas = ExtResource("2_1g4kh")
@@ -26,6 +43,23 @@ region = Rect2(39, 0, 13, 19)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_15fg1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7deu8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7bc25")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_62itr")
+}],
+"loop": true,
+"name": &"goalkeeper_idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_k3m5n")
 }, {
 "duration": 1.0,
@@ -43,6 +77,7 @@ animations = [{
 }]
 
 [node name="SoccerPlayerAway" type="CharacterBody2D"]
+scale = Vector2(1.5, 1.5)
 script = ExtResource("1_0f3eg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

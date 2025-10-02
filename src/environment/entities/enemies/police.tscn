@@ -1,6 +1,6 @@
 [gd_scene load_steps=24 format=3 uid="uid://d38o8rpqaubat"]
 
-[ext_resource type="Script" uid="uid://dycwnh1mjrqo1" path="res://src/entities/enemies/police.gd" id="1_c0qsn"]
+[ext_resource type="Script" uid="uid://dycwnh1mjrqo1" path="res://src/environment/entities/enemies/police.gd" id="1_c0qsn"]
 [ext_resource type="Texture2D" uid="uid://detunfsrtxyob" path="res://assets/Police/idle.png" id="2_vuay4"]
 [ext_resource type="Texture2D" uid="uid://chpw0c4pvxlu1" path="res://assets/Police/back.png" id="3_w5omw"]
 [ext_resource type="Texture2D" uid="uid://0nbvdmuqywsn" path="res://assets/Police/front.png" id="4_n24rq"]
@@ -146,7 +146,7 @@ animations = [{
 
 [node name="Police" type="Node2D" groups=["police"]]
 position = Vector2(0, -20)
-scale = Vector2(2, 2)
+scale = Vector2(1.5, 1.5)
 script = ExtResource("1_c0qsn")
 speed = 300
 

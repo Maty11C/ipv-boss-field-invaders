@@ -1,13 +1,14 @@
-[gd_scene load_steps=14 format=4 uid="uid://b8dbb33q34baa"]
+[gd_scene load_steps=15 format=4 uid="uid://b8dbb33q34baa"]
 
 [ext_resource type="Script" uid="uid://c6frtrysqxj2l" path="res://src/main.gd" id="1_5q4o7"]
-[ext_resource type="PackedScene" uid="uid://dw4kwo4qls4mc" path="res://src/entities/player/player.tscn" id="1_eewff"]
+[ext_resource type="PackedScene" uid="uid://dw4kwo4qls4mc" path="res://src/environment/entities/player/player.tscn" id="1_eewff"]
 [ext_resource type="AudioStream" uid="uid://boj4au3yx4yfd" path="res://assets/Free Football Assets/Muchachos 8-bit simple.wav" id="1_gh0ne"]
-[ext_resource type="PackedScene" uid="uid://d38o8rpqaubat" path="res://src/entities/enemies/police.tscn" id="2_fyndt"]
+[ext_resource type="PackedScene" uid="uid://d38o8rpqaubat" path="res://src/environment/entities/enemies/police.tscn" id="2_fyndt"]
 [ext_resource type="Texture2D" uid="uid://cetbnkpmuy2kh" path="res://assets/2D Soccer.png" id="3_kmhfv"]
-[ext_resource type="PackedScene" uid="uid://c5h8j2o4e3tc" path="res://src/entities/soccer_players/soccer_player_home.tscn" id="3_sk8j2"]
+[ext_resource type="PackedScene" uid="uid://c5h8j2o4e3tc" path="res://src/environment/entities/soccer_players/soccer_player_home.tscn" id="3_sk8j2"]
 [ext_resource type="PackedScene" uid="uid://dt6k0o713vafu" path="res://src/ui/hud.tscn" id="4_3cfgd"]
-[ext_resource type="PackedScene" uid="uid://d6lal3p5f4uc" path="res://src/entities/soccer_players/soccer_player_away.tscn" id="4_sk8j3"]
+[ext_resource type="PackedScene" uid="uid://d6lal3p5f4uc" path="res://src/environment/entities/soccer_players/soccer_player_away.tscn" id="4_sk8j3"]
+[ext_resource type="PackedScene" uid="uid://ceuekjfunn8d6" path="res://src/environment/soccer_ball.tscn" id="8_kf8lf"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rlaii"]
 texture = ExtResource("3_kmhfv")
@@ -2045,10 +2046,6 @@ point_count = 5
 [node name="Main" type="Node"]
 script = ExtResource("1_5q4o7")
 enemy_scene = ExtResource("2_fyndt")
-soccer_player_home_scene = ExtResource("3_sk8j2")
-soccer_player_away_scene = ExtResource("4_sk8j3")
-home_players = 4
-away_players = 4
 
 [node name="Background" type="Node" parent="."]
 
@@ -2073,7 +2070,83 @@ volume_db = 10.0
 [node name="Entities" type="Node2D" parent="Environment"]
 
 [node name="Player" parent="Environment/Entities" instance=ExtResource("1_eewff")]
-scale = Vector2(2, 2)
+
+[node name="SoccerPlayers" type="Node2D" parent="Environment/Entities"]
+
+[node name="Home" type="Node2D" parent="Environment/Entities/SoccerPlayers"]
+
+[node name="Goalkeeper" parent="Environment/Entities/SoccerPlayers/Home" groups=["soccer_players"] instance=ExtResource("3_sk8j2")]
+position = Vector2(27, 614)
+is_goalkeeper = true
+
+[node name="Defender1" parent="Environment/Entities/SoccerPlayers/Home" groups=["soccer_players"] instance=ExtResource("3_sk8j2")]
+position = Vector2(323, 193)
+
+[node name="Defender2" parent="Environment/Entities/SoccerPlayers/Home" groups=["soccer_players"] instance=ExtResource("3_sk8j2")]
+position = Vector2(301, 442)
+
+[node name="Defender3" parent="Environment/Entities/SoccerPlayers/Home" groups=["soccer_players"] instance=ExtResource("3_sk8j2")]
+position = Vector2(304, 773)
+
+[node name="Defender4" parent="Environment/Entities/SoccerPlayers/Home" groups=["soccer_players"] instance=ExtResource("3_sk8j2")]
+position = Vector2(338, 987)
+
+[node name="Midfielder1" parent="Environment/Entities/SoccerPlayers/Home" groups=["soccer_players"] instance=ExtResource("3_sk8j2")]
+position = Vector2(755, 189)
+
+[node name="Midfielder2" parent="Environment/Entities/SoccerPlayers/Home" groups=["soccer_players"] instance=ExtResource("3_sk8j2")]
+position = Vector2(559, 440)
+
+[node name="Midfielder3" parent="Environment/Entities/SoccerPlayers/Home" groups=["soccer_players"] instance=ExtResource("3_sk8j2")]
+position = Vector2(558, 773)
+
+[node name="Midfielder4" parent="Environment/Entities/SoccerPlayers/Home" groups=["soccer_players"] instance=ExtResource("3_sk8j2")]
+position = Vector2(763, 979)
+
+[node name="Forward1" parent="Environment/Entities/SoccerPlayers/Home" groups=["soccer_players"] instance=ExtResource("3_sk8j2")]
+position = Vector2(731, 594)
+
+[node name="Forward2" parent="Environment/Entities/SoccerPlayers/Home" groups=["soccer_players"] instance=ExtResource("3_sk8j2")]
+position = Vector2(937, 594)
+
+[node name="Away" type="Node2D" parent="Environment/Entities/SoccerPlayers"]
+
+[node name="Goalkeeper" parent="Environment/Entities/SoccerPlayers/Away" groups=["soccer_players"] instance=ExtResource("4_sk8j3")]
+position = Vector2(1886, 621)
+is_goalkeeper = true
+
+[node name="Defender1" parent="Environment/Entities/SoccerPlayers/Away" groups=["soccer_players"] instance=ExtResource("4_sk8j3")]
+position = Vector2(1584, 191)
+
+[node name="Defender2" parent="Environment/Entities/SoccerPlayers/Away" groups=["soccer_players"] instance=ExtResource("4_sk8j3")]
+position = Vector2(1621, 446)
+
+[node name="Defender3" parent="Environment/Entities/SoccerPlayers/Away" groups=["soccer_players"] instance=ExtResource("4_sk8j3")]
+position = Vector2(1625, 784)
+
+[node name="Defender4" parent="Environment/Entities/SoccerPlayers/Away" groups=["soccer_players"] instance=ExtResource("4_sk8j3")]
+position = Vector2(1550, 995)
+
+[node name="Midfielder1" parent="Environment/Entities/SoccerPlayers/Away" groups=["soccer_players"] instance=ExtResource("4_sk8j3")]
+position = Vector2(1155, 191)
+
+[node name="Midfielder2" parent="Environment/Entities/SoccerPlayers/Away" groups=["soccer_players"] instance=ExtResource("4_sk8j3")]
+position = Vector2(1373, 445)
+
+[node name="Midfielder3" parent="Environment/Entities/SoccerPlayers/Away" groups=["soccer_players"] instance=ExtResource("4_sk8j3")]
+position = Vector2(1373, 782)
+
+[node name="Midfielder4" parent="Environment/Entities/SoccerPlayers/Away" groups=["soccer_players"] instance=ExtResource("4_sk8j3")]
+position = Vector2(1148, 981)
+
+[node name="Forward1" parent="Environment/Entities/SoccerPlayers/Away" groups=["soccer_players"] instance=ExtResource("4_sk8j3")]
+position = Vector2(1149, 487)
+
+[node name="Forward2" parent="Environment/Entities/SoccerPlayers/Away" groups=["soccer_players"] instance=ExtResource("4_sk8j3")]
+position = Vector2(1148, 705)
+
+[node name="SoccerBall" parent="Environment" instance=ExtResource("8_kf8lf")]
+position = Vector2(924, 601)
 
 [node name="StartTimer" type="Timer" parent="."]
 one_shot = true

@@ -4,8 +4,13 @@ extends CharacterBody2D
 
 @onready var body_anim: AnimatedSprite2D = $Body
 
+@export var is_goalkeeper: bool = false
+
 func _ready() -> void:
-	_play_animation("idle")
+	if (is_goalkeeper):
+		_play_animation("goalkeeper_idle")
+	else:
+		_play_animation("idle")
 	
 func setup(team: String, team_players: int, index: int, screen_size: Vector2) -> void:
 	add_to_group("soccer_players")

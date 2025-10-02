@@ -10,11 +10,8 @@ extends Node
 @onready var enemy_spawn_location: PathFollow2D = $EnemyPath/EnemySpawnLocation
 
 @export var enemy_scene: PackedScene
-@export var soccer_player_home_scene: PackedScene
-@export var soccer_player_away_scene: PackedScene
 @export var enemy_spawn_time: float = 2.0  # Tiempo en segundos entre spawns de policías
-@export var home_players: int = 2  # Cantidad de jugadores del equipo local
-@export var away_players: int = 2  # Cantidad de jugadores del equipo visitante
+@export var camera_smooth_duration: float = 3 # Tiempo en segundos de animación de cámara enfocando al player
 
 var score = 0
 var score_multiplier = 1
@@ -25,32 +22,6 @@ signal open_loser_hud
 
 func _ready() -> void:
 	player.hide()
-	spawn_soccer_players()
-
-#region Soccer players
-
-func spawn_soccer_players() -> void:
-	clear_soccer_players()
-	var screen_size = get_viewport().get_visible_rect().size
-	spawn_team_players("Home", home_players, screen_size)
-	spawn_team_players("Away", away_players, screen_size)
-
-func spawn_team_players(team: String, player_count: int, screen_size: Vector2) -> void:
-	for i in range(player_count):
-		spawn_player_by_team(team, i, screen_size)
-
-func spawn_player_by_team(team: String, index: int, screen_size: Vector2) -> void:
-	var scene_to_load: PackedScene = soccer_player_home_scene if team == "Home" else soccer_player_away_scene
-	var soccer_player = scene_to_load.instantiate()
-	soccer_player.setup(team, home_players if team == "Home" else away_players, index, screen_size)
-	entities_node.add_child(soccer_player)
-
-func clear_soccer_players() -> void:
-	var soccer_players = get_tree().get_nodes_in_group("soccer_players")
-	for soccer_player in soccer_players:
-		soccer_player.queue_free()
-
-#endregion
 
 #region Game
 
@@ -84,6 +55,7 @@ func clean_game():
 		police.queue_free()
 
 func game_over() -> void:
+	player.disable_camera_smooth(1)
 	player.hide()
 	clean_game()
 	open_loser_hud.emit()
@@ -96,6 +68,7 @@ func _on_hud_start_game() -> void:
 	new_game()
 	
 func _on_invasion_finished():
+	player.enable_camera_smooth(camera_smooth_duration)
 	start_timer.start()
 	enemy_timer.wait_time = enemy_spawn_time
 	enemy_timer.start()
