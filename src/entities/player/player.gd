@@ -3,6 +3,7 @@ class_name Player
 extends CharacterBody2D
 
 @onready var body_anim: AnimatedSprite2D = $Body
+@onready var detection_area: Area2D = $DetectionArea
 
 @export var speed = 400 # (pixels/sec).
 @export var clamp_offset: Vector2 = Vector2(20.0, 40.0)
@@ -11,6 +12,12 @@ var input_vector: Vector2 = Vector2.ZERO
 var is_invading: bool = false
 
 signal invasion_finished
+signal near_soccer_player(soccer_player: Node2D)
+signal left_soccer_player(soccer_player: Node2D)
+
+func _ready() -> void:
+	detection_area.body_entered.connect(_on_detection_area_body_entered)
+	detection_area.body_exited.connect(_on_detection_area_body_exited)
 
 func _physics_process(_delta: float) -> void:
 	_process_input()
@@ -102,3 +109,11 @@ func finish_invasion():
 func _play_animation(animation: String) -> void:
 	if body_anim.sprite_frames.has_animation(animation):
 		body_anim.play(animation)
+
+func _on_detection_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("soccer_players"):
+		near_soccer_player.emit(body)
+
+func _on_detection_area_body_exited(body: Node2D) -> void:
+	if body.is_in_group("soccer_players"):
+		left_soccer_player.emit(body)
