@@ -25,60 +25,24 @@ func _ready() -> void:
 	spawn_soccer_players()
 
 func spawn_soccer_players() -> void:
-	# Limpiar jugadores existentes si los hay
 	clear_soccer_players()
-	
 	var screen_size = get_viewport().get_visible_rect().size
-	var player_index = 0
-	
-	# Crear jugadores del equipo local (Home)
-	for i in range(home_players):
-		var soccer_player = _create_home_player(player_index)
-		if soccer_player:
-			player.add_to_group("soccer_players")
-			entities_node.add_child(soccer_player)
-			
-			# Configurar posición
-			var position = _calculate_team_position("Home", i, screen_size)
-			soccer_player.set_idle_position(position)
-			soccer_player.show()
-			player_index += 1
-	
-	# Crear jugadores del equipo visitante (Away)
-	for i in range(away_players):
-		var soccer_player = _create_away_player(player_index)
-		if soccer_player:
-			player.add_to_group("soccer_players")
-			entities_node.add_child(soccer_player)
-			
-			# Configurar posición
-			var position = _calculate_team_position("Away", i, screen_size)
-			soccer_player.set_idle_position(position)
-			soccer_player.show()
-			player_index += 1
+	spawn_team_players("Home", home_players, screen_size)
+	spawn_team_players("Away", away_players, screen_size)
 
-func _create_home_player(index: int) -> Node2D:
-	if not soccer_player_home_scene:
-		print("Error: No se pudo cargar la escena del jugador Home")
-		return null
-	
-	var soccer_player = soccer_player_home_scene.instantiate()
-	soccer_player.scale = Vector2(2, 2)
-	soccer_player.name = "HomePlayer" + str(index + 1)
-	return soccer_player
+func spawn_team_players(team: String, player_count: int, screen_size: Vector2) -> void:
+	for i in range(player_count):
+		spawn_player_by_team(team, i, screen_size)
 
-func _create_away_player(index: int) -> Node2D:
-	if not soccer_player_away_scene:
-		print("Error: No se pudo cargar la escena del jugador Away")
-		return null
-	
-	var soccer_player = soccer_player_away_scene.instantiate()
+func spawn_player_by_team(team: String, index: int, screen_size: Vector2) -> void:
+	var scene_to_load: PackedScene = soccer_player_home_scene if team == "Home" else soccer_player_away_scene
+	var soccer_player = scene_to_load.instantiate()
 	soccer_player.scale = Vector2(2, 2)
-	soccer_player.name = "AwayPlayer" + str(index + 1)
-	return soccer_player
+	soccer_player.add_to_group("soccer_players")
+	soccer_player.position = _calculate_team_position(team, index, screen_size)
+	entities_node.add_child(soccer_player)
 
 func _calculate_team_position(team: String, player_index: int, screen_size: Vector2) -> Vector2:
-	# Distribuir jugadores por equipos en lados opuestos del campo
 	var margin_x = screen_size.x * 0.1  # 10% de margen en los lados
 	var margin_y = screen_size.y * 0.2  # 20% de margen arriba y abajo
 	
@@ -86,13 +50,8 @@ func _calculate_team_position(team: String, player_index: int, screen_size: Vect
 	var playable_height = screen_size.y - (margin_y * 2)
 	
 	var team_players = home_players if team == "Home" else away_players
-	var x_offset = 0
 	
-	# Home en la mitad izquierda, Away en la mitad derecha
-	if team == "Home":
-		x_offset = margin_x
-	else:  # Away
-		x_offset = margin_x + playable_width
+	var x_offset = margin_x if team == "Home" else margin_x + playable_width
 	
 	# Distribuir en filas y columnas dentro de su mitad
 	var cols = ceil(sqrt(team_players))
@@ -161,7 +120,6 @@ func game_over() -> void:
 	player.hide()
 	clean_game()
 	open_loser_hud.emit()
-
 
 func _on_hud_start_game() -> void:
 	new_game()
