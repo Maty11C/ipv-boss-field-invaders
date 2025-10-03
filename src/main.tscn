@@ -2076,6 +2076,7 @@ one_shot = true
 [node name="ScoreTimer" type="Timer" parent="."]
 
 [node name="EnemyTimer" type="Timer" parent="."]
+wait_time = 2.0
 
 [node name="HUD" parent="." instance=ExtResource("4_3cfgd")]
 

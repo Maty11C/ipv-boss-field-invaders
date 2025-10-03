@@ -4,17 +4,19 @@ extends CharacterBody2D
 
 @onready var body_anim: AnimatedSprite2D = $Body
 
-@export var speed = 400 # (pixels/sec).
+@export var speed = 380 # (pixels/sec).
 @export var clamp_offset: Vector2 = Vector2(20.0, 40.0)
 
 var input_vector: Vector2 = Vector2.ZERO
 var is_invading: bool = false
+var run_speed_scale: float = 1.0
 
 signal invasion_finished
 
 func _physics_process(delta: float) -> void:
 	_process_input()
 	_process_animation()
+
 
 func _process_input() -> void:
 	input_vector = Vector2.ZERO
@@ -27,10 +29,13 @@ func _process_input() -> void:
 		input_vector.y += 1
 	if Input.is_action_pressed("move_up"):
 		input_vector.y -= 1
-
-	input_vector = input_vector.normalized()
+	if Input.is_action_just_pressed("run"):
+		run_speed_scale *= 1.6
+	if Input.is_action_just_released("run"):
+		run_speed_scale = 1.0
 	
-	velocity = input_vector * speed
+	input_vector = input_vector.normalized()
+	velocity = input_vector * speed * run_speed_scale
 	
 	var screenSize = get_viewport()
 	position.x = clamp(
@@ -45,6 +50,7 @@ func _process_input() -> void:
 	)
 	
 	move_and_slide()
+
 
 func _process_animation() -> void:
 	# No procesar animaciones si está invadiendo
@@ -61,6 +67,7 @@ func _process_animation() -> void:
 			_play_animation("walk_front")
 		else:
 			_play_animation("walk_back")
+
 
 func start_invasion(target_position: Vector2):
 	is_invading = true
@@ -93,11 +100,13 @@ func start_invasion(target_position: Vector2):
 	
 	finish_invasion()
 
+
 func finish_invasion():
 	is_invading = false
 	_play_animation("idle")
 	set_physics_process(true)
 	invasion_finished.emit()
+
 
 func _play_animation(animation: String) -> void:
 	if body_anim.sprite_frames.has_animation(animation):
