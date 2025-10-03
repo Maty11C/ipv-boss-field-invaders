@@ -9,9 +9,12 @@ extends Node
 @onready var enemy_spawn_location: PathFollow2D = $EnemyPath/EnemySpawnLocation
 
 @export var enemy_scene: PackedScene
-@export var enemy_spawn_time: float = 2.0  # Tiempo en segundos entre spawns de policías
+@export var enemy_spawn_time: float = 2.0
+@export var min_spawn_coldown: float = 0.8
+@export var spawn_acceleration_time: float = 90.0
 
 var score = 0
+var elapsed_time: float = 0.0
 
 signal open_loser_hud
 
@@ -47,6 +50,7 @@ func _on_start_timer_timeout() -> void:
 func _on_score_timer_timeout() -> void:
 	score += 1
 	hud.update_score(score)
+	elapsed_time += 1.0
 
 func _on_enemy_timer_timeout() -> void:
 	var enemy = enemy_scene.instantiate()
@@ -56,13 +60,23 @@ func _on_enemy_timer_timeout() -> void:
 	enemy.set_target(player)
 	
 	enemy.player_caught.connect(game_over)
-
+	
 	add_child(enemy)
+	
+	var time = min(elapsed_time, spawn_acceleration_time)
+	var wait_time = lerp(
+		enemy_spawn_time,
+		min_spawn_coldown,
+		time / spawn_acceleration_time
+	)
+	enemy_timer.wait_time = wait_time
+
 
 func _on_invasion_finished():
 	start_timer.start()
 	enemy_timer.wait_time = enemy_spawn_time
 	enemy_timer.start()
+
 
 func game_over() -> void:
 	player.hide()
