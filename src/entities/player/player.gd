@@ -3,22 +3,33 @@ class_name Player
 extends CharacterBody2D
 
 @onready var body_anim: AnimatedSprite2D = $Body
+@onready var stamina_bar: ProgressBar = $ProgressBar
 
+@export var max_stamina: float = 100.0
+@export var stamina_recovery_rate: float = 20
 @export var speed = 380 # (pixels/sec).
 @export var clamp_offset: Vector2 = Vector2(20.0, 40.0)
 
 var input_vector: Vector2 = Vector2.ZERO
 var is_invading: bool = false
 var run_speed_scale: float = 1.0
+var stamina: float = max_stamina
 
 signal invasion_finished
 
 func _physics_process(delta: float) -> void:
-	_process_input()
+	_process_input(delta)
 	_process_animation()
+	_stats_recovery(delta)
 
 
-func _process_input() -> void:
+func _stats_recovery(delta: float) -> void:
+	if !Input.is_action_pressed("run"):
+		stamina = clamp(stamina + stamina_recovery_rate * delta, 0, max_stamina)
+		stamina_bar.value = stamina
+
+
+func _process_input(delta: float) -> void:
 	input_vector = Vector2.ZERO
 	
 	if Input.is_action_pressed("move_right"):
@@ -29,9 +40,14 @@ func _process_input() -> void:
 		input_vector.y += 1
 	if Input.is_action_pressed("move_up"):
 		input_vector.y -= 1
-	if Input.is_action_just_pressed("run"):
-		run_speed_scale *= 1.6
-	if Input.is_action_just_released("run"):
+	
+	var can_run: bool = stamina > 0.6
+	if Input.is_action_pressed("run") and can_run:
+		run_speed_scale = 1.6
+		stamina -= 20.0 * delta
+		stamina = max (stamina, 0)
+		stamina_bar.value = stamina
+	else:
 		run_speed_scale = 1.0
 	
 	input_vector = input_vector.normalized()
