@@ -156,3 +156,5 @@ position = Vector2(0, -9)
 sprite_frames = SubResource("SpriteFrames_0mfjg")
 animation = &"walk_back"
 frame = 1
+
+[node name="Node" type="Node" parent="."]
