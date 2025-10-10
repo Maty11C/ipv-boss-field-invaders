@@ -5,14 +5,19 @@ extends CharacterBody2D
 @onready var body_anim: AnimatedSprite2D = $Body
 @onready var detection_area: Area2D = $DetectionArea
 @onready var camera: Camera2D = $Camera2D
+@onready var stamina_bar: ProgressBar = $ProgressBar
 
-@export var speed = 400 # (pixels/sec).
+@export var max_stamina: float = 100.0
+@export var stamina_recovery_rate: float = 20
+@export var speed = 380 # (pixels/sec).
 @export var clamp_offset: Vector2 = Vector2(20.0, 40.0)
 @export var camera_zoom: float = 1.5  # Nivel de zoom de la cámara
 @export var invasion_duration: int = 2 # Tiempo de duración en segundos
 
 var input_vector: Vector2 = Vector2.ZERO
 var is_invading: bool = false
+var run_speed_scale: float = 1.0
+var stamina: float = max_stamina
 
 signal invasion_finished
 signal near_soccer_player(soccer_player: Node2D)
@@ -24,10 +29,18 @@ func _ready() -> void:
 	setup_camera()
 
 func _physics_process(_delta: float) -> void:
-	_process_input()
+	_process_input(_delta)
 	_process_animation()
+	_stats_recovery(_delta)
 
-func _process_input() -> void:
+
+func _stats_recovery(delta: float) -> void:
+	if !Input.is_action_pressed("run"):
+		stamina = clamp(stamina + stamina_recovery_rate * delta, 0, max_stamina)
+		stamina_bar.value = stamina
+
+
+func _process_input(delta: float) -> void:
 	input_vector = Vector2.ZERO
 	
 	if Input.is_action_pressed("move_right"):
@@ -38,10 +51,18 @@ func _process_input() -> void:
 		input_vector.y += 1
 	if Input.is_action_pressed("move_up"):
 		input_vector.y -= 1
-
-	input_vector = input_vector.normalized()
 	
-	velocity = input_vector * speed
+	var can_run: bool = stamina > 0.6
+	if Input.is_action_pressed("run") and can_run:
+		run_speed_scale = 1.6
+		stamina -= 20.0 * delta
+		stamina = max (stamina, 0)
+		stamina_bar.value = stamina
+	else:
+		run_speed_scale = 1.0
+	
+	input_vector = input_vector.normalized()
+	velocity = input_vector * speed * run_speed_scale
 	
 	var screenSize = get_viewport()
 	position.x = clamp(
@@ -56,6 +77,7 @@ func _process_input() -> void:
 	)
 	
 	move_and_slide()
+
 
 func _process_animation() -> void:
 	# No procesar animaciones si está invadiendo
@@ -72,6 +94,7 @@ func _process_animation() -> void:
 			_play_animation("walk_front")
 		else:
 			_play_animation("walk_back")
+
 
 func start_invasion(target_position: Vector2):
 	is_invading = true
@@ -100,11 +123,13 @@ func start_invasion(target_position: Vector2):
 	
 	finish_invasion()
 
+
 func finish_invasion():
 	is_invading = false
 	_play_animation("idle")
 	set_physics_process(true)
 	invasion_finished.emit()
+
 
 func _play_animation(animation: String) -> void:
 	if body_anim.sprite_frames.has_animation(animation):

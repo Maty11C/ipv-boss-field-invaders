@@ -11,9 +11,13 @@ extends Node
 
 @export var enemy_scene: PackedScene
 @export var enemy_spawn_time: float = 2.0  # Tiempo en segundos entre spawns de policías
+@export var min_spawn_coldown: float = 0.8
+@export var spawn_acceleration_time: float = 90.0
+
 @export var camera_smooth_duration: float = 3 # Tiempo en segundos de animación de cámara enfocando al player
 
 var score = 0
+var elapsed_time: float = 0.0
 var score_multiplier = 1
 var near_player_bonus = false
 var current_bonus_soccer_player = null
@@ -79,6 +83,7 @@ func _on_start_timer_timeout() -> void:
 func _on_score_timer_timeout() -> void:
 	score += score_multiplier
 	hud.update_score(score)
+	elapsed_time += 1.0
 
 func _on_enemy_timer_timeout() -> void:
 	var enemy = enemy_scene.instantiate()
@@ -87,6 +92,15 @@ func _on_enemy_timer_timeout() -> void:
 	enemy.set_target(player)
 	enemy.player_caught.connect(game_over)
 	add_child(enemy)
+	
+	var time = min(elapsed_time, spawn_acceleration_time)
+	var wait_time = lerp(
+		enemy_spawn_time,
+		min_spawn_coldown,
+		time / spawn_acceleration_time
+	)
+	enemy_timer.wait_time = wait_time
+
 
 func _on_player_near_soccer_player(soccer_player: Node2D) -> void:
 	if not near_player_bonus:
