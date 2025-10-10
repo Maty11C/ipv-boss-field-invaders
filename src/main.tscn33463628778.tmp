@@ -1,17 +1,13 @@
-[gd_scene load_steps=38 format=4 uid="uid://b8dbb33q34baa"]
+[gd_scene load_steps=14 format=4 uid="uid://b8dbb33q34baa"]
 
 [ext_resource type="Script" uid="uid://c6frtrysqxj2l" path="res://src/main.gd" id="1_5q4o7"]
-[ext_resource type="PackedScene" uid="uid://dw4kwo4qls4mc" path="res://src/environment/entities/player/player.tscn" id="1_eewff"]
+[ext_resource type="PackedScene" uid="uid://dw4kwo4qls4mc" path="res://src/entities/player/player.tscn" id="1_eewff"]
 [ext_resource type="AudioStream" uid="uid://boj4au3yx4yfd" path="res://assets/Free Football Assets/Muchachos 8-bit simple.wav" id="1_gh0ne"]
-[ext_resource type="PackedScene" uid="uid://d38o8rpqaubat" path="res://src/environment/entities/enemies/police.tscn" id="2_fyndt"]
+[ext_resource type="PackedScene" uid="uid://d38o8rpqaubat" path="res://src/entities/enemies/police.tscn" id="2_fyndt"]
 [ext_resource type="Texture2D" uid="uid://cetbnkpmuy2kh" path="res://assets/2D Soccer.png" id="3_kmhfv"]
+[ext_resource type="PackedScene" uid="uid://c5h8j2o4e3tc" path="res://src/entities/soccer_players/soccer_player_home.tscn" id="3_sk8j2"]
 [ext_resource type="PackedScene" uid="uid://dt6k0o713vafu" path="res://src/ui/hud.tscn" id="4_3cfgd"]
-[ext_resource type="PackedScene" uid="uid://dwlmj82h3cwuh" path="res://src/environment/entities/soccer_players/soccer_player.tscn" id="6_5mrjc"]
-[ext_resource type="Texture2D" uid="uid://clkndp61jo32" path="res://assets/SoccerPlayer/Argentina/goalkeeper_idle.png" id="7_kf8lf"]
-[ext_resource type="PackedScene" uid="uid://ceuekjfunn8d6" path="res://src/environment/soccer_ball.tscn" id="8_kf8lf"]
-[ext_resource type="Texture2D" uid="uid://tb8xxeaqldhk" path="res://assets/SoccerPlayer/Argentina/idle.png" id="8_mgm53"]
-[ext_resource type="Texture2D" uid="uid://dl2v42jjvc3ml" path="res://assets/SoccerPlayer/Francia/goalkeeper_idle.png" id="9_uewes"]
-[ext_resource type="Texture2D" uid="uid://bxkejyvpgafjd" path="res://assets/SoccerPlayer/Francia/idle.png" id="10_kqbth"]
+[ext_resource type="PackedScene" uid="uid://d6lal3p5f4uc" path="res://src/entities/soccer_players/soccer_player_away.tscn" id="4_sk8j3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rlaii"]
 texture = ExtResource("3_kmhfv")
@@ -2040,150 +2036,6 @@ texture = ExtResource("3_kmhfv")
 [sub_resource type="TileSet" id="TileSet_rlaii"]
 sources/0 = SubResource("TileSetAtlasSource_kmhfv")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_kf8lf"]
-atlas = ExtResource("7_kf8lf")
-region = Rect2(0, 0, 13, 19)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mgm53"]
-atlas = ExtResource("7_kf8lf")
-region = Rect2(13, 0, 13, 19)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uewes"]
-atlas = ExtResource("7_kf8lf")
-region = Rect2(26, 0, 13, 19)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kqbth"]
-atlas = ExtResource("7_kf8lf")
-region = Rect2(39, 0, 13, 19)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_5mrjc"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kf8lf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mgm53")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uewes")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kqbth")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_srxbw"]
-atlas = ExtResource("8_mgm53")
-region = Rect2(0, 0, 13, 19)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_d3u4l"]
-atlas = ExtResource("8_mgm53")
-region = Rect2(13, 0, 13, 19)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mlv6i"]
-atlas = ExtResource("8_mgm53")
-region = Rect2(26, 0, 13, 19)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tb146"]
-atlas = ExtResource("8_mgm53")
-region = Rect2(39, 0, 13, 19)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_kf8lf"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_srxbw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d3u4l")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mlv6i")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tb146")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_e7lu8"]
-atlas = ExtResource("9_uewes")
-region = Rect2(0, 0, 13, 19)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_okx7f"]
-atlas = ExtResource("9_uewes")
-region = Rect2(13, 0, 13, 19)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sta5p"]
-atlas = ExtResource("9_uewes")
-region = Rect2(26, 0, 13, 19)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sif16"]
-atlas = ExtResource("9_uewes")
-region = Rect2(39, 0, 13, 19)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_mgm53"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_e7lu8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_okx7f")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sta5p")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sif16")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_d7bab"]
-atlas = ExtResource("10_kqbth")
-region = Rect2(0, 0, 13, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ib8ht"]
-atlas = ExtResource("10_kqbth")
-region = Rect2(13, 0, 13, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_43aqp"]
-atlas = ExtResource("10_kqbth")
-region = Rect2(26, 0, 13, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ocmcv"]
-atlas = ExtResource("10_kqbth")
-region = Rect2(39, 0, 13, 20)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_uewes"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d7bab")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ib8ht")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_43aqp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ocmcv")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}]
-
 [sub_resource type="Curve2D" id="Curve2D_3cfgd"]
 _data = {
 "points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1920, 0, 0, 0, 0, 0, 1920, 1080, 0, 0, 0, 0, 1, 1080, 0, 0, 0, 0, 0, 0)
@@ -2193,6 +2045,9 @@ point_count = 5
 [node name="Main" type="Node"]
 script = ExtResource("1_5q4o7")
 enemy_scene = ExtResource("2_fyndt")
+soccer_player_home_scene = ExtResource("3_sk8j2")
+soccer_player_away_scene = ExtResource("4_sk8j3")
+home_players = 3
 
 [node name="Background" type="Node" parent="."]
 
@@ -2217,105 +2072,7 @@ volume_db = 10.0
 [node name="Entities" type="Node2D" parent="Environment"]
 
 [node name="Player" parent="Environment/Entities" instance=ExtResource("1_eewff")]
-
-[node name="Enemies" type="Node2D" parent="Environment/Entities"]
-
-[node name="SoccerPlayers" type="Node2D" parent="Environment/Entities"]
-
-[node name="Home" type="Node2D" parent="Environment/Entities/SoccerPlayers"]
-
-[node name="Goalkeeper" parent="Environment/Entities/SoccerPlayers/Home" instance=ExtResource("6_5mrjc")]
-position = Vector2(24, 612)
-animation_resource = SubResource("SpriteFrames_5mrjc")
-
-[node name="Defender1" parent="Environment/Entities/SoccerPlayers/Home" instance=ExtResource("6_5mrjc")]
-position = Vector2(397, 169)
-animation_resource = SubResource("SpriteFrames_kf8lf")
-
-[node name="Defender2" parent="Environment/Entities/SoccerPlayers/Home" instance=ExtResource("6_5mrjc")]
-position = Vector2(292, 456)
-animation_resource = SubResource("SpriteFrames_kf8lf")
-
-[node name="Defender3" parent="Environment/Entities/SoccerPlayers/Home" instance=ExtResource("6_5mrjc")]
-position = Vector2(283, 756)
-animation_resource = SubResource("SpriteFrames_kf8lf")
-
-[node name="Defender4" parent="Environment/Entities/SoccerPlayers/Home" instance=ExtResource("6_5mrjc")]
-position = Vector2(378, 948)
-animation_resource = SubResource("SpriteFrames_kf8lf")
-
-[node name="Midfielder1" parent="Environment/Entities/SoccerPlayers/Home" instance=ExtResource("6_5mrjc")]
-position = Vector2(557, 456)
-animation_resource = SubResource("SpriteFrames_kf8lf")
-
-[node name="Midfielder2" parent="Environment/Entities/SoccerPlayers/Home" instance=ExtResource("6_5mrjc")]
-position = Vector2(557, 749)
-animation_resource = SubResource("SpriteFrames_kf8lf")
-
-[node name="Midfielder3" parent="Environment/Entities/SoccerPlayers/Home" instance=ExtResource("6_5mrjc")]
-position = Vector2(677, 578)
-animation_resource = SubResource("SpriteFrames_kf8lf")
-
-[node name="Forward1" parent="Environment/Entities/SoccerPlayers/Home" instance=ExtResource("6_5mrjc")]
-position = Vector2(872, 240)
-animation_resource = SubResource("SpriteFrames_kf8lf")
-
-[node name="Forward2" parent="Environment/Entities/SoccerPlayers/Home" instance=ExtResource("6_5mrjc")]
-position = Vector2(960, 573)
-animation_resource = SubResource("SpriteFrames_kf8lf")
-
-[node name="Forward3" parent="Environment/Entities/SoccerPlayers/Home" instance=ExtResource("6_5mrjc")]
-position = Vector2(884, 854)
-animation_resource = SubResource("SpriteFrames_kf8lf")
-
-[node name="Away" type="Node2D" parent="Environment/Entities/SoccerPlayers"]
-
-[node name="Goalkeeper" parent="Environment/Entities/SoccerPlayers/Away" instance=ExtResource("6_5mrjc")]
-position = Vector2(1888, 609)
-animation_resource = SubResource("SpriteFrames_mgm53")
-
-[node name="Defender1" parent="Environment/Entities/SoccerPlayers/Away" instance=ExtResource("6_5mrjc")]
-position = Vector2(1601, 135)
-animation_resource = SubResource("SpriteFrames_uewes")
-
-[node name="Defender2" parent="Environment/Entities/SoccerPlayers/Away" instance=ExtResource("6_5mrjc")]
-position = Vector2(1617, 448)
-animation_resource = SubResource("SpriteFrames_uewes")
-
-[node name="Defender3" parent="Environment/Entities/SoccerPlayers/Away" instance=ExtResource("6_5mrjc")]
-position = Vector2(1624, 766)
-animation_resource = SubResource("SpriteFrames_uewes")
-
-[node name="Defender4" parent="Environment/Entities/SoccerPlayers/Away" instance=ExtResource("6_5mrjc")]
-position = Vector2(1615, 978)
-animation_resource = SubResource("SpriteFrames_uewes")
-
-[node name="Midfielder1" parent="Environment/Entities/SoccerPlayers/Away" instance=ExtResource("6_5mrjc")]
-position = Vector2(1215, 124)
-animation_resource = SubResource("SpriteFrames_uewes")
-
-[node name="Midfielder2" parent="Environment/Entities/SoccerPlayers/Away" instance=ExtResource("6_5mrjc")]
-position = Vector2(1429, 444)
-animation_resource = SubResource("SpriteFrames_uewes")
-
-[node name="Midfielder3" parent="Environment/Entities/SoccerPlayers/Away" instance=ExtResource("6_5mrjc")]
-position = Vector2(1442, 773)
-animation_resource = SubResource("SpriteFrames_uewes")
-
-[node name="Midfielder4" parent="Environment/Entities/SoccerPlayers/Away" instance=ExtResource("6_5mrjc")]
-position = Vector2(1187, 967)
-animation_resource = SubResource("SpriteFrames_uewes")
-
-[node name="Forward1" parent="Environment/Entities/SoccerPlayers/Away" instance=ExtResource("6_5mrjc")]
-position = Vector2(1101, 387)
-animation_resource = SubResource("SpriteFrames_uewes")
-
-[node name="Forward2" parent="Environment/Entities/SoccerPlayers/Away" instance=ExtResource("6_5mrjc")]
-position = Vector2(1097, 798)
-animation_resource = SubResource("SpriteFrames_uewes")
-
-[node name="SoccerBall" parent="Environment" instance=ExtResource("8_kf8lf")]
-position = Vector2(924, 601)
+scale = Vector2(2, 2)
 
 [node name="StartTimer" type="Timer" parent="."]
 one_shot = true
@@ -2323,7 +2080,6 @@ one_shot = true
 [node name="ScoreTimer" type="Timer" parent="."]
 
 [node name="EnemyTimer" type="Timer" parent="."]
-wait_time = 2.0
 
 [node name="HUD" parent="." instance=ExtResource("4_3cfgd")]
 

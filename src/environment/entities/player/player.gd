@@ -3,12 +3,16 @@ class_name Player
 extends CharacterBody2D
 
 @onready var body_anim: AnimatedSprite2D = $Body
+@onready var detection_area: Area2D = $DetectionArea
+@onready var camera: Camera2D = $Camera2D
 @onready var stamina_bar: ProgressBar = $ProgressBar
 
 @export var max_stamina: float = 100.0
 @export var stamina_recovery_rate: float = 20
 @export var speed = 380 # (pixels/sec).
 @export var clamp_offset: Vector2 = Vector2(20.0, 40.0)
+@export var camera_zoom: float = 1.5  # Nivel de zoom de la cámara
+@export var invasion_duration: int = 2 # Tiempo de duración en segundos
 
 var input_vector: Vector2 = Vector2.ZERO
 var is_invading: bool = false
@@ -16,11 +20,19 @@ var run_speed_scale: float = 1.0
 var stamina: float = max_stamina
 
 signal invasion_finished
+signal near_soccer_player(soccer_player: Node2D)
+signal left_soccer_player(soccer_player: Node2D)
+signal caught_by_police
 
-func _physics_process(delta: float) -> void:
-	_process_input(delta)
+func _ready() -> void:
+	detection_area.body_entered.connect(_on_detection_area_body_entered)
+	detection_area.body_exited.connect(_on_detection_area_body_exited)
+	setup_camera()
+
+func _physics_process(_delta: float) -> void:
+	_process_input(_delta)
 	_process_animation()
-	_stats_recovery(delta)
+	_stats_recovery(_delta)
 
 
 func _stats_recovery(delta: float) -> void:
@@ -103,10 +115,6 @@ func start_invasion(target_position: Vector2):
 			position = Vector2(target_position.x, screen_size.y + 50)
 			_play_animation("walk_back")   # Viniendo desde abajo, camina hacia atrás
 	
-	# Calcular duración basada en la distancia y velocidad
-	var distance = position.distance_to(target_position)
-	var invasion_duration = distance / speed
-	
 	# Tween para la animación
 	var tween = create_tween()
 	tween.set_ease(Tween.EASE_IN_OUT)
@@ -127,3 +135,59 @@ func finish_invasion():
 func _play_animation(animation: String) -> void:
 	if body_anim.sprite_frames.has_animation(animation):
 		body_anim.play(animation)
+
+func _on_detection_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("soccer_players"):
+		near_soccer_player.emit(body)
+	elif body is Police:
+		caught_by_police.emit()
+
+func _on_detection_area_body_exited(body: Node2D) -> void:
+	if body.is_in_group("soccer_players"):
+		left_soccer_player.emit(body)
+
+#region Cámara
+
+func setup_camera() -> void:
+	if camera:
+		camera.enabled = false  # Iniciar deshabilitada
+		camera.zoom = Vector2(1.0, 1.0)  # Iniciar sin zoom
+		camera.position_smoothing_enabled = false  # Sin suavizado inicial
+		camera.position_smoothing_speed = 5.0
+		
+		# Configurar límites de la cámara para que no se salga del mundo
+		var screen_size = get_viewport().get_visible_rect().size
+		camera.limit_left = 0
+		camera.limit_top = 0
+		camera.limit_right = int(screen_size.x)
+		camera.limit_bottom = int(screen_size.y)
+
+func enable_camera_smooth(duration: float = 2.0) -> void:
+	if camera:
+		camera.enabled = true
+		camera.zoom = Vector2(1.0, 1.0) # Comenzar con zoom 1.0 (vista normal)
+		
+		# Transición suave al zoom objetivo
+		var tween = create_tween()
+		tween.set_ease(Tween.EASE_IN_OUT)
+		tween.set_trans(Tween.TRANS_QUART)
+		tween.tween_property(camera, "zoom", Vector2(camera_zoom, camera_zoom), duration)
+		
+		# Activar suavizado gradualmente
+		await get_tree().create_timer(duration * 0.3).timeout
+
+func disable_camera_smooth(duration: float = 1.5) -> void:
+	if camera and camera.enabled:
+		# Transición suave de vuelta al zoom normal
+		var tween = create_tween()
+		tween.set_ease(Tween.EASE_IN_OUT)
+		tween.set_trans(Tween.TRANS_QUART)
+		tween.tween_property(camera, "zoom", Vector2(1.0, 1.0), duration)
+		
+		# Desactivar suavizado gradualmente
+		camera.position_smoothing_enabled = false
+		
+		await tween.finished
+		camera.enabled = false
+
+#endregion

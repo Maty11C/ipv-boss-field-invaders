@@ -1,4 +1,4 @@
-# 🎮 Field Invaders
+# Field Invaders
 
 [![Godot Engine](https://img.shields.io/badge/Godot-4.x-blue.svg)](https://godotengine.org/)
 [![Platform](https://img.shields.io/badge/Platform-Web-green.svg)](https://github.com/Maty11C/ipv-boss-field-invaders)
@@ -22,3 +22,6 @@ Videojuego desarrollado en Godot como proyecto final ("boss") para la materia *I
         - GDD
         - Build jugable básico
     - **Versión:**  [v0.1.0](https://github.com/Maty11C/ipv-boss-field-invaders/tree/v0.1.0)
+
+## 🎮 Demo
+https://maty11c.github.io/ipv-boss-field-invaders/

@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dwlmj82h3cwuh"]
+
+[ext_resource type="Script" path="res://src/environment/entities/soccer_players/soccer_player.gd" id="1_0f3eg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oxhmm"]
+size = Vector2(13, 19)
+
+[node name="SoccerPlayer" type="CharacterBody2D"]
+script = ExtResource("1_0f3eg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -10)
+shape = SubResource("RectangleShape2D_oxhmm")
+
+[node name="Body" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -10)
+scale = Vector2(1.5, 1.5)
