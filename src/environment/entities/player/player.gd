@@ -22,6 +22,7 @@ var stamina: float = max_stamina
 signal invasion_finished
 signal near_soccer_player(soccer_player: Node2D)
 signal left_soccer_player(soccer_player: Node2D)
+signal caught_by_police
 
 func _ready() -> void:
 	detection_area.body_entered.connect(_on_detection_area_body_entered)
@@ -138,6 +139,8 @@ func _play_animation(animation: String) -> void:
 func _on_detection_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("soccer_players"):
 		near_soccer_player.emit(body)
+	elif body is Police:
+		caught_by_police.emit()
 
 func _on_detection_area_body_exited(body: Node2D) -> void:
 	if body.is_in_group("soccer_players"):

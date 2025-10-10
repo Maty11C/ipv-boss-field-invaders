@@ -2071,6 +2071,8 @@ volume_db = 10.0
 
 [node name="Player" parent="Environment/Entities" instance=ExtResource("1_eewff")]
 
+[node name="Enemies" type="Node2D" parent="Environment/Entities"]
+
 [node name="SoccerPlayers" type="Node2D" parent="Environment/Entities"]
 
 [node name="Home" type="Node2D" parent="Environment/Entities/SoccerPlayers"]

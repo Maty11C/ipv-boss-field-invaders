@@ -6,7 +6,7 @@ extends Node
 @onready var enemy_timer: Timer = $EnemyTimer
 @onready var hud: CanvasLayer = $HUD
 @onready var player: Node2D = $Environment/Entities/Player
-@onready var entities_node: Node2D = $Environment/Entities
+@onready var enemies_node: Node2D = $Environment/Entities/Enemies
 @onready var enemy_spawn_location: PathFollow2D = $EnemyPath/EnemySpawnLocation
 
 @export var enemy_scene: PackedScene
@@ -39,6 +39,7 @@ func new_game():
 	player.invasion_finished.connect(_on_invasion_finished)
 	player.near_soccer_player.connect(_on_player_near_soccer_player)
 	player.left_soccer_player.connect(_on_player_left_soccer_player)
+	player.caught_by_police.connect(game_over)
 	
 	# Animación de invasión del jugador al centro de la cancha
 	var screen_size = get_viewport().get_visible_rect().size
@@ -54,9 +55,9 @@ func clean_game():
 	score_timer.stop()
 	enemy_timer.stop()
 	start_timer.stop()
-	var police_group = get_tree().get_nodes_in_group("police")
-	for police in police_group:
-		police.queue_free()
+	var enemies = enemies_node.get_children()
+	for enemy in enemies:
+		enemy.queue_free()
 
 func game_over() -> void:
 	player.disable_camera_smooth(1)
@@ -90,8 +91,7 @@ func _on_enemy_timer_timeout() -> void:
 	enemy_spawn_location.progress_ratio = randf()
 	enemy.position = enemy_spawn_location.position
 	enemy.set_target(player)
-	enemy.player_caught.connect(game_over)
-	add_child(enemy)
+	enemies_node.add_child(enemy)
 	
 	var time = min(elapsed_time, spawn_acceleration_time)
 	var wait_time = lerp(
