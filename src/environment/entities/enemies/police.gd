@@ -14,7 +14,7 @@ func _ready() -> void:
 func set_target(enemy: Node2D) -> void:
 	target = enemy
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if target:
 		# Aplicamos un offset en la distancia al enemigo para evitar solapamiento
 		var dist = global_position.distance_to(target.global_position)
