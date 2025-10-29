@@ -1,6 +1,8 @@
 extends Node
 
-@onready var music: AudioStreamPlayer2D = $Music
+const AudioUtils = preload("res://src/utils/audio.gd")
+
+@onready var stadium_ambience: AudioStreamPlayer2D = $StadiumAmbience
 @onready var start_timer: Timer = $StartTimer
 @onready var score_timer: Timer = $ScoreTimer
 @onready var enemy_timer: Timer = $EnemyTimer
@@ -26,13 +28,15 @@ signal open_loser_hud
 
 func _ready() -> void:
 	player.hide()
+	setup_ambience()
 
 #region Game
 
 func new_game():
 	clean_game()
 	hud.update_score(score)
-	music.play()
+	
+	AudioUtils.fade_bus_volume(self, "Ambience", -6.0, 1.5)
 	
 	player.show()
 	
@@ -62,8 +66,15 @@ func clean_game():
 func game_over() -> void:
 	player.disable_camera_smooth(1)
 	player.hide()
+	AudioUtils.fade_bus_volume(self, "Ambience", -20.0, 1.5)
 	clean_game()
 	open_loser_hud.emit()
+
+# Función para configurar el sonido ambiente
+func setup_ambience() -> void:
+	stadium_ambience.bus = "Ambience"
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Ambience"), -20.0) # Se inicia el sonido ambiente en volumen bajo
+	stadium_ambience.play()
 
 #endregion
 

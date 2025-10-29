@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+const AudioUtils = preload("res://src/utils/audio.gd")
+
 @onready var score_label: Label = $ScoreLabel
 @onready var powerup_label: Label = $ScoreLabel/PowerupLabel
 @onready var play_button: Button = $PlayButton
@@ -10,6 +12,7 @@ extends CanvasLayer
 signal start_game
 
 func _ready() -> void:
+	music.bus = "Music"
 	music.play()
 
 func update_score(score):
@@ -27,7 +30,9 @@ func _on_play_button_pressed() -> void:
 	play_sound.play()
 	play_button.hide()
 	main_menu_button.hide()
-	music.stop()
+	
+	AudioUtils.fade_bus_volume(self, "Music", -80.0, 1.5, music.stop)
+	
 	start_game.emit()
 	main_menu_button.hide()
 
@@ -35,6 +40,11 @@ func _on_main_open_loser_hud() -> void:
 	play_button.text = "PLAY AGAIN"
 	play_button.show()
 	main_menu_button.show()
+	# Reanudar música del menú cuando vuelve la pantalla de fin de partida
+	if not music.playing:
+		# Restaurar volumen del bus de música
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), 0.0)
+		music.play()
 
 func _on_main_menu_button_pressed() -> void:
 	play_button.text = "PLAY"
