@@ -6,7 +6,7 @@ const AudioUtils = preload("res://src/utils/audio.gd")
 @onready var powerup_label: Label = $ScoreLabel/PowerupLabel
 @onready var play_button: Button = $PlayButton
 @onready var main_menu_button: Button = $MainMenuButton
-@onready var music: AudioStreamPlayer2D = $Music
+@onready var music: AudioStreamPlayer = $Music
 @onready var play_sound: AudioStreamPlayer2D = $PlaySound
 
 signal start_game

@@ -18,6 +18,12 @@ extends Node
 
 @export var camera_smooth_duration: float = 3 # Tiempo en segundos de animación de cámara enfocando al player
 
+# Intensificación del ambiente durante el juego
+const AMBIENCE_GAME_START_DB := -10.0 # Comienza más bajo al iniciar la partida
+const AMBIENCE_GAME_MAX_DB := 0.0 # Termina en 0dB
+const AMBIENCE_RAMP_DURATION := 120.0 # Sube gradualmente en ~120 segundos
+const AMBIENCE_RAMP_TWEEN := 0.5 # duración del tween por paso (suaviza cambios)
+
 var score = 0
 var elapsed_time: float = 0.0
 var score_multiplier = 1
@@ -36,7 +42,8 @@ func new_game():
 	clean_game()
 	hud.update_score(score)
 	
-	AudioUtils.fade_bus_volume(self, "Ambience", -6.0, 1.5)
+	# Volumen inicial de ambiente en partida
+	AudioUtils.fade_bus_volume(self, "Ambience", AMBIENCE_GAME_START_DB, 1.5)
 	
 	player.show()
 	
@@ -55,6 +62,7 @@ func clean_game():
 	score_multiplier = 1
 	near_player_bonus = false
 	current_bonus_soccer_player = null
+	elapsed_time = 0.0
 	hud.hide_powerup()  # Ocultar indicador de power-up
 	score_timer.stop()
 	enemy_timer.stop()
@@ -110,6 +118,7 @@ func _on_score_timer_timeout() -> void:
 	score += score_multiplier
 	hud.update_score(score)
 	elapsed_time += 1.0
+	_update_ambience_intensity()
 
 func _on_enemy_timer_timeout() -> void:
 	var enemy = enemy_scene.instantiate()
@@ -140,5 +149,16 @@ func _on_player_left_soccer_player(soccer_player: Node2D) -> void:
 		current_bonus_soccer_player = null
 		score_multiplier = 1
 		hud.hide_powerup()
+
+#endregion
+
+#region Ambience ramp
+
+# Incrementa gradualmente el volumen del ambiente en función del tiempo transcurrido
+func _update_ambience_intensity() -> void:
+	# Progreso entre 0 y 1 en base al tiempo transcurrido de la partida
+	var t: float = clamp(elapsed_time / AMBIENCE_RAMP_DURATION, 0.0, 1.0)
+	var target_db: float = lerp(AMBIENCE_GAME_START_DB, AMBIENCE_GAME_MAX_DB, t)
+	AudioUtils.fade_bus_volume(self, "Ambience", target_db, AMBIENCE_RAMP_TWEEN)
 
 #endregion

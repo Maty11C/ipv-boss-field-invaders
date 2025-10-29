@@ -50,11 +50,12 @@ grow_vertical = 2
 text = "MAIN MENU
 "
 
-[node name="Music" type="AudioStreamPlayer2D" parent="."]
+[node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_4rn03")
-volume_db = 10.0
+bus = &"Music"
 
 [node name="PlaySound" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(960, 540)
 stream = ExtResource("3_snmo6")
 
 [connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
