@@ -40,12 +40,16 @@ func _on_main_open_loser_hud() -> void:
 	play_button.text = "PLAY AGAIN"
 	play_button.show()
 	main_menu_button.show()
-	# Reanudar música del menú cuando vuelve la pantalla de fin de partida
-	if not music.playing:
-		# Restaurar volumen del bus de música
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), 0.0)
-		music.play()
+	# NO reanudar "Muchachos" aquí - debe sonar solo en menú inicial
 
 func _on_main_menu_button_pressed() -> void:
 	play_button.text = "PLAY"
 	main_menu_button.hide()
+	
+	# Detener el abucheo si está sonando
+	get_parent().stop_boo_sound()
+	
+	# Volver al menú inicial - reanudar "Muchachos"
+	if not music.playing:
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), 0.0)
+		music.play()

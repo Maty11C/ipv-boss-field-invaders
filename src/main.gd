@@ -1,8 +1,8 @@
 extends Node
 
-const AudioUtils = preload("res://src/utils/audio.gd")
+@onready var stadium_ambience_audio: AudioStreamPlayer2D = $StadiumAmbience
+@onready var boo_audio: AudioStreamPlayer = $Boo
 
-@onready var stadium_ambience: AudioStreamPlayer2D = $StadiumAmbience
 @onready var start_timer: Timer = $StartTimer
 @onready var score_timer: Timer = $ScoreTimer
 @onready var enemy_timer: Timer = $EnemyTimer
@@ -28,7 +28,7 @@ signal open_loser_hud
 
 func _ready() -> void:
 	player.hide()
-	setup_ambience()
+	setup_sounds()
 
 #region Game
 
@@ -66,21 +66,35 @@ func clean_game():
 func game_over() -> void:
 	player.disable_camera_smooth(1)
 	player.hide()
+	
+	# Reproducir sonido de abucheo
+	boo_audio.play()
+	#AudioUtils.fade_bus_volume(self, "SFX", -20.0, 5)
+	
+	# Bajar volumen del ambiente
 	AudioUtils.fade_bus_volume(self, "Ambience", -20.0, 1.5)
+	
 	clean_game()
 	open_loser_hud.emit()
 
-# Función para configurar el sonido ambiente
-func setup_ambience() -> void:
-	stadium_ambience.bus = "Ambience"
+func setup_sounds() -> void:
+	stadium_ambience_audio.bus = "Ambience"
+	boo_audio.bus = "SFX"
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Ambience"), -20.0) # Se inicia el sonido ambiente en volumen bajo
-	stadium_ambience.play()
+	stadium_ambience_audio.play()
+
+func stop_boo_sound() -> void:
+	if boo_audio.playing:
+		boo_audio.stop()
 
 #endregion
 
 #region Señales
 
 func _on_hud_start_game() -> void:
+	# Detener el abucheo si está sonando
+	if boo_audio.playing:
+		boo_audio.stop()
 	new_game()
 	
 func _on_invasion_finished():

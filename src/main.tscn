@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=4 uid="uid://b8dbb33q34baa"]
+[gd_scene load_steps=39 format=4 uid="uid://b8dbb33q34baa"]
 
 [ext_resource type="Script" uid="uid://c6frtrysqxj2l" path="res://src/main.gd" id="1_5q4o7"]
 [ext_resource type="PackedScene" uid="uid://dw4kwo4qls4mc" path="res://src/environment/entities/player/player.tscn" id="1_eewff"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dl2v42jjvc3ml" path="res://assets/SoccerPlayer/Francia/goalkeeper_idle.png" id="9_uewes"]
 [ext_resource type="Texture2D" uid="uid://bxkejyvpgafjd" path="res://assets/SoccerPlayer/Francia/idle.png" id="10_kqbth"]
 [ext_resource type="AudioStream" uid="uid://d20rssia10jwl" path="res://assets/Sfx/stadium_ambience.mp3" id="11_ambie"]
+[ext_resource type="AudioStream" uid="uid://bscdi2oohnfb8" path="res://assets/Sfx/stadium_boo.mp3" id="12_boo"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rlaii"]
 texture = ExtResource("3_kmhfv")
@@ -2197,6 +2198,11 @@ enemy_scene = ExtResource("2_fyndt")
 [node name="StadiumAmbience" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_ambie")
 autoplay = true
+
+[node name="Boo" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_boo")
+volume_db = -6.0
+bus = &"SFX"
 
 [node name="Background" type="Node" parent="."]
 
