@@ -107,7 +107,7 @@ func _process_audio() -> void:
 		if running_sfx.playing:
 			running_sfx.stop()
 	
-	if stamina_bar.value < max_stamina:
+	if stamina_bar.value < max_stamina and !Input.is_action_pressed("run"):
 		if not breathing_sfx.playing:
 			breathing_sfx.play()
 	else:
