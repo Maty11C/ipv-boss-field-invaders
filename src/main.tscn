@@ -2195,8 +2195,7 @@ point_count = 5
 script = ExtResource("1_5q4o7")
 enemy_scene = ExtResource("2_fyndt")
 
-[node name="StadiumAmbience" type="AudioStreamPlayer2D" parent="."]
-position = Vector2(56, 45)
+[node name="StadiumAmbience" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_ambie")
 volume_db = -10.0
 autoplay = true

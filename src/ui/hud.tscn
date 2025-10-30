@@ -54,9 +54,10 @@ text = "MAIN MENU
 stream = ExtResource("2_4rn03")
 bus = &"Music"
 
-[node name="PlaySound" type="AudioStreamPlayer2D" parent="."]
-position = Vector2(960, 540)
+[node name="PlaySound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_snmo6")
+volume_db = -12.0
+bus = &"SFX"
 
 [connection signal="pressed" from="PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="MainMenuButton" to="." method="_on_main_menu_button_pressed"]

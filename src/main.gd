@@ -1,6 +1,6 @@
 extends Node
 
-@onready var stadium_ambience_audio: AudioStreamPlayer2D = $StadiumAmbience
+@onready var stadium_ambience_audio: AudioStreamPlayer = $StadiumAmbience
 @onready var boo_audio: AudioStreamPlayer = $Boo
 
 @onready var start_timer: Timer = $StartTimer
