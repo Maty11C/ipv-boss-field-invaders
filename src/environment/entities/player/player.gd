@@ -26,6 +26,7 @@ var stamina: float = max_stamina
 var projectile_container: Node
 var can_fire: bool = true
 var can_run: bool = stamina > 0.6
+var game_active: bool = false
 
 signal invasion_finished
 signal near_soccer_player(soccer_player: Node2D)
@@ -55,8 +56,20 @@ func _stats_recovery(delta: float) -> void:
 func set_projectile_container(container: Node):
 	projectile_container = container
 
+func set_game_active(active: bool):
+	game_active = active
+
+func can_process_inputs() -> bool:
+	# No procesar inputs si el juego está pausado o no está activo
+	return game_active and not get_tree().paused
+
 
 func _process_input(delta: float) -> void:
+	# No procesar inputs si el juego no está activo o está pausado
+	if not can_process_inputs():
+		input_vector = Vector2.ZERO
+		return
+		
 	input_vector = Vector2.ZERO
 	
 	if Input.is_action_pressed("move_right"):

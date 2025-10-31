@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dcef4fhvhqvk1"]
 
-[ext_resource type="Script" path="res://src/ui/main_menu.gd" id="1_f0s2b"]
+[ext_resource type="Script" uid="uid://fojntspdqrij" path="res://src/ui/main_menu.gd" id="1_f0s2b"]
 [ext_resource type="Theme" uid="uid://dxo350gmmg0af" path="res://src/ui/hud.tres" id="1_qoywa"]
 [ext_resource type="AudioStream" uid="uid://boj4au3yx4yfd" path="res://assets/Free Football Assets/Muchachos 8-bit simple.wav" id="2_5mgu5"]
 [ext_resource type="FontFile" uid="uid://d3505rnepnkqr" path="res://assets/Fonts/KarmaticArcade-6Yrp1.ttf" id="2_f0s2b"]
@@ -40,17 +40,17 @@ vertical_alignment = 1
 
 [node name="ButtonsContainer" type="Panel" parent="."]
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = 7
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
+anchor_bottom = 1.0
 offset_left = -250.0
-offset_top = -250.0
+offset_top = -568.0
 offset_right = 250.0
-offset_bottom = 250.0
+offset_bottom = -68.0
 grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_r2cn7")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ButtonsContainer"]
@@ -79,13 +79,11 @@ size_flags_vertical = 6
 theme = ExtResource("1_qoywa")
 text = "OPTIONS"
 
-[node name="HelpButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
-visible = false
+[node name="ControlsButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_qoywa")
-text = "HELP
-"
+text = "CONTROLS"
 
 [node name="ScoresButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
 visible = false
@@ -94,13 +92,11 @@ size_flags_vertical = 6
 theme = ExtResource("1_qoywa")
 text = "SCORES"
 
-[node name="CreditsButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
-visible = false
+[node name="ExitButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_qoywa")
-text = "CREDITS
-"
+text = "EXIT"
 
 [node name="Authors" type="Label" parent="."]
 layout_mode = 1
@@ -118,3 +114,5 @@ grow_vertical = 0
 text = "By Matías Aduco & Matías Cabrera"
 
 [connection signal="pressed" from="ButtonsContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="ButtonsContainer/VBoxContainer/ControlsButton" to="." method="_on_controls_button_pressed"]
+[connection signal="pressed" from="ButtonsContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

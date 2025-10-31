@@ -1,0 +1,201 @@
+[gd_scene load_steps=4 format=3 uid="uid://bx0sfl8s8l1u7"]
+
+[ext_resource type="Script" uid="uid://qhc25tkipo0u" path="res://src/ui/controls_modal.gd" id="1_x1l8k"]
+[ext_resource type="Theme" uid="uid://dxo350gmmg0af" path="res://src/ui/hud.tres" id="2_j8m4l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0, 0, 0, 0.8)
+
+[node name="ControlsModal" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_x1l8k")
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="Panel" type="Panel" parent="Background"]
+custom_minimum_size = Vector2(600, 400)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -200.0
+offset_right = 400.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_j8m4l")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Header" type="HBoxContainer" parent="Background/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Background/Panel/VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_j8m4l")
+theme_override_font_sizes/font_size = 24
+text = "CONTROLS"
+horizontal_alignment = 1
+
+[node name="CloseButton" type="Button" parent="Background/Panel/VBoxContainer/Header"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_j8m4l")
+text = "X"
+
+[node name="HSeparator" type="HSeparator" parent="Background/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="ControlsContainer" type="VBoxContainer" parent="Background/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MovementSection" type="VBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer"]
+layout_mode = 2
+
+[node name="MovementTitle" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection"]
+layout_mode = 2
+theme = ExtResource("2_j8m4l")
+theme_override_font_sizes/font_size = 18
+text = "MOVEMENT:"
+
+[node name="MovementControls" type="VBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection"]
+layout_mode = 2
+
+[node name="Move" type="HBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection/MovementControls"]
+layout_mode = 2
+
+[node name="Keys" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection/MovementControls/Move"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_j8m4l")
+text = "WASD / ↑←↓→"
+
+[node name="Action" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection/MovementControls/Move"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_j8m4l")
+text = "Move Player"
+
+[node name="Run" type="HBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection/MovementControls"]
+layout_mode = 2
+
+[node name="Keys" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection/MovementControls/Run"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_j8m4l")
+text = "Shift"
+
+[node name="Action" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection/MovementControls/Run"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_j8m4l")
+text = "Run"
+
+[node name="Spacer1" type="Control" parent="Background/Panel/VBoxContainer/ControlsContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="CombatSection" type="VBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer"]
+layout_mode = 2
+
+[node name="CombatTitle" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection"]
+layout_mode = 2
+theme = ExtResource("2_j8m4l")
+theme_override_font_sizes/font_size = 18
+text = "COMBAT:"
+
+[node name="CombatControls" type="VBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection"]
+layout_mode = 2
+
+[node name="Shoot" type="HBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection/CombatControls"]
+layout_mode = 2
+
+[node name="Keys" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection/CombatControls/Shoot"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_j8m4l")
+text = "Left Click"
+
+[node name="Action" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection/CombatControls/Shoot"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_j8m4l")
+text = "Shoot"
+
+[node name="Aim" type="HBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection/CombatControls"]
+layout_mode = 2
+
+[node name="Keys" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection/CombatControls/Aim"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_j8m4l")
+text = "Mouse"
+
+[node name="Action" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection/CombatControls/Aim"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_j8m4l")
+text = "Aim"
+
+[node name="Spacer2" type="Control" parent="Background/Panel/VBoxContainer/ControlsContainer"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+
+[node name="GameSection" type="VBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer"]
+layout_mode = 2
+
+[node name="GameTitle" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/GameSection"]
+layout_mode = 2
+theme = ExtResource("2_j8m4l")
+theme_override_font_sizes/font_size = 18
+text = "GAME:"
+
+[node name="GameControls" type="VBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/GameSection"]
+layout_mode = 2
+
+[node name="Pause" type="HBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/GameSection/GameControls"]
+layout_mode = 2
+
+[node name="Keys" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/GameSection/GameControls/Pause"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_j8m4l")
+text = "ESC"
+
+[node name="Action" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/GameSection/GameControls/Pause"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_j8m4l")
+text = "Pause/Resume Game"
+
+[connection signal="gui_input" from="." to="." method="_gui_input"]
+[connection signal="gui_input" from="Background/Panel" to="." method="_on_panel_gui_input"]
+[connection signal="pressed" from="Background/Panel/VBoxContainer/Header/CloseButton" to="." method="_on_close_button_pressed"]

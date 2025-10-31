@@ -51,17 +51,17 @@ theme = ExtResource("1_yqfnv")
 text = "RESUME"
 
 [node name="OptionsButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_yqfnv")
 text = "OPTIONS"
 
-[node name="HelpButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
+[node name="ControlsButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_yqfnv")
-text = "HELP
-"
+text = "CONTROLS"
 
 [node name="MainMenuButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
 layout_mode = 2
@@ -71,4 +71,5 @@ text = "MAIN MENU
 "
 
 [connection signal="pressed" from="ButtonsContainer/VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="ButtonsContainer/VBoxContainer/ControlsButton" to="." method="_on_controls_button_pressed"]
 [connection signal="pressed" from="ButtonsContainer/VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
