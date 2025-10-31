@@ -36,6 +36,8 @@ signal open_loser_hud
 func _ready() -> void:
 	player.hide()
 	setup_sounds()
+	$Environment/Entities/Player.set_projectile_container(self)
+
 
 #region Game
 

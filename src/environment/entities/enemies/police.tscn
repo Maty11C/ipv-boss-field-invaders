@@ -149,7 +149,6 @@ animations = [{
 position = Vector2(0, -20)
 scale = Vector2(1.5, 1.5)
 script = ExtResource("1_c0qsn")
-speed = 300
 
 [node name="Hey" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_hey")
