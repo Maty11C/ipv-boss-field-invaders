@@ -2,6 +2,7 @@ extends Node
 
 @onready var stadium_ambience_audio: AudioStreamPlayer = $StadiumAmbience
 @onready var boo_audio: AudioStreamPlayer = $Boo
+@onready var referee_whistle: AudioStreamPlayer = $RefereeWhistle
 
 @onready var start_timer: Timer = $StartTimer
 @onready var score_timer: Timer = $ScoreTimer
@@ -43,9 +44,9 @@ func _ready() -> void:
 func new_game():
 	clean_game()
 	hud.update_score(score)
-
-	# Volumen inicial de ambiente en partida
+	
 	AudioUtils.fade_bus_volume(self, "Ambience", AMBIENCE_GAME_START_DB, 1.5)
+	referee_whistle.play()
 	
 	player.show()
 	
@@ -72,18 +73,17 @@ func clean_game():
 	var enemies = enemies_node.get_children()
 	for enemy in enemies:
 		enemy.queue_free()
+	
+	# Limpiar proyectiles que pueden estar volando
+	var projectiles = get_children().filter(func(child): return child is Projectile)
+	for projectile in projectiles:
+		projectile.queue_free()
 
 func game_over() -> void:
 	player.disable_camera_smooth(1)
 	player.hide()
-
-	# Reproducir sonido de abucheo
 	boo_audio.play()
-	#AudioUtils.fade_bus_volume(self, "SFX", -20.0, 5)
-
-	# Bajar volumen del ambiente
 	AudioUtils.fade_bus_volume(self, "Ambience", -20.0, 1.5)
-
 	clean_game()
 	open_loser_hud.emit()
 
@@ -97,12 +97,18 @@ func stop_boo_sound() -> void:
 	if boo_audio.playing:
 		boo_audio.stop()
 
+func return_to_main_menu() -> void:
+	player.reset_player_state()
+	clean_game()
+	player.hide()
+	AudioUtils.fade_bus_volume(self, "Ambience", -20.0, 1.5)
+	stop_boo_sound()
+
 #endregion
 
 #region Señales
 
 func _on_hud_start_game() -> void:
-	# Detener el abucheo si está sonando
 	if boo_audio.playing:
 		boo_audio.stop()
 	new_game()

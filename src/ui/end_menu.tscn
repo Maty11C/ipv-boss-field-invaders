@@ -1,0 +1,60 @@
+[gd_scene load_steps=4 format=3 uid="uid://dy1reil0uf2q"]
+
+[ext_resource type="Theme" uid="uid://dxo350gmmg0af" path="res://src/ui/hud.tres" id="1_4dbti"]
+[ext_resource type="Script" uid="uid://e0u4g01wwnec" path="res://src/ui/end_menu.gd" id="1_xkw1n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r2cn7"]
+draw_center = false
+
+[node name="EndMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xkw1n")
+
+[node name="ButtonsContainer" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -100.0
+offset_right = 250.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_r2cn7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ButtonsContainer"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="RestartButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("1_4dbti")
+text = "RESTART"
+
+[node name="MainMenuButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("1_4dbti")
+text = "MAIN MENU
+"
+
+[connection signal="pressed" from="ButtonsContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="ButtonsContainer/VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
