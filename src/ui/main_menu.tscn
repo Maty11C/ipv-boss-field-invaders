@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dn5b2h3bww5k4"]
+[gd_scene load_steps=6 format=3 uid="uid://dcef4fhvhqvk1"]
 
-[ext_resource type="Script" uid="uid://fojntspdqrij" path="res://src/ui/main_menu.gd" id="1_f0s2b"]
+[ext_resource type="Script" path="res://src/ui/main_menu.gd" id="1_f0s2b"]
 [ext_resource type="Theme" uid="uid://dxo350gmmg0af" path="res://src/ui/hud.tres" id="1_qoywa"]
 [ext_resource type="AudioStream" uid="uid://boj4au3yx4yfd" path="res://assets/Free Football Assets/Muchachos 8-bit simple.wav" id="2_5mgu5"]
 [ext_resource type="FontFile" uid="uid://d3505rnepnkqr" path="res://assets/Fonts/KarmaticArcade-6Yrp1.ttf" id="2_f0s2b"]
@@ -46,9 +46,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -250.0
-offset_top = -40.0
+offset_top = -250.0
 offset_right = 250.0
-offset_bottom = 460.0
+offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_r2cn7")
@@ -73,12 +73,14 @@ theme = ExtResource("1_qoywa")
 text = "START"
 
 [node name="OptionsButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_qoywa")
 text = "OPTIONS"
 
 [node name="HelpButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_qoywa")
@@ -86,12 +88,14 @@ text = "HELP
 "
 
 [node name="ScoresButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_qoywa")
 text = "SCORES"
 
 [node name="CreditsButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_qoywa")

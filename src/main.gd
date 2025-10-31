@@ -73,6 +73,11 @@ func clean_game():
 	var enemies = enemies_node.get_children()
 	for enemy in enemies:
 		enemy.queue_free()
+	
+	# Limpiar proyectiles que pueden estar volando
+	var projectiles = get_children().filter(func(child): return child is Projectile)
+	for projectile in projectiles:
+		projectile.queue_free()
 
 func game_over() -> void:
 	player.disable_camera_smooth(1)

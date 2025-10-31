@@ -262,6 +262,11 @@ func reset_player_state() -> void:
 	stamina = max_stamina
 	stamina_bar.value = stamina
 	
+	# Resetear estado de disparo
+	can_fire = true
+	if fire_coldown:
+		fire_coldown.stop()
+	
 	# Parar sonidos
 	if running_sfx.playing:
 		running_sfx.stop()
