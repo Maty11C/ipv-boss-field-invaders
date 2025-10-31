@@ -212,4 +212,31 @@ func disable_camera_smooth(duration: float = 1.5) -> void:
 		await tween.finished
 		camera.enabled = false
 
+func reset_player_state() -> void:
+	# Resetear estado de invasión
+	is_invading = false
+	
+	# Resetear input y velocidad
+	input_vector = Vector2.ZERO
+	velocity = Vector2.ZERO
+	
+	# Resetear stamina
+	stamina = max_stamina
+	stamina_bar.value = stamina
+	
+	# Parar sonidos
+	if running_sfx.playing:
+		running_sfx.stop()
+	if breathing_sfx.playing:
+		breathing_sfx.stop()
+	
+	# Resetear animación
+	_play_animation("idle")
+	
+	# Habilitar procesamiento de física
+	set_physics_process(true)
+	
+	# Resetear cámara
+	disable_camera_smooth(0.1)
+
 #endregion
