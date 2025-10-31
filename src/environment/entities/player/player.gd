@@ -8,18 +8,24 @@ extends CharacterBody2D
 @onready var stamina_bar: ProgressBar = $ProgressBar
 @onready var running_sfx: AudioStreamPlayer2D = $Running
 @onready var breathing_sfx: AudioStreamPlayer2D = $Breathing
+@onready var fire_position: Marker2D = $FirePosition
+@onready var fire_coldown: Timer = $FireColdown
 
 @export var max_stamina: float = 100.0
 @export var stamina_recovery_rate: float = 20
-@export var speed = 380 # (pixels/sec).
+@export var speed = 350 # (pixels/sec).
 @export var clamp_offset: Vector2 = Vector2(20.0, 40.0)
 @export var camera_zoom: float = 1.5  # Nivel de zoom de la cámara
 @export var invasion_duration: int = 2 # Tiempo de duración en segundos
+@export var projectile_scene: PackedScene
 
 var input_vector: Vector2 = Vector2.ZERO
 var is_invading: bool = false
 var run_speed_scale: float = 1.0
 var stamina: float = max_stamina
+var projectile_container: Node
+var can_fire: bool = true
+var can_run: bool = stamina > 0.6
 
 signal invasion_finished
 signal near_soccer_player(soccer_player: Node2D)
@@ -27,9 +33,12 @@ signal left_soccer_player(soccer_player: Node2D)
 signal caught_by_police
 
 func _ready() -> void:
+	set_physics_process(false)
 	detection_area.body_entered.connect(_on_detection_area_body_entered)
 	detection_area.body_exited.connect(_on_detection_area_body_exited)
+	fire_coldown.timeout.connect(_on_cooldown_timeout)
 	setup_camera()
+
 
 func _physics_process(_delta: float) -> void:
 	_process_input(_delta)
@@ -42,6 +51,11 @@ func _stats_recovery(delta: float) -> void:
 		stamina = clamp(stamina + stamina_recovery_rate * delta, 0, max_stamina)
 		stamina_bar.value = stamina
 
+
+func set_projectile_container(container: Node):
+	projectile_container = container
+
+
 func _process_input(delta: float) -> void:
 	input_vector = Vector2.ZERO
 	
@@ -53,8 +67,9 @@ func _process_input(delta: float) -> void:
 		input_vector.y += 1
 	if Input.is_action_pressed("move_up"):
 		input_vector.y -= 1
-	
-	var can_run: bool = stamina > 0.6
+	if Input.is_action_just_pressed("fire") and can_fire:
+		fire()
+
 	if Input.is_action_pressed("run") and can_run:
 		run_speed_scale = 1.6
 		stamina -= 20.0 * delta
@@ -80,6 +95,28 @@ func _process_input(delta: float) -> void:
 	
 	move_and_slide()
 
+
+func fire():
+	var projectile_instance: Projectile = projectile_scene.instantiate()
+	projectile_container.add_child(projectile_instance)
+	projectile_instance.set_starting_values(
+		fire_position.global_position,
+		(get_global_mouse_position() - global_position).normalized()
+	)
+	projectile_instance.delete_requested.connect(_on_projectile_delete_requested)
+	can_fire = false
+	fire_coldown.start()
+
+
+func _on_projectile_delete_requested(projectile):
+	projectile_container.remove_child(projectile)
+	projectile.queue_free()
+
+
+func _on_cooldown_timeout() -> void:
+	can_fire = true
+
+
 func _process_animation() -> void:
 	if is_invading:
 		return
@@ -98,7 +135,7 @@ func _process_animation() -> void:
 func _process_audio() -> void:
 	if is_invading:
 		return
-		
+
 	if input_vector != Vector2.ZERO:
 		running_sfx.pitch_scale = 1.2 if Input.is_action_pressed("run") else 1.0
 		if not running_sfx.playing:
@@ -106,7 +143,7 @@ func _process_audio() -> void:
 	else:
 		if running_sfx.playing:
 			running_sfx.stop()
-	
+
 	if stamina_bar.value < max_stamina and !Input.is_action_pressed("run"):
 		if not breathing_sfx.playing:
 			breathing_sfx.play()
@@ -116,11 +153,10 @@ func _process_audio() -> void:
 
 func start_invasion(target_position: Vector2):
 	is_invading = true
-	set_physics_process(false)  # Deshabilitar input durante invasión
 	
 	if not running_sfx.playing:
 		running_sfx.play()
-	
+
 	# Elegir un lateral aleatorio para la invasión
 	var screen_size = get_viewport().get_visible_rect().size
 	var invasion_sides = ["top", "bottom"]
@@ -158,11 +194,13 @@ func _play_animation(animation: String) -> void:
 	if body_anim.sprite_frames.has_animation(animation):
 		body_anim.play(animation)
 
+
 func _on_detection_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("soccer_players"):
 		near_soccer_player.emit(body)
 	elif body is Police:
 		caught_by_police.emit()
+
 
 func _on_detection_area_body_exited(body: Node2D) -> void:
 	if body.is_in_group("soccer_players"):
