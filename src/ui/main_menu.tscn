@@ -102,4 +102,19 @@ theme = ExtResource("1_qoywa")
 text = "CREDITS
 "
 
+[node name="Authors" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -526.0
+offset_top = -31.0
+offset_right = -14.0
+offset_bottom = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "By Matías Aduco & Matías Cabrera"
+
 [connection signal="pressed" from="ButtonsContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
