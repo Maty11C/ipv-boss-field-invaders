@@ -1,7 +1,9 @@
 extends CharacterBody2D
 class_name Police
 
-@export var speed: int = 200
+@export var speed: int = 280
+@export var health: int = 1
+@export var max_health: int = 1
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var offset = Vector2(randf_range(-128, 128), randf_range(-128, 128))
@@ -9,13 +11,22 @@ class_name Police
 
 var target: Node2D
 
+
+func take_damage(damage: int) -> void:
+	health -= damage
+	if health <= 0:
+		self.queue_free()
+
+
 func _ready() -> void:
 	_play_animation("idle")
 	hey_sfx.pitch_scale = randf_range(0.92, 1.15)
 	hey_sfx.play()
 
+
 func set_target(enemy: Node2D) -> void:
 	target = enemy
+
 
 func _physics_process(_delta: float) -> void:
 	if target:
@@ -36,6 +47,11 @@ func _physics_process(_delta: float) -> void:
 		else:
 			_play_animation("walk_back")
 
+
 func _play_animation(animation: String) -> void:
 	if anim.sprite_frames.has_animation(animation):
 		anim.play(animation)
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	print(body)
