@@ -49,6 +49,7 @@ func new_game():
 	referee_whistle.play()
 	
 	player.show()
+	player.set_game_active(true)  # Activar inputs del jugador
 	
 	player.invasion_finished.connect(_on_invasion_finished)
 	player.near_soccer_player.connect(_on_player_near_soccer_player)
@@ -70,6 +71,7 @@ func clean_game():
 	score_timer.stop()
 	enemy_timer.stop()
 	start_timer.stop()
+	player.set_game_active(false)  # Desactivar inputs del jugador
 	var enemies = enemies_node.get_children()
 	for enemy in enemies:
 		enemy.queue_free()
@@ -80,6 +82,7 @@ func clean_game():
 		projectile.queue_free()
 
 func game_over() -> void:
+	player.set_game_active(false)  # Desactivar inputs del jugador
 	player.disable_camera_smooth(1)
 	player.hide()
 	boo_audio.play()
@@ -98,6 +101,7 @@ func stop_boo_sound() -> void:
 		boo_audio.stop()
 
 func return_to_main_menu() -> void:
+	player.set_game_active(false)  # Desactivar inputs del jugador
 	player.reset_player_state()
 	clean_game()
 	player.hide()

@@ -5,6 +5,7 @@ const AudioUtils = preload("res://src/utils/audio.gd")
 @onready var music: AudioStreamPlayer = $Music
 
 signal start_game
+signal controls_requested
 
 func _ready() -> void:
 	music.bus = "Music"
@@ -21,3 +22,9 @@ func show_main_menu() -> void:
 	if not music.playing:
 		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), 0.0)
 		music.play()
+
+func _on_controls_button_pressed() -> void:
+	controls_requested.emit()
+
+func _on_exit_button_pressed() -> void:
+	get_tree().quit()
