@@ -6,6 +6,8 @@ extends CharacterBody2D
 @onready var detection_area: Area2D = $DetectionArea
 @onready var camera: Camera2D = $Camera2D
 @onready var stamina_bar: ProgressBar = $ProgressBar
+@onready var running_sfx: AudioStreamPlayer2D = $Running
+@onready var breathing_sfx: AudioStreamPlayer2D = $Breathing
 
 @export var max_stamina: float = 100.0
 @export var stamina_recovery_rate: float = 20
@@ -32,14 +34,13 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	_process_input(_delta)
 	_process_animation()
+	_process_audio()
 	_stats_recovery(_delta)
-
 
 func _stats_recovery(delta: float) -> void:
 	if !Input.is_action_pressed("run"):
 		stamina = clamp(stamina + stamina_recovery_rate * delta, 0, max_stamina)
 		stamina_bar.value = stamina
-
 
 func _process_input(delta: float) -> void:
 	input_vector = Vector2.ZERO
@@ -79,9 +80,7 @@ func _process_input(delta: float) -> void:
 	
 	move_and_slide()
 
-
 func _process_animation() -> void:
-	# No procesar animaciones si está invadiendo
 	if is_invading:
 		return
 		
@@ -96,10 +95,31 @@ func _process_animation() -> void:
 		else:
 			_play_animation("walk_back")
 
+func _process_audio() -> void:
+	if is_invading:
+		return
+		
+	if input_vector != Vector2.ZERO:
+		running_sfx.pitch_scale = 1.2 if Input.is_action_pressed("run") else 1.0
+		if not running_sfx.playing:
+			running_sfx.play()
+	else:
+		if running_sfx.playing:
+			running_sfx.stop()
+	
+	if stamina_bar.value < max_stamina and !Input.is_action_pressed("run"):
+		if not breathing_sfx.playing:
+			breathing_sfx.play()
+	else:
+		if breathing_sfx.playing:
+			breathing_sfx.stop()
 
 func start_invasion(target_position: Vector2):
 	is_invading = true
 	set_physics_process(false)  # Deshabilitar input durante invasión
+	
+	if not running_sfx.playing:
+		running_sfx.play()
 	
 	# Elegir un lateral aleatorio para la invasión
 	var screen_size = get_viewport().get_visible_rect().size
@@ -129,6 +149,8 @@ func finish_invasion():
 	is_invading = false
 	_play_animation("idle")
 	set_physics_process(true)
+	if running_sfx.playing:
+		running_sfx.stop()
 	invasion_finished.emit()
 
 

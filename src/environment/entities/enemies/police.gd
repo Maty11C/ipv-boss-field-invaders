@@ -5,11 +5,14 @@ class_name Police
 
 @onready var anim: AnimatedSprite2D = $AnimatedSprite2D
 @onready var offset = Vector2(randf_range(-128, 128), randf_range(-128, 128))
+@onready var hey_sfx: AudioStreamPlayer2D = $Hey
 
 var target: Node2D
 
 func _ready() -> void:
 	_play_animation("idle")
+	hey_sfx.pitch_scale = randf_range(0.92, 1.15)
+	hey_sfx.play()
 
 func set_target(enemy: Node2D) -> void:
 	target = enemy

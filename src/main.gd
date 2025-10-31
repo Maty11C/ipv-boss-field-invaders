@@ -1,6 +1,8 @@
 extends Node
 
-@onready var music: AudioStreamPlayer2D = $Music
+@onready var stadium_ambience_audio: AudioStreamPlayer = $StadiumAmbience
+@onready var boo_audio: AudioStreamPlayer = $Boo
+
 @onready var start_timer: Timer = $StartTimer
 @onready var score_timer: Timer = $ScoreTimer
 @onready var enemy_timer: Timer = $EnemyTimer
@@ -16,6 +18,12 @@ extends Node
 
 @export var camera_smooth_duration: float = 3 # Tiempo en segundos de animación de cámara enfocando al player
 
+# Intensificación del ambiente durante el juego
+const AMBIENCE_GAME_START_DB := -10.0 # Comienza más bajo al iniciar la partida
+const AMBIENCE_GAME_MAX_DB := 0.0 # Termina en 0dB
+const AMBIENCE_RAMP_DURATION := 120.0 # Sube gradualmente en ~120 segundos
+const AMBIENCE_RAMP_TWEEN := 0.5 # duración del tween por paso (suaviza cambios)
+
 var score = 0
 var elapsed_time: float = 0.0
 var score_multiplier = 1
@@ -26,13 +34,16 @@ signal open_loser_hud
 
 func _ready() -> void:
 	player.hide()
+	setup_sounds()
 
 #region Game
 
 func new_game():
 	clean_game()
 	hud.update_score(score)
-	music.play()
+	
+	# Volumen inicial de ambiente en partida
+	AudioUtils.fade_bus_volume(self, "Ambience", AMBIENCE_GAME_START_DB, 1.5)
 	
 	player.show()
 	
@@ -51,6 +62,7 @@ func clean_game():
 	score_multiplier = 1
 	near_player_bonus = false
 	current_bonus_soccer_player = null
+	elapsed_time = 0.0
 	hud.hide_powerup()  # Ocultar indicador de power-up
 	score_timer.stop()
 	enemy_timer.stop()
@@ -62,14 +74,35 @@ func clean_game():
 func game_over() -> void:
 	player.disable_camera_smooth(1)
 	player.hide()
+	
+	# Reproducir sonido de abucheo
+	boo_audio.play()
+	#AudioUtils.fade_bus_volume(self, "SFX", -20.0, 5)
+	
+	# Bajar volumen del ambiente
+	AudioUtils.fade_bus_volume(self, "Ambience", -20.0, 1.5)
+	
 	clean_game()
 	open_loser_hud.emit()
+
+func setup_sounds() -> void:
+	stadium_ambience_audio.bus = "Ambience"
+	boo_audio.bus = "SFX"
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Ambience"), -20.0) # Se inicia el sonido ambiente en volumen bajo
+	stadium_ambience_audio.play()
+
+func stop_boo_sound() -> void:
+	if boo_audio.playing:
+		boo_audio.stop()
 
 #endregion
 
 #region Señales
 
 func _on_hud_start_game() -> void:
+	# Detener el abucheo si está sonando
+	if boo_audio.playing:
+		boo_audio.stop()
 	new_game()
 	
 func _on_invasion_finished():
@@ -85,6 +118,7 @@ func _on_score_timer_timeout() -> void:
 	score += score_multiplier
 	hud.update_score(score)
 	elapsed_time += 1.0
+	_update_ambience_intensity()
 
 func _on_enemy_timer_timeout() -> void:
 	var enemy = enemy_scene.instantiate()
@@ -115,5 +149,16 @@ func _on_player_left_soccer_player(soccer_player: Node2D) -> void:
 		current_bonus_soccer_player = null
 		score_multiplier = 1
 		hud.hide_powerup()
+
+#endregion
+
+#region Ambience ramp
+
+# Incrementa gradualmente el volumen del ambiente en función del tiempo transcurrido
+func _update_ambience_intensity() -> void:
+	# Progreso entre 0 y 1 en base al tiempo transcurrido de la partida
+	var t: float = clamp(elapsed_time / AMBIENCE_RAMP_DURATION, 0.0, 1.0)
+	var target_db: float = lerp(AMBIENCE_GAME_START_DB, AMBIENCE_GAME_MAX_DB, t)
+	AudioUtils.fade_bus_volume(self, "Ambience", target_db, AMBIENCE_RAMP_TWEEN)
 
 #endregion

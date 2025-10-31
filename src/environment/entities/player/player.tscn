@@ -1,10 +1,12 @@
-[gd_scene load_steps=25 format=3 uid="uid://dw4kwo4qls4mc"]
+[gd_scene load_steps=27 format=3 uid="uid://dw4kwo4qls4mc"]
 
 [ext_resource type="Script" uid="uid://ca7didutkcm0g" path="res://src/environment/entities/player/player.gd" id="1_vt6n5"]
 [ext_resource type="Texture2D" uid="uid://be6n0oxppr603" path="res://assets/Player/idle.png" id="2_ketdh"]
 [ext_resource type="Texture2D" uid="uid://ca80kiti67spf" path="res://assets/Player/back.png" id="3_ketdh"]
 [ext_resource type="Texture2D" uid="uid://cnwh63afj0koy" path="res://assets/Player/front.png" id="4_0mfjg"]
 [ext_resource type="Texture2D" uid="uid://b8ytlkjaowhc2" path="res://assets/Player/walk.png" id="5_oih67"]
+[ext_resource type="AudioStream" uid="uid://cd16ksu21aypq" path="res://assets/Sfx/running.mp3" id="6_run"]
+[ext_resource type="AudioStream" uid="uid://ccw46ufdg0wqu" path="res://assets/Sfx/breathing.mp3" id="7_b02h6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4m8ck"]
 size = Vector2(12, 18)
@@ -168,8 +170,6 @@ position = Vector2(0, -9)
 shape = SubResource("CircleShape2D_ketdh")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-animation = &"walk_back"
-frame = 1
 
 [node name="Node" type="Node" parent="."]
 
@@ -180,3 +180,12 @@ offset_right = 16.0
 offset_bottom = -28.0
 value = 100.0
 show_percentage = false
+
+[node name="Running" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_run")
+volume_db = -6.0
+bus = &"SFX"
+
+[node name="Breathing" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_b02h6")
+bus = &"SFX"
