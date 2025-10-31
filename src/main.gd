@@ -2,6 +2,7 @@ extends Node
 
 @onready var stadium_ambience_audio: AudioStreamPlayer = $StadiumAmbience
 @onready var boo_audio: AudioStreamPlayer = $Boo
+@onready var referee_whistle: AudioStreamPlayer = $RefereeWhistle
 
 @onready var start_timer: Timer = $StartTimer
 @onready var score_timer: Timer = $ScoreTimer
@@ -44,6 +45,7 @@ func new_game():
 	
 	# Volumen inicial de ambiente en partida
 	AudioUtils.fade_bus_volume(self, "Ambience", AMBIENCE_GAME_START_DB, 1.5)
+	referee_whistle.play()
 	
 	player.show()
 	

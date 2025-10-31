@@ -2,12 +2,14 @@ extends CanvasLayer
 
 const AudioUtils = preload("res://src/utils/audio.gd")
 
-@onready var score_label: Label = $ScoreLabel
-@onready var powerup_label: Label = $ScoreLabel/PowerupLabel
-@onready var play_button: Button = $PlayButton
-@onready var main_menu_button: Button = $MainMenuButton
-@onready var music: AudioStreamPlayer = $Music
-@onready var play_sound: AudioStreamPlayer = $PlaySound
+@onready var music: AudioStreamPlayer = $MainMenu/Music
+@onready var main_menu: Control = $MainMenu
+@onready var end_menu: Control = $EndMenu
+
+@onready var main_menu_button: Button = $EndMenu/ButtonsContainer/VBoxContainer/MainMenuButton
+
+@onready var score_label: Label = $Score/ScoreLabel
+@onready var powerup_label: Label = $Score/ScoreLabel/PowerupLabel
 
 signal start_game
 
@@ -26,25 +28,21 @@ func show_powerup(text: String):
 func hide_powerup():
 	powerup_label.hide()
 
-func _on_play_button_pressed() -> void:
-	play_sound.play()
-	play_button.hide()
-	main_menu_button.hide()
-	
+func _on_start_button_pressed() -> void:
+	main_menu.visible = false
 	AudioUtils.fade_bus_volume(self, "Music", -80.0, 1.5, music.stop)
-	
 	start_game.emit()
-	main_menu_button.hide()
 
 func _on_main_open_loser_hud() -> void:
-	play_button.text = "PLAY AGAIN"
-	play_button.show()
-	main_menu_button.show()
-	# NO reanudar "Muchachos" aquí - debe sonar solo en menú inicial
+	end_menu.visible = true
+
+func _on_restart_button_pressed() -> void:
+	end_menu.visible = false
+	start_game.emit()
 
 func _on_main_menu_button_pressed() -> void:
-	play_button.text = "PLAY"
-	main_menu_button.hide()
+	end_menu.visible = false
+	main_menu.visible = true
 	
 	# Detener el abucheo si está sonando
 	get_parent().stop_boo_sound()

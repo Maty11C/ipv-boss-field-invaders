@@ -1,0 +1,94 @@
+[gd_scene load_steps=5 format=3 uid="uid://dn5b2h3bww5k4"]
+
+[ext_resource type="Script" path="res://src/ui/main_menu.gd" id="1_f0s2b"]
+[ext_resource type="Theme" uid="uid://dxo350gmmg0af" path="res://src/ui/hud.tres" id="1_qoywa"]
+[ext_resource type="FontFile" uid="uid://d3505rnepnkqr" path="res://assets/Fonts/KarmaticArcade-6Yrp1.ttf" id="2_f0s2b"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r2cn7"]
+draw_center = false
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_f0s2b")
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -710.0
+offset_right = 710.0
+offset_bottom = 529.0
+grow_horizontal = 2
+theme = ExtResource("1_qoywa")
+theme_override_fonts/font = ExtResource("2_f0s2b")
+theme_override_font_sizes/font_size = 150
+text = "Field
+Invaders"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MainMenuContainer" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 800.0
+offset_top = 500.0
+offset_right = -765.0
+offset_bottom = -46.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_r2cn7")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenuContainer"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="StartButton" type="Button" parent="MainMenuContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("1_qoywa")
+text = "START"
+
+[node name="OptionsButton" type="Button" parent="MainMenuContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("1_qoywa")
+text = "OPTIONS"
+
+[node name="HelpButton" type="Button" parent="MainMenuContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("1_qoywa")
+text = "HELP
+"
+
+[node name="CreditsButton" type="Button" parent="MainMenuContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("1_qoywa")
+text = "CREDITS
+"
+
+[node name="ExitButton" type="Button" parent="MainMenuContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("1_qoywa")
+text = "EXIT"

@@ -1,10 +1,11 @@
-[gd_scene load_steps=39 format=4 uid="uid://b8dbb33q34baa"]
+[gd_scene load_steps=40 format=4 uid="uid://b8dbb33q34baa"]
 
 [ext_resource type="Script" uid="uid://c6frtrysqxj2l" path="res://src/main.gd" id="1_5q4o7"]
 [ext_resource type="PackedScene" uid="uid://dw4kwo4qls4mc" path="res://src/environment/entities/player/player.tscn" id="1_eewff"]
 [ext_resource type="PackedScene" uid="uid://d38o8rpqaubat" path="res://src/environment/entities/enemies/police.tscn" id="2_fyndt"]
 [ext_resource type="Texture2D" uid="uid://cetbnkpmuy2kh" path="res://assets/2D Soccer.png" id="3_kmhfv"]
 [ext_resource type="PackedScene" uid="uid://dt6k0o713vafu" path="res://src/ui/hud.tscn" id="4_3cfgd"]
+[ext_resource type="AudioStream" uid="uid://gex5ybimwcmc" path="res://assets/Sfx/referee-whistle.mp3" id="5_d3u4l"]
 [ext_resource type="PackedScene" uid="uid://dwlmj82h3cwuh" path="res://src/environment/entities/soccer_players/soccer_player.tscn" id="6_5mrjc"]
 [ext_resource type="Texture2D" uid="uid://clkndp61jo32" path="res://assets/SoccerPlayer/Argentina/goalkeeper_idle.png" id="7_kf8lf"]
 [ext_resource type="PackedScene" uid="uid://ceuekjfunn8d6" path="res://src/environment/soccer_ball.tscn" id="8_kf8lf"]
@@ -2204,6 +2205,11 @@ bus = &"Ambience"
 [node name="Boo" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_boo")
 volume_db = -6.0
+bus = &"Ambience"
+
+[node name="RefereeWhistle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_d3u4l")
+volume_db = -12.0
 bus = &"SFX"
 
 [node name="Background" type="Node" parent="."]

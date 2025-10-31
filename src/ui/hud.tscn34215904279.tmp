@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dt6k0o713vafu"]
+[gd_scene load_steps=7 format=3 uid="uid://dt6k0o713vafu"]
 
 [ext_resource type="Script" uid="uid://cuobua60xuvxa" path="res://src/ui/hud.gd" id="1_eqvli"]
 [ext_resource type="AudioStream" uid="uid://boj4au3yx4yfd" path="res://assets/Free Football Assets/Muchachos 8-bit simple.wav" id="2_4rn03"]
 [ext_resource type="Theme" uid="uid://dxo350gmmg0af" path="res://src/ui/hud.tres" id="2_i4jpw"]
 [ext_resource type="FontFile" uid="uid://d3505rnepnkqr" path="res://assets/Fonts/KarmaticArcade-6Yrp1.ttf" id="3_r2cn7"]
+[ext_resource type="AudioStream" uid="uid://gex5ybimwcmc" path="res://assets/Sfx/referee-whistle.mp3" id="3_snmo6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r2cn7"]
 draw_center = false
@@ -87,12 +88,6 @@ theme = ExtResource("2_i4jpw")
 text = "HELP
 "
 
-[node name="ScoresButton" type="Button" parent="MainMenu/ButtonsContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 6
-theme = ExtResource("2_i4jpw")
-text = "SCORES"
-
 [node name="CreditsButton" type="Button" parent="MainMenu/ButtonsContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
@@ -100,76 +95,50 @@ theme = ExtResource("2_i4jpw")
 text = "CREDITS
 "
 
+[node name="ExitButton" type="Button" parent="MainMenu/ButtonsContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme = ExtResource("2_i4jpw")
+text = "EXIT"
+
 [node name="EndMenu" type="Control" parent="."]
-visible = false
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ButtonsContainer" type="Panel" parent="EndMenu"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -250.0
-offset_top = -40.0
-offset_right = 250.0
-offset_bottom = 160.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_r2cn7")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="EndMenu/ButtonsContainer"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
-
-[node name="RestartButton" type="Button" parent="EndMenu/ButtonsContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 6
-theme = ExtResource("2_i4jpw")
-text = "RESTART"
-
-[node name="MainMenuButton" type="Button" parent="EndMenu/ButtonsContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 6
-theme = ExtResource("2_i4jpw")
-text = "MAIN MENU
-"
-
-[node name="Score" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="ScoreLabel" type="Label" parent="Score"]
+[node name="MainMenuButton" type="Button" parent="EndMenu"]
 layout_mode = 0
+offset_left = 1390.0
+offset_top = 1003.0
+offset_right = 1890.0
+offset_bottom = 1031.0
+size_flags_vertical = 6
+theme = ExtResource("2_i4jpw")
+text = "MAIN MENU
+"
+
+[node name="PlaySound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_snmo6")
+volume_db = -12.0
+bus = &"SFX"
+
+[node name="ScoreLabel" type="Label" parent="."]
 offset_left = 13.0
 offset_top = 10.0
 offset_right = 138.0
 offset_bottom = 33.0
 
-[node name="PowerupLabel" type="Label" parent="Score/ScoreLabel"]
+[node name="PowerupLabel" type="Label" parent="ScoreLabel"]
 layout_mode = 0
 offset_left = -2.0
 offset_top = 31.0
 offset_right = 125.0
 offset_bottom = 54.0
 
-[connection signal="pressed" from="MainMenu/ButtonsContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="EndMenu/ButtonsContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
-[connection signal="pressed" from="EndMenu/ButtonsContainer/VBoxContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
+[connection signal="pressed" from="MainMenu/ButtonsContainer/VBoxContainer/StartButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MainMenu/ButtonsContainer/VBoxContainer/OptionsButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MainMenu/ButtonsContainer/VBoxContainer/HelpButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MainMenu/ButtonsContainer/VBoxContainer/CreditsButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MainMenu/ButtonsContainer/VBoxContainer/ExitButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="EndMenu/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
