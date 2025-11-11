@@ -15,14 +15,14 @@ Videojuego desarrollado en Godot como proyecto final ("boss") para la materia *I
 
 ## 📅 Cronograma
 
-- 🎯 Checkpoint 1: Prototipo
+- 🎯 Checkpoint 1
     - **Fecha:** 26/09/2025
     - **Estado:** Listo
     - **Versión:**  [v0.1.0](https://github.com/Maty11C/ipv-boss-field-invaders/tree/v0.1.0)
 
-- 🎯 Checkpoint 2: Prototipo
+- 🎯 Checkpoint 2
     - **Fecha:** 31/10/2025
-    - **Estado:** En proceso
+    - **Estado:** Listo
     - **Versión:**  [v0.1.1](https://github.com/Maty11C/ipv-boss-field-invaders/tree/v0.1.1)
 
 ## 🎮 Demo
