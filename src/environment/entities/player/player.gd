@@ -27,6 +27,7 @@ var projectile_container: Node
 var can_fire: bool = true
 var can_run: bool = stamina > 0.6
 var game_active: bool = false
+var outline_material: Material
 
 signal invasion_finished
 signal near_soccer_player(soccer_player: Node2D)
@@ -38,6 +39,7 @@ func _ready() -> void:
 	detection_area.body_entered.connect(_on_detection_area_body_entered)
 	detection_area.body_exited.connect(_on_detection_area_body_exited)
 	fire_coldown.timeout.connect(_on_cooldown_timeout)
+	outline_material = body_anim.material
 	setup_camera()
 
 
@@ -294,5 +296,13 @@ func reset_player_state() -> void:
 	
 	# Resetear cámara
 	disable_camera_smooth(0.1)
+
+func enable_outline_shader() -> void:
+	if outline_material and body_anim.material != outline_material:
+		body_anim.material = outline_material
+
+func disable_outline_shader() -> void:
+	if body_anim.material != null:
+		body_anim.material = null
 
 #endregion

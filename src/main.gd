@@ -8,7 +8,7 @@ extends Node
 @onready var score_timer: Timer = $ScoreTimer
 @onready var enemy_timer: Timer = $EnemyTimer
 @onready var hud: CanvasLayer = $HUD
-@onready var player: Node2D = $Environment/Entities/Player
+@onready var player: Player = $Environment/Entities/Player
 @onready var enemies_node: Node2D = $Environment/Entities/Enemies
 @onready var enemy_spawn_location: PathFollow2D = $EnemyPath/EnemySpawnLocation
 
@@ -68,6 +68,7 @@ func clean_game():
 	current_bonus_soccer_player = null
 	elapsed_time = 0.0
 	hud.hide_powerup()  # Ocultar indicador de power-up
+	player.disable_outline_shader()
 	score_timer.stop()
 	enemy_timer.stop()
 	start_timer.stop()
@@ -153,6 +154,7 @@ func _on_player_near_soccer_player(soccer_player: Node2D) -> void:
 		near_player_bonus = true
 		current_bonus_soccer_player = soccer_player
 		score_multiplier = 2
+		player.enable_outline_shader()
 		hud.show_powerup("¡PUNTOS X2!")
 
 func _on_player_left_soccer_player(soccer_player: Node2D) -> void:
@@ -160,6 +162,7 @@ func _on_player_left_soccer_player(soccer_player: Node2D) -> void:
 		near_player_bonus = false
 		current_bonus_soccer_player = null
 		score_multiplier = 1
+		player.disable_outline_shader()
 		hud.hide_powerup()
 
 #endregion
