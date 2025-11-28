@@ -2195,6 +2195,7 @@ point_count = 5
 [node name="Main" type="Node"]
 script = ExtResource("1_5q4o7")
 enemy_scene = ExtResource("2_fyndt")
+soccer_ball_scene = ExtResource("8_kf8lf")
 
 [node name="StadiumAmbience" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_ambie")
@@ -2341,6 +2342,9 @@ one_shot = true
 [node name="EnemyTimer" type="Timer" parent="."]
 wait_time = 2.0
 
+[node name="SoccerBallTimer" type="Timer" parent="."]
+wait_time = 2.0
+
 [node name="HUD" parent="." instance=ExtResource("4_3cfgd")]
 
 [node name="EnemyPath" type="Path2D" parent="."]
@@ -2352,4 +2356,5 @@ curve = SubResource("Curve2D_3cfgd")
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="EnemyTimer" to="." method="_on_enemy_timer_timeout"]
+[connection signal="timeout" from="SoccerBallTimer" to="." method="_on_soccer_ball_timer_timeout"]
 [connection signal="start_game" from="HUD" to="." method="_on_hud_start_game"]

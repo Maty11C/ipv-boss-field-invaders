@@ -38,6 +38,10 @@ func _ready() -> void:
 		var indicator_scene = load("res://src/environment/entities/enemies/indicator.tscn")
 		if indicator_scene:
 			indicator = indicator_scene.instantiate()
+			# Cambiar el color del indicador a violeta para la policía
+			var sprite = indicator.get_node("Sprite2D")
+			if sprite:
+				sprite.modulate = Color(0.8, 0.2, 1.0)  # Violeta llamativo
 		else:
 			# Si no existe la escena, crear el nodo directamente
 			indicator = preload("res://src/environment/entities/enemies/indicator.gd").new()
@@ -78,7 +82,6 @@ func set_target(enemy: Node2D) -> void:
 func _physics_process(_delta: float) -> void:
 	if target:
 		var direction: Vector2
-		var screen_size = get_viewport().get_visible_rect().size
 		if target.is_pacman_powered_up:
 			# Escapar del jugador
 			direction = (global_position - target.global_position).normalized()
@@ -91,9 +94,10 @@ func _physics_process(_delta: float) -> void:
 		velocity = direction * speed
 		move_and_slide()
 
-		# Limitar posición dentro de la cancha
-		position.x = clamp(position.x, 0, screen_size.x)
-		position.y = clamp(position.y, 0, screen_size.y)
+		# Limitar posición dentro de la cancha usando los límites de la cámara
+		if camera:
+			position.x = clamp(position.x, camera.limit_left, camera.limit_right)
+			position.y = clamp(position.y, camera.limit_top, camera.limit_bottom)
 
 		if abs(direction.x) > abs(direction.y):
 			anim.flip_h = direction.x < 0

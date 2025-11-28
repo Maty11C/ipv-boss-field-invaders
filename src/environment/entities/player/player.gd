@@ -16,7 +16,7 @@ extends CharacterBody2D
 @export var max_stamina: float = 100.0
 @export var stamina_recovery_rate: float = 20
 @export var speed = 350 # (pixels/sec).
-@export var clamp_offset: Vector2 = Vector2(20.0, 40.0)
+@export var play_area_margin: Vector2 = Vector2(10.0, 20.0)  # Margen desde los bordes del área de juego
 @export var camera_zoom: float = 1.5  # Nivel de zoom de la cámara
 @export var invasion_duration: int = 2 # Tiempo de duración en segundos
 @export var projectile_scene: PackedScene
@@ -104,19 +104,20 @@ func _process_input(delta: float) -> void:
 	input_vector = input_vector.normalized()
 	velocity = input_vector * speed * run_speed_scale
 	
-	var screenSize = get_viewport()
-	position.x = clamp(
-		position.x,
-		clamp_offset.x,
-		screenSize.size.x - clamp_offset.x
-	)
-	position.y = clamp(
-		position.y,
-		clamp_offset.y,
-		screenSize.size.y
-	)
-	
 	move_and_slide()
+	
+	# Limitar al jugador dentro del área de juego usando los límites de la cámara
+	if camera:
+		position.x = clamp(
+			position.x,
+			camera.limit_left + play_area_margin.x,
+			camera.limit_right - play_area_margin.x
+		)
+		position.y = clamp(
+			position.y,
+			camera.limit_top + play_area_margin.y,
+			camera.limit_bottom - play_area_margin.y
+		)
 
 
 func fire():
@@ -228,6 +229,7 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 			caught_by_police.emit()
 	elif body.name == "SoccerBall":
 		_on_pacman_powerup_picked()
+		body.queue_free()
 
 func _on_pacman_powerup_picked():
 	is_pacman_powered_up = true
