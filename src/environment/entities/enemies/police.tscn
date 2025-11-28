@@ -1,10 +1,11 @@
-[gd_scene load_steps=25 format=3 uid="uid://d38o8rpqaubat"]
+[gd_scene load_steps=26 format=3 uid="uid://d38o8rpqaubat"]
 
 [ext_resource type="Script" uid="uid://dycwnh1mjrqo1" path="res://src/environment/entities/enemies/police.gd" id="1_c0qsn"]
 [ext_resource type="Texture2D" uid="uid://detunfsrtxyob" path="res://assets/Police/idle.png" id="2_vuay4"]
 [ext_resource type="Texture2D" uid="uid://chpw0c4pvxlu1" path="res://assets/Police/back.png" id="3_w5omw"]
 [ext_resource type="Texture2D" uid="uid://0nbvdmuqywsn" path="res://assets/Police/front.png" id="4_n24rq"]
 [ext_resource type="Texture2D" uid="uid://d2bdqdtyuqoox" path="res://assets/Police/walk.png" id="5_5jymh"]
+[ext_resource type="Script" uid="uid://5lddg8gqjk0h" path="res://src/environment/entities/enemies/indicator.gd" id="7_grvby"]
 [ext_resource type="AudioStream" uid="uid://cjl6w3e0s0w5o" path="res://assets/Sfx/hey.mp3" id="7_hey"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yrcc6"]
@@ -163,3 +164,7 @@ shape = SubResource("RectangleShape2D_yrcc6")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_5jymh")
 animation = &"walk_side"
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 0.5)
+scale = Vector2(1.2, 1.9)
