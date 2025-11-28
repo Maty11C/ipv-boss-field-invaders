@@ -28,6 +28,7 @@ const AMBIENCE_RAMP_TWEEN := 0.5 # duración del tween por paso (suaviza cambios
 var score = 0
 var elapsed_time: float = 0.0
 var score_multiplier = 1
+var timer_normal_wait_time = 1.0
 var near_player_bonus = false
 var current_bonus_soccer_player = null
 
@@ -37,6 +38,7 @@ func _ready() -> void:
 	player.hide()
 	setup_sounds()
 	$Environment/Entities/Player.set_projectile_container(self)
+	timer_normal_wait_time = score_timer.wait_time
 
 
 #region Game
@@ -67,7 +69,7 @@ func clean_game():
 	near_player_bonus = false
 	current_bonus_soccer_player = null
 	elapsed_time = 0.0
-	hud.hide_powerup()  # Ocultar indicador de power-up
+	hud.hide_timer_powerup()  # Ocultar indicador de power-up
 	player.disable_outline_shader()
 	score_timer.stop()
 	enemy_timer.stop()
@@ -153,17 +155,17 @@ func _on_player_near_soccer_player(soccer_player: Node2D) -> void:
 	if not near_player_bonus:
 		near_player_bonus = true
 		current_bonus_soccer_player = soccer_player
-		score_multiplier = 2
+		score_timer.wait_time = timer_normal_wait_time / 2.0
+		hud.show_timer_powerup()
 		player.enable_outline_shader()
-		hud.show_powerup("¡PUNTOS X2!")
 
 func _on_player_left_soccer_player(soccer_player: Node2D) -> void:
 	if near_player_bonus and current_bonus_soccer_player == soccer_player:
 		near_player_bonus = false
 		current_bonus_soccer_player = null
-		score_multiplier = 1
+		score_timer.wait_time = timer_normal_wait_time
 		player.disable_outline_shader()
-		hud.hide_powerup()
+		hud.hide_timer_powerup()
 
 #endregion
 
