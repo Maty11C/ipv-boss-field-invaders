@@ -23,10 +23,13 @@ func _ready():
 		var indicator_scene = load("res://src/environment/entities/enemies/indicator.tscn")
 		if indicator_scene:
 			indicator = indicator_scene.instantiate()
+			# Activar inversión de dirección para que apunte hacia la pelota
+			indicator.invert_direction = true
 			# Usar color por defecto del indicador (rojo)
 		else:
 			# Si no existe la escena, crear el nodo directamente
 			indicator = preload("res://src/environment/entities/enemies/indicator.gd").new()
+			indicator.invert_direction = true
 		
 		# Crear CanvasLayer para que esté siempre visible encima
 		canvas_layer = CanvasLayer.new()

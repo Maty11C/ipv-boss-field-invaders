@@ -2,6 +2,7 @@ extends Node2D
 
 @export var edge_margin: float = 20.0  # Distancia desde el borde de la pantalla
 @export var arrow_size: float = 1.0  # Tamaño de la flecha
+@export var invert_direction: bool = false  # Si true, apunta hacia el target en lugar de desde el target
 
 var target: Node2D
 var camera: Camera2D
@@ -67,7 +68,14 @@ func _process(_delta: float) -> void:
 		# La posición ya está en coordenadas de pantalla (CanvasLayer)
 		global_position = final_pos
 		
-		# Rotar el indicador hacia el target
-		rotation = direction_to_target.angle()
+		# Rotar el indicador
+		# Si invert_direction es false (policías): apunta hacia adentro/jugador (+PI)
+		# Si invert_direction es true (pelota): apunta hacia afuera/target (sin PI)
+		if invert_direction:
+			# Para la pelota: apunta en la dirección del target
+			rotation = direction_to_target.angle()
+		else:
+			# Para policías: apunta hacia el jugador (opuesto)
+			rotation = direction_to_target.angle() + PI
 	else:
 		visible = false

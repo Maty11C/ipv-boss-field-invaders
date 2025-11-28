@@ -9,6 +9,7 @@ extends CharacterBody2D
 @onready var powerup_bar: ProgressBar = $PowerupBar
 @onready var running_sfx: AudioStreamPlayer2D = $Running
 @onready var breathing_sfx: AudioStreamPlayer2D = $Breathing
+@onready var goal_sfx: AudioStreamPlayer2D = $Goal
 @onready var fire_position: Marker2D = $FirePosition
 @onready var fire_coldown: Timer = $FireColdown
 @onready var pacman_powerup_timer: Timer = $PacmanPowerupTimer
@@ -239,6 +240,7 @@ func _on_pacman_powerup_picked():
 	powerup_bar.visible = true
 	powerup_bar.max_value = pacman_powerup_duration
 	powerup_bar.value = pacman_powerup_duration
+	goal_sfx.play()
 
 func _on_pacman_powerup_timer_timeout() -> void:
 	is_pacman_powered_up = false

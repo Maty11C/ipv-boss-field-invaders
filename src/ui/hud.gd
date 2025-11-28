@@ -43,7 +43,7 @@ func show_timer_powerup():
 func hide_timer_powerup():
 	score_powerup_label.hide()
 	
-func show_pacman_powerup(duration):
+func show_pacman_powerup(_duration):
 	pacman_powerup.show()
 	
 func hide_pacman_powerup():

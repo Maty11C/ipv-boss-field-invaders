@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://b8ytlkjaowhc2" path="res://assets/Player/walk.png" id="5_oih67"]
 [ext_resource type="AudioStream" uid="uid://cd16ksu21aypq" path="res://assets/Sfx/running.mp3" id="6_run"]
 [ext_resource type="AudioStream" uid="uid://ccw46ufdg0wqu" path="res://assets/Sfx/breathing.mp3" id="7_b02h6"]
+[ext_resource type="AudioStream" uid="uid://dbos20lulp0rk" path="res://assets/Sfx/goal.mp3" id="8_goal"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4m8ck"]
 size = Vector2(12, 18)
@@ -223,6 +224,11 @@ bus = &"SFX"
 
 [node name="Breathing" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_b02h6")
+bus = &"SFX"
+
+[node name="Goal" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_goal")
+volume_db = -8.0
 bus = &"SFX"
 
 [node name="FirePosition" type="Marker2D" parent="."]

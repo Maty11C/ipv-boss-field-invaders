@@ -15,16 +15,16 @@ extends Node
 @onready var enemy_spawn_location: PathFollow2D = $EnemyPath/EnemySpawnLocation
 
 @export var enemy_scene: PackedScene
-@export var enemy_spawn_time: float = 2.0  # Tiempo en segundos entre spawns de policías
+@export var enemy_spawn_time: float = 2.0 # Tiempo en segundos entre spawns de policías
 @export var min_spawn_coldown: float = 0.8
 @export var spawn_acceleration_time: float = 90.0
 
 @export var camera_smooth_duration: float = 3 # Tiempo en segundos de animación de cámara enfocando al player
 
 @export var soccer_ball_scene: PackedScene
-@export var soccer_ball_min_spawn_time: float = 10.0  # Tiempo mínimo de respawn en segundos
-@export var soccer_ball_max_spawn_time: float = 20.0  # Tiempo máximo de respawn en segundos
-@export var max_soccer_balls: int = 1  # Máximo de pelotas que pueden estar en juego
+@export var soccer_ball_min_spawn_time: float = 10.0 # Tiempo mínimo de respawn en segundos
+@export var soccer_ball_max_spawn_time: float = 20.0 # Tiempo máximo de respawn en segundos
+@export var max_soccer_balls: int = 1 # Máximo de pelotas que pueden estar en juego
 
 # Intensificación del ambiente durante el juego
 const AMBIENCE_GAME_START_DB := -10.0 # Comienza más bajo al iniciar la partida
@@ -38,7 +38,7 @@ var score_multiplier = 1
 var timer_normal_wait_time = 1.0
 var near_player_bonus = false
 var current_bonus_soccer_player = null
-var current_soccer_balls_count: int = 0  # Cantidad actual de pelotas en juego
+var current_soccer_balls_count: int = 0 # Cantidad actual de pelotas en juego
 
 signal open_loser_hud
 
@@ -59,7 +59,7 @@ func new_game():
 	referee_whistle.play()
 	
 	player.show()
-	player.set_game_active(true)  # Activar inputs del jugador
+	player.set_game_active(true) # Activar inputs del jugador
 	
 	player.invasion_finished.connect(_on_invasion_finished)
 	player.near_soccer_player.connect(_on_player_near_soccer_player)
@@ -77,14 +77,14 @@ func clean_game():
 	near_player_bonus = false
 	current_bonus_soccer_player = null
 	elapsed_time = 0.0
-	current_soccer_balls_count = 0  # Resetear contador de pelotas
-	hud.hide_timer_powerup()  # Ocultar indicador de power-up
+	current_soccer_balls_count = 0 # Resetear contador de pelotas
+	hud.hide_timer_powerup() # Ocultar indicador de power-up
 	player.disable_outline_shader()
 	score_timer.stop()
 	enemy_timer.stop()
 	soccer_ball_timer.stop()
 	start_timer.stop()
-	player.set_game_active(false)  # Desactivar inputs del jugador
+	player.set_game_active(false) # Desactivar inputs del jugador
 	var enemies = enemies_node.get_children()
 	for enemy in enemies:
 		enemy.queue_free()
@@ -100,7 +100,7 @@ func clean_game():
 		projectile.queue_free()
 
 func game_over() -> void:
-	player.set_game_active(false)  # Desactivar inputs del jugador
+	player.set_game_active(false) # Desactivar inputs del jugador
 	player.disable_camera_smooth(1)
 	player.hide()
 	boo_audio.play()
@@ -119,7 +119,7 @@ func stop_boo_sound() -> void:
 		boo_audio.stop()
 
 func return_to_main_menu() -> void:
-	player.set_game_active(false)  # Desactivar inputs del jugador
+	player.set_game_active(false) # Desactivar inputs del jugador
 	player.reset_player_state()
 	clean_game()
 	player.hide()
@@ -216,13 +216,13 @@ func _on_soccer_ball_timer_timeout() -> void:
 	# Generar posición aleatoria dentro del área de juego usando los límites de la cámara
 	var camera = player.camera
 	if camera:
-		var margin = 50  # Margen desde los bordes
+		var margin = 50 # Margen desde los bordes
 		var random_x = randf_range(camera.limit_left + margin, camera.limit_right - margin)
 		var random_y = randf_range(camera.limit_top + margin, camera.limit_bottom - margin)
 		soccer_ball.position = Vector2(random_x, random_y)
 	
 	objects_node.add_child(soccer_ball)
-	current_soccer_balls_count += 1  # Incrementar contador
+	current_soccer_balls_count += 1 # Incrementar contador
 	
 	# Conectar señal para decrementar el contador cuando la pelota sea recogida
 	if soccer_ball.has_signal("picked_up"):
@@ -233,4 +233,4 @@ func _on_soccer_ball_timer_timeout() -> void:
 
 
 func _on_soccer_ball_picked_up() -> void:
-	current_soccer_balls_count = max(0, current_soccer_balls_count - 1)  # Decrementar contador
+	current_soccer_balls_count = max(0, current_soccer_balls_count - 1) # Decrementar contador
