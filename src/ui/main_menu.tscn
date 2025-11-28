@@ -80,6 +80,7 @@ theme = ExtResource("1_qoywa")
 text = "OPTIONS"
 
 [node name="ControlsButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_qoywa")

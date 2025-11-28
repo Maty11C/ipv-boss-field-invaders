@@ -10,6 +10,7 @@ extends CanvasLayer
 
 signal start_game
 
+var pending_start_game: bool = false
 var game_is_active: bool = false
 
 func _ready() -> void:
@@ -44,9 +45,8 @@ func hide_timer_powerup():
 	time_label.add_theme_color_override("font_color", Color(1, 1, 1))
 
 func _on_main_menu_start_game() -> void:
-	game_is_active = true
-	show_score()
-	start_game.emit()
+	pending_start_game = true
+	show_controls_modal()
 
 func _on_main_open_loser_hud() -> void:
 	game_is_active = false
@@ -84,5 +84,8 @@ func _on_controls_modal_opened() -> void:
 	pass
 
 func _on_controls_modal_closed() -> void:
-	# El modal se encarga de restaurar el pause menu si es necesario
-	pass
+	if pending_start_game:
+		game_is_active = true
+		start_game.emit()
+		show_score()
+		pending_start_game = false
