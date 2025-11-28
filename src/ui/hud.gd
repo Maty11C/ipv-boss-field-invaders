@@ -1,7 +1,8 @@
 extends CanvasLayer
 
-@onready var score_label: Label = $Score/ScoreLabel
-@onready var powerup_label: Label = $Score/ScoreLabel/PowerupLabel
+@onready var score_node: Control = $Score
+@onready var time_label: Label = $Score/TimeLabel
+@onready var powerup_label: Label = $Score/PowerupLabel
 @onready var main_menu: Control = $MainMenu
 @onready var end_menu: Control = $EndMenu
 @onready var pause_menu: Control = $PauseMenu
@@ -25,15 +26,23 @@ func _ready() -> void:
 	controls_modal.modal_closed.connect(_on_controls_modal_closed)
 
 func update_score(score):
-	score_label.text = "Score: %d" % [score]
+	var minutes = score / 60
+	var seconds = score % 60
+	time_label.text = "%02d:%02d" % [minutes, seconds]
 
-func show_powerup(text: String):
-	powerup_label.text = text
+func show_score():
+	score_node.visible = true
+
+func hide_score():
+	score_node.visible = false
+
+func show_timer_powerup():
 	powerup_label.show()
-	powerup_label.modulate = Color.YELLOW
+	time_label.add_theme_color_override("font_color", Color(1, 1, 0))
 
-func hide_powerup():
+func hide_timer_powerup():
 	powerup_label.hide()
+	time_label.add_theme_color_override("font_color", Color(1, 1, 1))
 
 func _on_main_menu_start_game() -> void:
 	pending_start_game = true
@@ -41,14 +50,17 @@ func _on_main_menu_start_game() -> void:
 
 func _on_main_open_loser_hud() -> void:
 	game_is_active = false
+	hide_score()
 	end_menu.show_end_menu()
 
 func _on_end_menu_restart_game() -> void:
 	game_is_active = true
+	show_score()
 	start_game.emit()
 
 func _on_menu_return_to_main_menu() -> void:
 	game_is_active = false
+	hide_score()
 	main_menu.show_main_menu()
 	get_parent().return_to_main_menu()
 
@@ -75,4 +87,5 @@ func _on_controls_modal_closed() -> void:
 	if pending_start_game:
 		game_is_active = true
 		start_game.emit()
+		show_score()
 		pending_start_game = false

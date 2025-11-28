@@ -1,35 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://dt6k0o713vafu"]
+[gd_scene load_steps=7 format=3 uid="uid://dt6k0o713vafu"]
 
 [ext_resource type="Script" uid="uid://cuobua60xuvxa" path="res://src/ui/hud.gd" id="1_eqvli"]
 [ext_resource type="PackedScene" uid="uid://dcef4fhvhqvk1" path="res://src/ui/main_menu.tscn" id="2_r2cn7"]
 [ext_resource type="PackedScene" uid="uid://dy1reil0uf2q" path="res://src/ui/end_menu.tscn" id="3_snmo6"]
 [ext_resource type="PackedScene" uid="uid://griirf4q52tc" path="res://src/ui/pause_menu.tscn" id="4_i4jpw"]
 [ext_resource type="PackedScene" uid="uid://bx0sfl8s8l1u7" path="res://src/ui/controls_modal.tscn" id="5_k9m5l"]
+[ext_resource type="Texture2D" uid="uid://bjic4lrwefafc" path="res://assets/Score/Score_arg_fra.png" id="6_score"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_eqvli")
 
-[node name="Score" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="ScoreLabel" type="Label" parent="Score"]
-layout_mode = 0
-offset_left = 13.0
-offset_top = 10.0
-offset_right = 138.0
-offset_bottom = 33.0
-
-[node name="PowerupLabel" type="Label" parent="Score/ScoreLabel"]
-layout_mode = 0
-offset_left = -2.0
-offset_top = 31.0
-offset_right = 125.0
-offset_bottom = 54.0
-
 [node name="MainMenu" parent="." instance=ExtResource("2_r2cn7")]
+offset_left = -20.0
+offset_top = -15.0
+offset_right = -20.0
+offset_bottom = -15.0
 
 [node name="EndMenu" parent="." instance=ExtResource("3_snmo6")]
 visible = false
@@ -39,3 +24,59 @@ visible = false
 
 [node name="ControlsModal" parent="." instance=ExtResource("5_k9m5l")]
 visible = false
+
+[node name="Score" type="TextureRect" parent="."]
+visible = false
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 741.5
+offset_bottom = 60.0
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("6_score")
+expand_mode = 1
+
+[node name="TimeLabel" type="Label" parent="Score"]
+layout_mode = 0
+offset_right = 110.0
+offset_bottom = 30.0
+scale = Vector2(1.5, 1.5)
+text = "00:00"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HomeLabel" type="Label" parent="Score"]
+layout_mode = 0
+offset_left = 274.0
+offset_top = 9.0
+offset_right = 335.33334
+offset_bottom = 27.000002
+scale = Vector2(1.5, 1.5)
+text = "ARG"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AwayLabel" type="Label" parent="Score"]
+layout_mode = 0
+offset_left = 528.0
+offset_top = 9.0
+offset_right = 589.3334
+offset_bottom = 27.000002
+scale = Vector2(1.5, 1.5)
+text = "FRA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PowerupLabel" type="Label" parent="Score"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -721.5
+offset_top = 48.75
+offset_right = -534.0
+offset_bottom = 80.416664
+grow_horizontal = 0
+scale = Vector2(1.5, 1.5)
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+text = "¡Timer x2!"
+vertical_alignment = 1
