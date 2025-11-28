@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://dw4kwo4qls4mc"]
+[gd_scene load_steps=32 format=3 uid="uid://dw4kwo4qls4mc"]
 
 [ext_resource type="Script" uid="uid://ca7didutkcm0g" path="res://src/environment/entities/player/player.gd" id="1_vt6n5"]
 [ext_resource type="PackedScene" uid="uid://cukqad68lldc1" path="res://src/environment/objects/projectile.tscn" id="2_0df3s"]
@@ -157,6 +157,20 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_ketdh"]
 radius = 16.03122
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sfukf"]
+bg_color = Color(1, 1, 0, 0.48235294)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8xaql"]
+bg_color = Color(1, 1, 0, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(1.5, 1.5)
 script = ExtResource("1_vt6n5")
@@ -192,6 +206,16 @@ offset_bottom = -28.0
 value = 100.0
 show_percentage = false
 
+[node name="PowerupBar" type="ProgressBar" parent="."]
+visible = false
+offset_left = -16.0
+offset_top = -37.999977
+offset_right = 16.0
+offset_bottom = -33.999977
+theme_override_styles/background = SubResource("StyleBoxFlat_sfukf")
+theme_override_styles/fill = SubResource("StyleBoxFlat_8xaql")
+show_percentage = false
+
 [node name="Running" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_run")
 volume_db = -6.0
@@ -205,3 +229,8 @@ bus = &"SFX"
 position = Vector2(0, -6.666667)
 
 [node name="FireColdown" type="Timer" parent="."]
+
+[node name="PacmanPowerupTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="PacmanPowerupTimer" to="." method="_on_pacman_powerup_timer_timeout"]
