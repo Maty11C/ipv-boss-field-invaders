@@ -1,6 +1,6 @@
 extends Control
 
-const AudioUtils = preload("res://src/utils/audio.gd")
+const Audio = preload("res://src/utils/audio.gd")
 
 @onready var music: AudioStreamPlayer = $Music
 
@@ -13,7 +13,7 @@ func _ready() -> void:
 
 func _on_start_button_pressed() -> void:
 	hide()
-	AudioUtils.fade_bus_volume(self, "Music", -80.0, 1.5, music.stop)
+	Audio.fade_bus_volume(self, "Music", -80.0, 1.5, music.stop)
 	start_game.emit()
 
 func show_main_menu() -> void:

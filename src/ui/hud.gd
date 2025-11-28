@@ -1,12 +1,13 @@
 extends CanvasLayer
 
 @onready var score_node: Control = $Score
-@onready var time_label: Label = $Score/TimeLabel
-@onready var powerup_label: Label = $Score/PowerupLabel
+@onready var score_time_label: Label = $Score/TimeLabel
+@onready var score_powerup_label: Label = $Score/PowerupLabel
 @onready var main_menu: Control = $MainMenu
 @onready var end_menu: Control = $EndMenu
 @onready var pause_menu: Control = $PauseMenu
 @onready var controls_modal: Control = $ControlsModal
+@onready var pacman_powerup: Node = $PacmanPowerup
 
 signal start_game
 
@@ -28,7 +29,7 @@ func _ready() -> void:
 func update_score(score):
 	var minutes = score / 60
 	var seconds = score % 60
-	time_label.text = "%02d:%02d" % [minutes, seconds]
+	score_time_label.text = "%02d:%02d" % [minutes, seconds]
 
 func show_score():
 	score_node.visible = true
@@ -37,12 +38,16 @@ func hide_score():
 	score_node.visible = false
 
 func show_timer_powerup():
-	powerup_label.show()
-	time_label.add_theme_color_override("font_color", Color(1, 1, 0))
+	score_powerup_label.show()
 
 func hide_timer_powerup():
-	powerup_label.hide()
-	time_label.add_theme_color_override("font_color", Color(1, 1, 1))
+	score_powerup_label.hide()
+	
+func show_pacman_powerup(_duration):
+	pacman_powerup.show()
+	
+func hide_pacman_powerup():
+	pacman_powerup.hide()
 
 func _on_main_menu_start_game() -> void:
 	pending_start_game = true

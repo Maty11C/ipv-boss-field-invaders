@@ -6,26 +6,31 @@ extends CharacterBody2D
 @onready var detection_area: Area2D = $DetectionArea
 @onready var camera: Camera2D = $Camera2D
 @onready var stamina_bar: ProgressBar = $ProgressBar
+@onready var powerup_bar: ProgressBar = $PowerupBar
 @onready var running_sfx: AudioStreamPlayer2D = $Running
 @onready var breathing_sfx: AudioStreamPlayer2D = $Breathing
+@onready var goal_sfx: AudioStreamPlayer2D = $Goal
 @onready var fire_position: Marker2D = $FirePosition
 @onready var fire_coldown: Timer = $FireColdown
+@onready var pacman_powerup_timer: Timer = $PacmanPowerupTimer
 
 @export var max_stamina: float = 100.0
 @export var stamina_recovery_rate: float = 20
 @export var speed = 350 # (pixels/sec).
-@export var clamp_offset: Vector2 = Vector2(20.0, 40.0)
+@export var play_area_margin: Vector2 = Vector2(10.0, 20.0)  # Margen desde los bordes del área de juego
 @export var camera_zoom: float = 1.5  # Nivel de zoom de la cámara
 @export var invasion_duration: int = 2 # Tiempo de duración en segundos
 @export var projectile_scene: PackedScene
+@export var pacman_powerup_duration: float = 10 # segundos
 
 var input_vector: Vector2 = Vector2.ZERO
 var is_invading: bool = false
+var is_pacman_powered_up: bool = false
 var run_speed_scale: float = 1.0
 var stamina: float = max_stamina
 var projectile_container: Node
 var can_fire: bool = true
-var can_run: bool = stamina > 0.6
+var can_run: bool
 var game_active: bool = false
 var outline_material: Material
 
@@ -39,21 +44,24 @@ func _ready() -> void:
 	detection_area.body_entered.connect(_on_detection_area_body_entered)
 	detection_area.body_exited.connect(_on_detection_area_body_exited)
 	fire_coldown.timeout.connect(_on_cooldown_timeout)
+	pacman_powerup_timer.wait_time = pacman_powerup_duration
 	outline_material = body_anim.material
 	setup_camera()
-
 
 func _physics_process(_delta: float) -> void:
 	_process_input(_delta)
 	_process_animation()
 	_process_audio()
-	_stats_recovery(_delta)
+	_process_bars(_delta)
 
-func _stats_recovery(delta: float) -> void:
+func _process_bars(delta: float) -> void:
+	# Barra de stamina
 	if !Input.is_action_pressed("run"):
 		stamina = clamp(stamina + stamina_recovery_rate * delta, 0, max_stamina)
 		stamina_bar.value = stamina
-
+		
+	# Barra de powerup
+	powerup_bar.value = pacman_powerup_timer.time_left
 
 func set_projectile_container(container: Node):
 	projectile_container = container
@@ -92,23 +100,25 @@ func _process_input(delta: float) -> void:
 		stamina_bar.value = stamina
 	else:
 		run_speed_scale = 1.0
+	can_run = stamina_bar.value > 0
 	
 	input_vector = input_vector.normalized()
 	velocity = input_vector * speed * run_speed_scale
 	
-	var screenSize = get_viewport()
-	position.x = clamp(
-		position.x,
-		clamp_offset.x,
-		screenSize.size.x - clamp_offset.x
-	)
-	position.y = clamp(
-		position.y,
-		clamp_offset.y,
-		screenSize.size.y
-	)
-	
 	move_and_slide()
+	
+	# Limitar al jugador dentro del área de juego usando los límites de la cámara
+	if camera:
+		position.x = clamp(
+			position.x,
+			camera.limit_left + play_area_margin.x,
+			camera.limit_right - play_area_margin.x
+		)
+		position.y = clamp(
+			position.y,
+			camera.limit_top + play_area_margin.y,
+			camera.limit_bottom - play_area_margin.y
+		)
 
 
 func fire():
@@ -213,9 +223,30 @@ func _play_animation(animation: String) -> void:
 func _on_detection_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("soccer_players"):
 		near_soccer_player.emit(body)
-	elif body is Police:
-		caught_by_police.emit()
+	elif body.is_in_group("police"):
+		if is_pacman_powered_up:
+			body.queue_free()
+		else:
+			caught_by_police.emit()
+	elif body.name == "SoccerBall":
+		_on_pacman_powerup_picked()
+		body.queue_free()
 
+func _on_pacman_powerup_picked():
+	is_pacman_powered_up = true
+	pacman_powerup_timer.start()
+	var hud = get_tree().root.get_node("Main/HUD")
+	hud.show_pacman_powerup(pacman_powerup_duration)
+	powerup_bar.visible = true
+	powerup_bar.max_value = pacman_powerup_duration
+	powerup_bar.value = pacman_powerup_duration
+	goal_sfx.play()
+
+func _on_pacman_powerup_timer_timeout() -> void:
+	is_pacman_powered_up = false
+	var hud = get_tree().root.get_node("Main/HUD")
+	hud.hide_pacman_powerup()
+	powerup_bar.visible = false
 
 func _on_detection_area_body_exited(body: Node2D) -> void:
 	if body.is_in_group("soccer_players"):
@@ -268,6 +299,8 @@ func disable_camera_smooth(duration: float = 1.5) -> void:
 func reset_player_state() -> void:
 	# Resetear estado de invasión
 	is_invading = false
+	is_pacman_powered_up = false
+	body_anim.modulate = Color(1, 1, 1)
 	
 	# Resetear input y velocidad
 	input_vector = Vector2.ZERO

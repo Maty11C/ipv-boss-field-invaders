@@ -15,7 +15,6 @@ var indicator: Node2D  # Referencia al indicador
 var camera: Camera2D
 var canvas_layer: CanvasLayer
 
-
 func take_damage(damage: int) -> void:
 	health -= damage
 	if health <= 0:
@@ -24,11 +23,11 @@ func take_damage(damage: int) -> void:
 			canvas_layer.queue_free()
 		self.queue_free()
 
-
 func _ready() -> void:
 	_play_animation("idle")
 	hey_sfx.pitch_scale = randf_range(0.92, 1.15)
 	hey_sfx.play()
+	add_to_group("police")
 	
 	# Buscar la cámara en la escena
 	camera = get_viewport().get_camera_2d()
@@ -39,6 +38,10 @@ func _ready() -> void:
 		var indicator_scene = load("res://src/environment/entities/enemies/indicator.tscn")
 		if indicator_scene:
 			indicator = indicator_scene.instantiate()
+			# Cambiar el color del indicador a violeta para la policía
+			var sprite = indicator.get_node("Sprite2D")
+			if sprite:
+				sprite.modulate = Color(0.8, 0.2, 1.0)  # Violeta llamativo
 		else:
 			# Si no existe la escena, crear el nodo directamente
 			indicator = preload("res://src/environment/entities/enemies/indicator.gd").new()
@@ -76,18 +79,26 @@ func _on_screen_exited() -> void:
 func set_target(enemy: Node2D) -> void:
 	target = enemy
 
-
 func _physics_process(_delta: float) -> void:
 	if target:
-		# Aplicamos un offset en la distancia al enemigo para evitar solapamiento
-		var dist = global_position.distance_to(target.global_position)
-		var factor = clamp(dist / 200.0, 0.0, 1.0)
-		var target_position = target.global_position + offset * factor
-		var direction = (target_position - global_position).normalized()
-		
+		var direction: Vector2
+		if target.is_pacman_powered_up:
+			# Escapar del jugador
+			direction = (global_position - target.global_position).normalized()
+		else:
+			# Perseguir al jugador
+			var dist = global_position.distance_to(target.global_position)
+			var factor = clamp(dist / 200.0, 0.0, 1.0)
+			var target_position = target.global_position + offset * factor
+			direction = (target_position - global_position).normalized()
 		velocity = direction * speed
 		move_and_slide()
-		
+
+		# Limitar posición dentro de la cancha usando los límites de la cámara
+		if camera:
+			position.x = clamp(position.x, camera.limit_left, camera.limit_right)
+			position.y = clamp(position.y, camera.limit_top, camera.limit_bottom)
+
 		if abs(direction.x) > abs(direction.y):
 			anim.flip_h = direction.x < 0
 			_play_animation("walk_side")
@@ -96,11 +107,9 @@ func _physics_process(_delta: float) -> void:
 		else:
 			_play_animation("walk_back")
 
-
 func _play_animation(animation: String) -> void:
 	if anim.sprite_frames.has_animation(animation):
 		anim.play(animation)
-
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	print(body)
