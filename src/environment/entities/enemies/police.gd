@@ -1,6 +1,8 @@
 extends CharacterBody2D
 class_name Police
 
+signal police_defeated
+
 @export var speed: int = 280
 @export var health: int = 1
 @export var max_health: int = 1
@@ -18,6 +20,7 @@ var canvas_layer: CanvasLayer
 func take_damage(damage: int) -> void:
 	health -= damage
 	if health <= 0:
+		police_defeated.emit()  # Emitir señal antes de destruir
 		# Eliminar el indicador y canvas si existen
 		if canvas_layer and is_instance_valid(canvas_layer):
 			canvas_layer.queue_free()

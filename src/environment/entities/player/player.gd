@@ -225,12 +225,15 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 		near_soccer_player.emit(body)
 	elif body.is_in_group("police"):
 		if is_pacman_powered_up:
+			if body.has_signal("police_defeated"):
+				body.police_defeated.emit()  # Emitir señal antes de destruir
 			body.queue_free()
 		else:
 			caught_by_police.emit()
 	elif body.name == "SoccerBall":
 		_on_pacman_powerup_picked()
 		body.queue_free()
+
 
 func _on_pacman_powerup_picked():
 	is_pacman_powered_up = true
@@ -242,11 +245,13 @@ func _on_pacman_powerup_picked():
 	powerup_bar.value = pacman_powerup_duration
 	goal_sfx.play()
 
+
 func _on_pacman_powerup_timer_timeout() -> void:
 	is_pacman_powered_up = false
 	var hud = get_tree().root.get_node("Main/HUD")
 	hud.hide_pacman_powerup()
 	powerup_bar.visible = false
+
 
 func _on_detection_area_body_exited(body: Node2D) -> void:
 	if body.is_in_group("soccer_players"):
