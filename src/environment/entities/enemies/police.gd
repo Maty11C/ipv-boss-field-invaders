@@ -3,7 +3,7 @@ class_name Police
 
 signal police_defeated
 
-@export var speed: int = 280
+@export var speed: int = 290
 @export var health: int = 1
 @export var max_health: int = 1
 
@@ -13,6 +13,8 @@ signal police_defeated
 @onready var visibility_notifier: VisibleOnScreenNotifier2D = $VisibleOnScreenNotifier2D
 
 var target: Node2D
+var base_speed: int
+var speed_modifier: float = 1.0
 var indicator: Node2D  # Referencia al indicador
 var camera: Camera2D
 var canvas_layer: CanvasLayer
@@ -27,6 +29,7 @@ func take_damage(damage: int) -> void:
 		self.queue_free()
 
 func _ready() -> void:
+	base_speed = speed
 	_play_animation("idle")
 	hey_sfx.pitch_scale = randf_range(0.92, 1.15)
 	hey_sfx.play()
@@ -82,6 +85,9 @@ func _on_screen_exited() -> void:
 func set_target(enemy: Node2D) -> void:
 	target = enemy
 
+func set_speed_modifier(modifier: float) -> void:
+	speed_modifier = modifier
+
 func _physics_process(_delta: float) -> void:
 	if target:
 		var direction: Vector2
@@ -94,7 +100,8 @@ func _physics_process(_delta: float) -> void:
 			var factor = clamp(dist / 200.0, 0.0, 1.0)
 			var target_position = target.global_position + offset * factor
 			direction = (target_position - global_position).normalized()
-		velocity = direction * speed
+		var current_speed = base_speed * speed_modifier
+		velocity = direction * current_speed
 		move_and_slide()
 
 		# Limitar posición dentro de la cancha usando los límites de la cámara
