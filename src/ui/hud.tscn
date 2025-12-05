@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://dt6k0o713vafu"]
+[gd_scene load_steps=8 format=3 uid="uid://dt6k0o713vafu"]
 
 [ext_resource type="Script" uid="uid://cuobua60xuvxa" path="res://src/ui/hud.gd" id="1_eqvli"]
 [ext_resource type="PackedScene" uid="uid://dcef4fhvhqvk1" path="res://src/ui/main_menu.tscn" id="2_r2cn7"]
 [ext_resource type="PackedScene" uid="uid://dy1reil0uf2q" path="res://src/ui/end_menu.tscn" id="3_snmo6"]
 [ext_resource type="PackedScene" uid="uid://griirf4q52tc" path="res://src/ui/pause_menu.tscn" id="4_i4jpw"]
 [ext_resource type="PackedScene" uid="uid://bx0sfl8s8l1u7" path="res://src/ui/controls_modal.tscn" id="5_k9m5l"]
+[ext_resource type="PackedScene" uid="uid://ccb80t57p483y" path="res://src/ui/options_modal.tscn" id="6_options"]
 [ext_resource type="Texture2D" uid="uid://bjic4lrwefafc" path="res://assets/Score/Score_arg_fra.png" id="6_score"]
 
 [node name="HUD" type="CanvasLayer"]
@@ -23,6 +24,9 @@ visible = false
 visible = false
 
 [node name="ControlsModal" parent="." instance=ExtResource("5_k9m5l")]
+visible = false
+
+[node name="OptionsModal" parent="." instance=ExtResource("6_options")]
 visible = false
 
 [node name="Score" type="TextureRect" parent="."]
