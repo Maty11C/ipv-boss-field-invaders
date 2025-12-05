@@ -18,8 +18,9 @@ func show_modal() -> void:
 		pause_menu_was_visible = hud_parent.get_node("PauseMenu").visible
 		if pause_menu_was_visible:
 			hud_parent.get_node("PauseMenu").hide()
-	# Pausar el juego
-	get_tree().paused = true
+	# Pausar el juego solo si está activo
+	if hud_parent and hud_parent.has_method("is_game_active") and hud_parent.is_game_active():
+		get_tree().paused = true
 	show()
 	modal_opened.emit()
 

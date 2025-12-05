@@ -2,6 +2,7 @@ extends Control
 
 signal return_to_main_menu
 signal controls_requested
+signal options_requested
 
 var hud_parent: Node = null
 
@@ -38,3 +39,6 @@ func _on_main_menu_button_pressed() -> void:
 
 func _on_controls_button_pressed() -> void:
 	controls_requested.emit()
+
+func _on_options_button_pressed() -> void:
+	options_requested.emit()

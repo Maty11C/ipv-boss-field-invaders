@@ -73,14 +73,12 @@ theme = ExtResource("1_qoywa")
 text = "START"
 
 [node name="OptionsButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
-visible = false
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_qoywa")
 text = "OPTIONS"
 
 [node name="ControlsButton" type="Button" parent="ButtonsContainer/VBoxContainer"]
-visible = false
 layout_mode = 2
 size_flags_vertical = 6
 theme = ExtResource("1_qoywa")
@@ -115,5 +113,6 @@ grow_vertical = 0
 text = "By Matías Aduco & Matías Cabrera"
 
 [connection signal="pressed" from="ButtonsContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="ButtonsContainer/VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
 [connection signal="pressed" from="ButtonsContainer/VBoxContainer/ControlsButton" to="." method="_on_controls_button_pressed"]
 [connection signal="pressed" from="ButtonsContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
