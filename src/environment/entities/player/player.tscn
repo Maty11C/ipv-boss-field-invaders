@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://dw4kwo4qls4mc"]
+[gd_scene load_steps=34 format=3 uid="uid://dw4kwo4qls4mc"]
 
 [ext_resource type="Script" uid="uid://ca7didutkcm0g" path="res://src/environment/entities/player/player.gd" id="1_vt6n5"]
 [ext_resource type="PackedScene" uid="uid://cukqad68lldc1" path="res://src/environment/objects/projectile.tscn" id="2_0df3s"]
@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://cd16ksu21aypq" path="res://assets/Sfx/running.mp3" id="6_run"]
 [ext_resource type="AudioStream" uid="uid://ccw46ufdg0wqu" path="res://assets/Sfx/breathing.mp3" id="7_b02h6"]
 [ext_resource type="AudioStream" uid="uid://dbos20lulp0rk" path="res://assets/Sfx/goal.mp3" id="8_goal"]
+[ext_resource type="AudioStream" uid="uid://dbi0pq4my4p7y" path="res://assets/Sfx/giant_steps.mp3" id="9_06ygu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4m8ck"]
 size = Vector2(12, 18)
@@ -217,9 +218,16 @@ theme_override_styles/background = SubResource("StyleBoxFlat_sfukf")
 theme_override_styles/fill = SubResource("StyleBoxFlat_8xaql")
 show_percentage = false
 
-[node name="Running" type="AudioStreamPlayer2D" parent="."]
+[node name="Steps" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_run")
 bus = &"SFX"
+
+[node name="GiantSteps" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_06ygu")
+volume_db = 16.0
+pitch_scale = 1.5
+bus = &"SFX"
+parameters/looping = false
 
 [node name="Breathing" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_b02h6")
