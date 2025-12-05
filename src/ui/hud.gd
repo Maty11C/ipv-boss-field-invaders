@@ -39,6 +39,12 @@ func update_score(score):
 	var seconds = score % 60
 	score_time_label.text = "%02d:%02d" % [minutes, seconds]
 
+func update_home_score(score_value: int):
+	$Score/HomeScore.text = str(score_value)
+
+func update_away_score(score_value: int):
+	$Score/AwayScore.text = str(score_value)
+
 func show_score():
 	score_node.visible = true
 
