@@ -10,6 +10,7 @@ var pause_menu_was_visible: bool = false
 @onready var music_slider: HSlider = $Background/Panel/VBoxContainer/OptionsContainer/SoundSection/MusicVolume/HSlider
 @onready var ambience_slider: HSlider = $Background/Panel/VBoxContainer/OptionsContainer/SoundSection/AmbienceVolume/HSlider
 @onready var sfx_slider: HSlider = $Background/Panel/VBoxContainer/OptionsContainer/SoundSection/SFXVolume/HSlider
+@onready var comments_slider: HSlider = $Background/Panel/VBoxContainer/OptionsContainer/SoundSection/CommentsVolume/HSlider
 
 func _ready() -> void:
 	hide()
@@ -21,6 +22,7 @@ func _connect_sliders() -> void:
 	music_slider.value_changed.connect(_on_music_volume_changed)
 	ambience_slider.value_changed.connect(_on_ambience_volume_changed)
 	sfx_slider.value_changed.connect(_on_sfx_volume_changed)
+	comments_slider.value_changed.connect(_on_comments_volume_changed)
 
 func _load_volume_settings() -> void:
 	# Cargar valores actuales de los buses de audio
@@ -28,6 +30,7 @@ func _load_volume_settings() -> void:
 	music_slider.value = _db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music")))
 	ambience_slider.value = _db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Ambience")))
 	sfx_slider.value = _db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("SFX")))
+	comments_slider.value = _db_to_linear(AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Comments")))
 
 func _on_master_volume_changed(value: float) -> void:
 	_set_bus_volume("Master", value)
@@ -40,6 +43,9 @@ func _on_ambience_volume_changed(value: float) -> void:
 
 func _on_sfx_volume_changed(value: float) -> void:
 	_set_bus_volume("SFX", value)
+	
+func _on_comments_volume_changed(value: float) -> void:
+	_set_bus_volume("Comments", value)
 
 func _set_bus_volume(bus_name: String, linear_value: float) -> void:
 	var bus_idx = AudioServer.get_bus_index(bus_name)

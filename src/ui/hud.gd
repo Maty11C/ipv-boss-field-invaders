@@ -80,6 +80,7 @@ func _on_end_menu_restart_game() -> void:
 func _on_menu_return_to_main_menu() -> void:
 	game_is_active = false
 	hide_score()
+	hide_pacman_powerup()
 	main_menu.show_main_menu()
 	get_parent().return_to_main_menu()
 
