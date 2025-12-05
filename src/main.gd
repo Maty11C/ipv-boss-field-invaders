@@ -275,16 +275,13 @@ func _on_police_defeated() -> void:
 	hud.show_score_bonus(score_per_policie_defeated)
 	_update_ambience_intensity()  # Actualizar intensidad del sonido con el nuevo tiempo
 	
-<<<<<<< Updated upstream
 func _on_player_penalized() -> void:
 	score = max(0, score - score_penalty)
 	elapsed_time = max(0, elapsed_time - score_penalty)
 	hud.update_score(score)
 	hud.show_score_penalty(score_penalty)
-=======
 	# Verificar si se alcanzó algún hito de gol con estos segundos adicionales
 	_check_goal_milestones()
->>>>>>> Stashed changes
 
 #endregion
 
