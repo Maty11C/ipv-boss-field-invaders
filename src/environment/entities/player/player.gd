@@ -252,6 +252,12 @@ func _on_pacman_powerup_picked():
 	tween.set_ease(Tween.EASE_OUT)
 	tween.set_trans(Tween.TRANS_BACK)
 	tween.tween_property(self, "scale", new_scale, 0.4)
+	
+	# Reducir velocidad de todos los policías un 15%
+	var police_group = get_tree().get_nodes_in_group("police")
+	for police in police_group:
+		if police.has_method("set_speed_modifier"):
+			police.set_speed_modifier(0.2)
 
 
 func _on_pacman_powerup_timer_timeout() -> void:
@@ -260,12 +266,18 @@ func _on_pacman_powerup_timer_timeout() -> void:
 	hud.hide_pacman_powerup()
 	powerup_bar.visible = false
 	
-	# Restaurar tamaño reduciendo un 20% (dividir por 1.2)
+	# Restaurar tamaño
 	var original_scale = scale / growth_scale
 	var tween = create_tween()
 	tween.set_ease(Tween.EASE_IN_OUT)
 	tween.set_trans(Tween.TRANS_SINE)
 	tween.tween_property(self, "scale", original_scale, 0.3)
+	
+	# Restaurar velocidad normal de todos los policías
+	var police_group = get_tree().get_nodes_in_group("police")
+	for police in police_group:
+		if police.has_method("set_speed_modifier"):
+			police.set_speed_modifier(1.0)  # 100% de velocidad
 
 
 func _on_detection_area_body_exited(body: Node2D) -> void:
