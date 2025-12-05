@@ -22,6 +22,7 @@ extends CharacterBody2D
 @export var invasion_duration: int = 2 # Tiempo de duración en segundos
 @export var projectile_scene: PackedScene
 @export var pacman_powerup_duration: float = 10 # segundos
+@export var growth_scale: float = 1.4 # Escala de crecimiento al obtener powerup
 
 var input_vector: Vector2 = Vector2.ZERO
 var is_invading: bool = false
@@ -244,6 +245,13 @@ func _on_pacman_powerup_picked():
 	powerup_bar.max_value = pacman_powerup_duration
 	powerup_bar.value = pacman_powerup_duration
 	goal_sfx.play()
+	
+	# Aumentar tamaño del jugador un 20%
+	var new_scale = scale * growth_scale
+	var tween = create_tween()
+	tween.set_ease(Tween.EASE_OUT)
+	tween.set_trans(Tween.TRANS_BACK)
+	tween.tween_property(self, "scale", new_scale, 0.4)
 
 
 func _on_pacman_powerup_timer_timeout() -> void:
@@ -251,6 +259,13 @@ func _on_pacman_powerup_timer_timeout() -> void:
 	var hud = get_tree().root.get_node("Main/HUD")
 	hud.hide_pacman_powerup()
 	powerup_bar.visible = false
+	
+	# Restaurar tamaño reduciendo un 20% (dividir por 1.2)
+	var original_scale = scale / growth_scale
+	var tween = create_tween()
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.tween_property(self, "scale", original_scale, 0.3)
 
 
 func _on_detection_area_body_exited(body: Node2D) -> void:
