@@ -42,7 +42,17 @@ var score_multiplier = 1
 var timer_normal_wait_time = 1.0
 var near_player_bonus = false
 var current_bonus_soccer_player = null
-var current_soccer_balls_count: int = 0 # Cantidad actual de pelotas en juego
+var current_soccer_balls_count: int = 0  # Cantidad actual de pelotas en juego
+
+# Variables para rastrear los goles
+var home_goals: int = 0
+var away_goals: int = 0
+var home_goal_23_reached: bool = false
+var home_goal_36_reached: bool = false
+var home_goal_108_reached: bool = false
+var away_goal_80_reached: bool = false
+var away_goal_81_reached: bool = false
+var away_goal_118_reached: bool = false
 
 signal open_loser_hud
 
@@ -86,8 +96,21 @@ func clean_game():
 	near_player_bonus = false
 	current_bonus_soccer_player = null
 	elapsed_time = 0.0
-	current_soccer_balls_count = 0 # Resetear contador de pelotas
-	hud.hide_timer_powerup() # Ocultar indicador de power-up
+	current_soccer_balls_count = 0  # Resetear contador de pelotas
+	
+	# Resetear todos los goles
+	home_goals = 0
+	away_goals = 0
+	home_goal_23_reached = false
+	home_goal_36_reached = false
+	home_goal_108_reached = false
+	away_goal_80_reached = false
+	away_goal_81_reached = false
+	away_goal_118_reached = false
+	
+	hud.hide_timer_powerup()  # Ocultar indicador de power-up
+	hud.update_home_score(0)  # Resetear HomeScore a 0
+	hud.update_away_score(0)  # Resetear AwayScore a 0
 	player.disable_outline_shader()
 	score_timer.stop()
 	enemy_timer.stop()
@@ -171,6 +194,41 @@ func _on_score_timer_timeout() -> void:
 	hud.update_score(score)
 	elapsed_time += 1.0
 	_update_ambience_intensity()
+	
+	_check_goal_milestones()
+
+func _check_goal_milestones() -> void:
+	# Goles del equipo local (Home/ARG) en minutos 23, 36 y 108
+	if elapsed_time >= 1380 and not home_goal_23_reached:  # 23 minutos = 1380 segundos
+		home_goal_23_reached = true
+		home_goals += 1
+		hud.update_home_score(home_goals)
+	
+	if elapsed_time >= 2160 and not home_goal_36_reached:  # 36 minutos = 2160 segundos
+		home_goal_36_reached = true
+		home_goals += 1
+		hud.update_home_score(home_goals)
+	
+	if elapsed_time >= 6480 and not home_goal_108_reached:  # 108 minutos = 6480 segundos
+		home_goal_108_reached = true
+		home_goals += 1
+		hud.update_home_score(home_goals)
+	
+	# Goles del equipo visitante (Away/FRA) en minutos 80, 81 y 118
+	if elapsed_time >= 4800 and not away_goal_80_reached:  # 80 minutos = 4800 segundos
+		away_goal_80_reached = true
+		away_goals += 1
+		hud.update_away_score(away_goals)
+	
+	if elapsed_time >= 4860 and not away_goal_81_reached:  # 81 minutos = 4860 segundos
+		away_goal_81_reached = true
+		away_goals += 1
+		hud.update_away_score(away_goals)
+	
+	if elapsed_time >= 7080 and not away_goal_118_reached:  # 118 minutos = 7080 segundos
+		away_goal_118_reached = true
+		away_goals += 1
+		hud.update_away_score(away_goals)
 
 
 func _on_enemy_timer_timeout() -> void:
@@ -227,6 +285,8 @@ func _on_player_penalized() -> void:
 	elapsed_time = max(0, elapsed_time - score_penalty)
 	hud.update_score(score)
 	hud.show_score_penalty(score_penalty)
+	# Verificar si se alcanzó algún hito de gol con estos segundos adicionales
+	_check_goal_milestones()
 
 #endregion
 
