@@ -31,10 +31,10 @@ visible = false
 
 [node name="Score" type="TextureRect" parent="."]
 visible = false
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 741.5
-offset_bottom = 60.0
+offset_left = 36.0
+offset_top = 40.000004
+offset_right = 757.5
+offset_bottom = 80.0
 scale = Vector2(0.9, 0.9)
 texture = ExtResource("6_score")
 expand_mode = 1
@@ -44,6 +44,7 @@ layout_mode = 0
 offset_right = 110.0
 offset_bottom = 30.0
 scale = Vector2(1.5, 1.5)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 text = "00:00"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -55,6 +56,7 @@ offset_top = 9.0
 offset_right = 335.33334
 offset_bottom = 27.000002
 scale = Vector2(1.5, 1.5)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 text = "ARG"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -66,6 +68,7 @@ offset_top = 9.0
 offset_right = 589.3334
 offset_bottom = 27.000002
 scale = Vector2(1.5, 1.5)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 text = "FRA"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -76,14 +79,33 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -721.5
-offset_top = 48.75
+offset_top = 40.972157
 offset_right = -534.0
-offset_bottom = 80.416664
+offset_bottom = 72.638824
 grow_horizontal = 0
 scale = Vector2(1.5, 1.5)
 theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 text = "¡Timer x2!"
 vertical_alignment = 1
+
+[node name="TimeModifierLabel" type="Label" parent="Score"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -635.9445
+offset_top = -33.33333
+offset_right = -595.9445
+offset_bottom = -12.777771
+grow_horizontal = 0
+scale = Vector2(1.5, 1.5)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimerTimeModifier" type="Timer" parent="Score"]
+one_shot = true
 
 [node name="PacmanPowerup" type="Control" parent="."]
 visible = false
@@ -104,5 +126,8 @@ offset_bottom = 54.666664
 grow_horizontal = 0
 scale = Vector2(1.5, 1.5)
 theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 text = "Pacman Powerup!"
 vertical_alignment = 1
+
+[connection signal="timeout" from="Score/TimerTimeModifier" to="." method="_on_timer_time_modifier_timeout"]

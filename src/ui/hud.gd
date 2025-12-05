@@ -3,6 +3,8 @@ extends CanvasLayer
 @onready var score_node: Control = $Score
 @onready var score_time_label: Label = $Score/TimeLabel
 @onready var score_powerup_label: Label = $Score/PowerupLabel
+@onready var time_modifier_label: Label = $Score/TimeModifierLabel
+@onready var timer_time_modifier: Timer = $Score/TimerTimeModifier
 @onready var main_menu: Control = $MainMenu
 @onready var end_menu: Control = $EndMenu
 @onready var pause_menu: Control = $PauseMenu
@@ -119,3 +121,21 @@ func _on_options_modal_opened() -> void:
 
 func _on_options_modal_closed() -> void:
 	pass
+
+func show_score_bonus(bonus) -> void:
+	score_time_label.add_theme_color_override("font_color", Color.YELLOW)
+	time_modifier_label.add_theme_color_override("font_color", Color.YELLOW)
+	time_modifier_label.text = "+" + str(bonus)
+	time_modifier_label.show()
+	timer_time_modifier.start()
+	
+func show_score_penalty(penalty) -> void:
+	score_time_label.add_theme_color_override("font_color", Color.RED)
+	time_modifier_label.add_theme_color_override("font_color", Color.RED)
+	time_modifier_label.text = "-" + str(penalty)
+	time_modifier_label.show()
+	timer_time_modifier.start()
+
+func _on_timer_time_modifier_timeout() -> void:
+	score_time_label.add_theme_color_override("font_color", Color.WHITE)
+	time_modifier_label.hide()

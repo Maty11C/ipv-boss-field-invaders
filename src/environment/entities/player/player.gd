@@ -7,7 +7,8 @@ extends CharacterBody2D
 @onready var camera: Camera2D = $Camera2D
 @onready var stamina_bar: ProgressBar = $ProgressBar
 @onready var powerup_bar: ProgressBar = $PowerupBar
-@onready var running_sfx: AudioStreamPlayer2D = $Running
+@onready var steps_sfx: AudioStreamPlayer2D = $Steps
+@onready var giant_steps_sfx: AudioStreamPlayer2D = $GiantSteps
 @onready var breathing_sfx: AudioStreamPlayer2D = $Breathing
 @onready var goal_sfx: AudioStreamPlayer2D = $Goal
 @onready var fire_position: Marker2D = $FirePosition
@@ -34,6 +35,7 @@ var can_fire: bool = true
 var can_run: bool
 var game_active: bool = false
 var outline_material: Material
+var current_steps_sfx: AudioStreamPlayer2D
 
 signal invasion_finished
 signal near_soccer_player(soccer_player: Node2D)
@@ -48,6 +50,7 @@ func _ready() -> void:
 	pacman_powerup_timer.wait_time = pacman_powerup_duration
 	outline_material = body_anim.material
 	setup_camera()
+	current_steps_sfx = steps_sfx
 
 func _physics_process(_delta: float) -> void:
 	_process_input(_delta)
@@ -163,12 +166,12 @@ func _process_audio() -> void:
 		return
 
 	if input_vector != Vector2.ZERO:
-		running_sfx.pitch_scale = 1.2 if Input.is_action_pressed("run") else 1.0
-		if not running_sfx.playing:
-			running_sfx.play()
+		current_steps_sfx.pitch_scale = 1.2 if Input.is_action_pressed("run") else 1.0
+		if not current_steps_sfx.playing:
+			current_steps_sfx.play()
 	else:
-		if running_sfx.playing:
-			running_sfx.stop()
+		if current_steps_sfx.playing:
+			current_steps_sfx.stop()
 
 	if stamina_bar.value < max_stamina and !Input.is_action_pressed("run"):
 		if not breathing_sfx.playing:
@@ -180,8 +183,8 @@ func _process_audio() -> void:
 func start_invasion(target_position: Vector2):
 	is_invading = true
 	
-	if not running_sfx.playing:
-		running_sfx.play()
+	if not steps_sfx.playing:
+		steps_sfx.play()
 
 	# Elegir un lateral aleatorio para la invasión
 	var screen_size = get_viewport().get_visible_rect().size
@@ -211,8 +214,8 @@ func finish_invasion():
 	is_invading = false
 	_play_animation("idle")
 	set_physics_process(true)
-	if running_sfx.playing:
-		running_sfx.stop()
+	if steps_sfx.playing:
+		steps_sfx.stop()
 	invasion_finished.emit()
 
 
@@ -245,14 +248,17 @@ func _on_pacman_powerup_picked():
 	powerup_bar.max_value = pacman_powerup_duration
 	powerup_bar.value = pacman_powerup_duration
 	goal_sfx.play()
-	
+
+	# Cambiar SFX de pasos a gigante
+	current_steps_sfx = giant_steps_sfx
+
 	# Aumentar tamaño del jugador un 20%
 	var new_scale = scale * growth_scale
 	var tween = create_tween()
 	tween.set_ease(Tween.EASE_OUT)
 	tween.set_trans(Tween.TRANS_BACK)
 	tween.tween_property(self, "scale", new_scale, 0.4)
-	
+
 	# Reducir velocidad de todos los policías un 15%
 	var police_group = get_tree().get_nodes_in_group("police")
 	for police in police_group:
@@ -265,14 +271,18 @@ func _on_pacman_powerup_timer_timeout() -> void:
 	var hud = get_tree().root.get_node("Main/HUD")
 	hud.hide_pacman_powerup()
 	powerup_bar.visible = false
-	
+	giant_steps_sfx.stop()
+
+	# Restaurar SFX de pasos a normal
+	current_steps_sfx = steps_sfx
+
 	# Restaurar tamaño
 	var original_scale = scale / growth_scale
 	var tween = create_tween()
 	tween.set_ease(Tween.EASE_IN_OUT)
 	tween.set_trans(Tween.TRANS_SINE)
 	tween.tween_property(self, "scale", original_scale, 0.3)
-	
+
 	# Restaurar velocidad normal de todos los policías
 	var police_group = get_tree().get_nodes_in_group("police")
 	for police in police_group:
@@ -348,8 +358,10 @@ func reset_player_state() -> void:
 		fire_coldown.stop()
 	
 	# Parar sonidos
-	if running_sfx.playing:
-		running_sfx.stop()
+	if steps_sfx.playing:
+		steps_sfx.stop()
+	if giant_steps_sfx.playing:
+		giant_steps_sfx.stop()
 	if breathing_sfx.playing:
 		breathing_sfx.stop()
 	
