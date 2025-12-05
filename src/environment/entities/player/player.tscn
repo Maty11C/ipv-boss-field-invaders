@@ -245,6 +245,7 @@ position = Vector2(0, -6.666667)
 [node name="FireColdown" type="Timer" parent="."]
 
 [node name="PacmanPowerupTimer" type="Timer" parent="."]
+wait_time = 2.0
 one_shot = true
 
 [connection signal="timeout" from="PacmanPowerupTimer" to="." method="_on_pacman_powerup_timer_timeout"]

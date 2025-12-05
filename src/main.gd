@@ -27,6 +27,7 @@ extends Node
 @export var max_soccer_balls: int = 1  # Máximo de pelotas que pueden estar en juego
 @export var score_per_soccer_ball: int = 10  # Puntos por cada pelota recogida
 @export var score_per_policie_defeated: int = 5  # Puntos por cada policía derrotado
+@export var score_penalty: int = 10 # Puntos a restar
 
 # Intensificación del ambiente durante el juego
 const AMBIENCE_GAME_START_DB := -10.0 # Comienza más bajo al iniciar la partida
@@ -67,6 +68,8 @@ func new_game():
 	player.near_soccer_player.connect(_on_player_near_soccer_player)
 	player.left_soccer_player.connect(_on_player_left_soccer_player)
 	player.caught_by_police.connect(game_over)
+	for sp in get_tree().get_nodes_in_group("soccer_players"):
+		sp.player_penalized.connect(_on_player_penalized)
 	
 	# Animación de invasión del jugador al centro de la cancha
 	var screen_size = get_viewport().get_visible_rect().size
@@ -211,7 +214,14 @@ func _on_police_defeated() -> void:
 	score += score_per_policie_defeated
 	elapsed_time += score_per_policie_defeated  # Sumar 5 segundos al tiempo transcurrido
 	hud.update_score(score)
+	hud.show_score_bonus(score_per_policie_defeated)
 	_update_ambience_intensity()  # Actualizar intensidad del sonido con el nuevo tiempo
+	
+func _on_player_penalized() -> void:
+	score = max(0, score - score_penalty)
+	elapsed_time = max(0, elapsed_time - score_penalty)
+	hud.update_score(score)
+	hud.show_score_penalty(score_penalty)
 
 #endregion
 
