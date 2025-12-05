@@ -32,9 +32,9 @@ visible = false
 [node name="Score" type="TextureRect" parent="."]
 visible = false
 offset_left = 20.0
-offset_top = 20.0
+offset_top = 40.000004
 offset_right = 741.5
-offset_bottom = 60.0
+offset_bottom = 80.0
 scale = Vector2(0.9, 0.9)
 texture = ExtResource("6_score")
 expand_mode = 1

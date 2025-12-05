@@ -237,7 +237,7 @@ bus = &"SFX"
 [node name="Goal" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8_goal")
 volume_db = -16.0
-bus = &"SFX"
+bus = &"Ambience"
 
 [node name="FirePosition" type="Marker2D" parent="."]
 position = Vector2(0, -6.666667)
