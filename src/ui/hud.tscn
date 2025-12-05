@@ -30,6 +30,7 @@ visible = false
 visible = false
 
 [node name="Score" type="TextureRect" parent="."]
+visible = false
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 741.5
