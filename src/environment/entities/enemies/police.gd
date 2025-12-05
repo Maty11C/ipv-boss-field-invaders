@@ -41,10 +41,10 @@ func _ready() -> void:
 		var indicator_scene = load("res://src/environment/entities/enemies/indicator.tscn")
 		if indicator_scene:
 			indicator = indicator_scene.instantiate()
-			# Cambiar el color del indicador a violeta para la policía
+			# Cambiar el color del indicador a rojo para la policía
 			var sprite = indicator.get_node("Sprite2D")
 			if sprite:
-				sprite.modulate = Color(0.8, 0.2, 1.0)  # Violeta llamativo
+				sprite.modulate = Color.RED
 		else:
 			# Si no existe la escena, crear el nodo directamente
 			indicator = preload("res://src/environment/entities/enemies/indicator.gd").new()
