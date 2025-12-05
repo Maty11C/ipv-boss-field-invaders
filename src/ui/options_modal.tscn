@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://ccb80t57p483y"]
 
-[ext_resource type="Script" path="res://src/ui/options_modal.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://cau5uslvyfff4" path="res://src/ui/options_modal.gd" id="1_script"]
 [ext_resource type="Theme" uid="uid://dxo350gmmg0af" path="res://src/ui/hud.tres" id="1_theme"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
@@ -101,8 +101,6 @@ text = "Master Volume"
 [node name="HSlider" type="HSlider" parent="Background/Panel/VBoxContainer/OptionsContainer/SoundSection/MasterVolume"]
 layout_mode = 2
 theme = ExtResource("1_theme")
-min_value = 0.0
-max_value = 100.0
 value = 100.0
 
 [node name="Spacer2" type="Control" parent="Background/Panel/VBoxContainer/OptionsContainer/SoundSection"]
@@ -120,8 +118,6 @@ text = "Music Volume"
 [node name="HSlider" type="HSlider" parent="Background/Panel/VBoxContainer/OptionsContainer/SoundSection/MusicVolume"]
 layout_mode = 2
 theme = ExtResource("1_theme")
-min_value = 0.0
-max_value = 100.0
 value = 100.0
 
 [node name="Spacer3" type="Control" parent="Background/Panel/VBoxContainer/OptionsContainer/SoundSection"]
@@ -139,8 +135,6 @@ text = "Ambience Volume"
 [node name="HSlider" type="HSlider" parent="Background/Panel/VBoxContainer/OptionsContainer/SoundSection/AmbienceVolume"]
 layout_mode = 2
 theme = ExtResource("1_theme")
-min_value = 0.0
-max_value = 100.0
 value = 100.0
 
 [node name="Spacer4" type="Control" parent="Background/Panel/VBoxContainer/OptionsContainer/SoundSection"]
@@ -158,11 +152,25 @@ text = "SFX Volume"
 [node name="HSlider" type="HSlider" parent="Background/Panel/VBoxContainer/OptionsContainer/SoundSection/SFXVolume"]
 layout_mode = 2
 theme = ExtResource("1_theme")
-min_value = 0.0
-max_value = 100.0
+value = 100.0
+
+[node name="Spacer5" type="Control" parent="Background/Panel/VBoxContainer/OptionsContainer/SoundSection"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+
+[node name="CommentsVolume" type="VBoxContainer" parent="Background/Panel/VBoxContainer/OptionsContainer/SoundSection"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Background/Panel/VBoxContainer/OptionsContainer/SoundSection/CommentsVolume"]
+layout_mode = 2
+theme = ExtResource("1_theme")
+text = "Comments Volume"
+
+[node name="HSlider" type="HSlider" parent="Background/Panel/VBoxContainer/OptionsContainer/SoundSection/CommentsVolume"]
+layout_mode = 2
+theme = ExtResource("1_theme")
 value = 100.0
 
 [connection signal="gui_input" from="." to="." method="_gui_input"]
 [connection signal="gui_input" from="Background/Panel" to="." method="_on_panel_gui_input"]
 [connection signal="pressed" from="Background/Panel/VBoxContainer/Header/CloseButton" to="." method="_on_close_button_pressed"]
-

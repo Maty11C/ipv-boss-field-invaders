@@ -1,5 +1,6 @@
 extends Node
 
+@onready var invasion_audio: AudioStreamPlayer = $Invasion
 @onready var stadium_ambience_audio: AudioStreamPlayer = $StadiumAmbience
 @onready var boo_audio: AudioStreamPlayer = $Boo
 @onready var referee_whistle: AudioStreamPlayer = $RefereeWhistle
@@ -76,6 +77,8 @@ func new_game():
 	var player_final_position = screen_size / 2
 	player.start_invasion(player_final_position)
 
+	# Iniciar el relato
+	invasion_audio.play()
 
 func clean_game():
 	score = 0
@@ -155,8 +158,10 @@ func _on_invasion_finished():
 	var initial_wait = randf_range(soccer_ball_min_spawn_time, soccer_ball_max_spawn_time)
 	soccer_ball_timer.wait_time = initial_wait
 	soccer_ball_timer.start()
-
-
+	
+	# Parar el relato
+	#invasion_audio.stop()
+	
 func _on_start_timer_timeout() -> void:
 	score_timer.start()
 
