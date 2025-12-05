@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bkefx6hbpc5sk"
-path="res://.godot/imported/chevron.png-7911642de4f50fc0afe019f48541385b.ctex"
+path="res://.godot/imported/chevron.png-c3432b34562d94f0e1e5281fafe252a2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/environment/entities/enemies/chevron.png"
-dest_files=["res://.godot/imported/chevron.png-7911642de4f50fc0afe019f48541385b.ctex"]
+source_file="res://assets/chevron.png"
+dest_files=["res://.godot/imported/chevron.png-c3432b34562d94f0e1e5281fafe252a2.ctex"]
 
 [params]
 

@@ -22,9 +22,11 @@ extends Node
 @export var camera_smooth_duration: float = 3 # Tiempo en segundos de animación de cámara enfocando al player
 
 @export var soccer_ball_scene: PackedScene
-@export var soccer_ball_min_spawn_time: float = 10.0 # Tiempo mínimo de respawn en segundos
-@export var soccer_ball_max_spawn_time: float = 20.0 # Tiempo máximo de respawn en segundos
-@export var max_soccer_balls: int = 1 # Máximo de pelotas que pueden estar en juego
+@export var soccer_ball_min_spawn_time: float = 10.0  # Tiempo mínimo de respawn en segundos
+@export var soccer_ball_max_spawn_time: float = 20.0  # Tiempo máximo de respawn en segundos
+@export var max_soccer_balls: int = 1  # Máximo de pelotas que pueden estar en juego
+@export var score_per_soccer_ball: int = 10  # Puntos por cada pelota recogida
+@export var score_per_policie_defeated: int = 5  # Puntos por cada policía derrotado
 
 # Intensificación del ambiente durante el juego
 const AMBIENCE_GAME_START_DB := -10.0 # Comienza más bajo al iniciar la partida
@@ -70,7 +72,8 @@ func new_game():
 	var screen_size = get_viewport().get_visible_rect().size
 	var player_final_position = screen_size / 2
 	player.start_invasion(player_final_position)
-	
+
+
 func clean_game():
 	score = 0
 	score_multiplier = 1
@@ -99,6 +102,7 @@ func clean_game():
 	for projectile in projectiles:
 		projectile.queue_free()
 
+
 func game_over() -> void:
 	player.set_game_active(false) # Desactivar inputs del jugador
 	player.disable_camera_smooth(1)
@@ -108,15 +112,18 @@ func game_over() -> void:
 	clean_game()
 	open_loser_hud.emit()
 
+
 func setup_sounds() -> void:
 	stadium_ambience_audio.bus = "Ambience"
 	boo_audio.bus = "SFX"
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Ambience"), -20.0) # Se inicia el sonido ambiente en volumen bajo
 	stadium_ambience_audio.play()
 
+
 func stop_boo_sound() -> void:
 	if boo_audio.playing:
 		boo_audio.stop()
+
 
 func return_to_main_menu() -> void:
 	player.set_game_active(false) # Desactivar inputs del jugador
@@ -134,7 +141,8 @@ func _on_hud_start_game() -> void:
 	if boo_audio.playing:
 		boo_audio.stop()
 	new_game()
-	
+
+
 func _on_invasion_finished():
 	player.enable_camera_smooth(camera_smooth_duration)
 	start_timer.start()
@@ -145,14 +153,17 @@ func _on_invasion_finished():
 	soccer_ball_timer.wait_time = initial_wait
 	soccer_ball_timer.start()
 
+
 func _on_start_timer_timeout() -> void:
 	score_timer.start()
+
 
 func _on_score_timer_timeout() -> void:
 	score += score_multiplier
 	hud.update_score(score)
 	elapsed_time += 1.0
 	_update_ambience_intensity()
+
 
 func _on_enemy_timer_timeout() -> void:
 	# No spawnear policías si el player tiene el power-up activo
@@ -163,6 +174,9 @@ func _on_enemy_timer_timeout() -> void:
 	enemy_spawn_location.progress_ratio = randf()
 	enemy.position = enemy_spawn_location.position
 	enemy.set_target(player)
+	# Conectar señal para sumar puntos cuando el policía sea eliminado
+	if enemy.has_signal("police_defeated"):
+		enemy.police_defeated.connect(_on_police_defeated)
 	enemies_node.add_child(enemy)
 	
 	var time = min(elapsed_time, spawn_acceleration_time)
@@ -182,6 +196,7 @@ func _on_player_near_soccer_player(soccer_player: Node2D) -> void:
 		hud.show_timer_powerup()
 		player.enable_outline_shader()
 
+
 func _on_player_left_soccer_player(soccer_player: Node2D) -> void:
 	if near_player_bonus and current_bonus_soccer_player == soccer_player:
 		near_player_bonus = false
@@ -189,6 +204,14 @@ func _on_player_left_soccer_player(soccer_player: Node2D) -> void:
 		score_timer.wait_time = timer_normal_wait_time
 		player.disable_outline_shader()
 		hud.hide_timer_powerup()
+
+
+func _on_police_defeated() -> void:
+	# Sumar 5 segundos al score cuando se elimina un policía
+	score += score_per_policie_defeated
+	elapsed_time += score_per_policie_defeated  # Sumar 5 segundos al tiempo transcurrido
+	hud.update_score(score)
+	_update_ambience_intensity()  # Actualizar intensidad del sonido con el nuevo tiempo
 
 #endregion
 
