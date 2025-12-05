@@ -6,6 +6,7 @@ const Audio = preload("res://src/utils/audio.gd")
 
 signal start_game
 signal controls_requested
+signal options_requested
 
 func _ready() -> void:
 	music.bus = "Music"
@@ -28,3 +29,7 @@ func _on_controls_button_pressed() -> void:
 
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()
+
+
+func _on_options_button_pressed() -> void:
+	options_requested.emit()

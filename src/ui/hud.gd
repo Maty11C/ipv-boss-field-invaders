@@ -9,6 +9,7 @@ extends CanvasLayer
 @onready var end_menu: Control = $EndMenu
 @onready var pause_menu: Control = $PauseMenu
 @onready var controls_modal: Control = $ControlsModal
+@onready var options_modal: Control = $OptionsModal
 @onready var pacman_powerup: Node = $PacmanPowerup
 
 signal start_game
@@ -20,13 +21,18 @@ func _ready() -> void:
 	# Conectar las señales del MainMenu y EndMenu
 	main_menu.start_game.connect(_on_main_menu_start_game)
 	main_menu.controls_requested.connect(_on_main_menu_controls_requested)
+	main_menu.options_requested.connect(_on_main_menu_options_requested)
 	end_menu.restart_game.connect(_on_end_menu_restart_game)
 	end_menu.return_to_main_menu.connect(_on_menu_return_to_main_menu)
 	pause_menu.return_to_main_menu.connect(_on_menu_return_to_main_menu)
 	pause_menu.controls_requested.connect(_on_pause_menu_controls_requested)
+	pause_menu.options_requested.connect(_on_pause_menu_options_requested)
 	# Conectar señales del modal de controles
 	controls_modal.modal_opened.connect(_on_controls_modal_opened)
 	controls_modal.modal_closed.connect(_on_controls_modal_closed)
+	# Conectar señales del modal de opciones
+	options_modal.modal_opened.connect(_on_options_modal_opened)
+	options_modal.modal_closed.connect(_on_options_modal_closed)
 
 func update_score(score):
 	var minutes = score / 60
@@ -96,7 +102,26 @@ func _on_controls_modal_closed() -> void:
 		start_game.emit()
 		show_score()
 		pending_start_game = false
-		
+
+func show_options_modal() -> void:
+	options_modal.show_modal()
+
+func is_options_modal_visible() -> bool:
+	return options_modal.visible
+
+func _on_main_menu_options_requested() -> void:
+	show_options_modal()
+
+func _on_pause_menu_options_requested() -> void:
+	show_options_modal()
+
+func _on_options_modal_opened() -> void:
+	# El modal se encarga de ocultar el pause menu si es necesario
+	pass
+
+func _on_options_modal_closed() -> void:
+	pass
+
 func show_score_bonus(bonus) -> void:
 	score_time_label.add_theme_color_override("font_color", Color.YELLOW)
 	time_modifier_label.add_theme_color_override("font_color", Color.YELLOW)
