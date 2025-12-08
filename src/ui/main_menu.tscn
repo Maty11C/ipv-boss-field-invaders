@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dcef4fhvhqvk1"]
 
 [ext_resource type="Script" uid="uid://fojntspdqrij" path="res://src/ui/main_menu.gd" id="1_f0s2b"]
-[ext_resource type="Theme" uid="uid://dxo350gmmg0af" path="res://src/ui/hud.tres" id="1_qoywa"]
+[ext_resource type="Theme" uid="uid://b8j4k2n1m0p" path="res://src/ui/hud.tres" id="1_qoywa"]
 [ext_resource type="AudioStream" uid="uid://doejvlcnottdm" path="res://assets/UI/Muchachos 8-bit simple.wav" id="2_5mgu5"]
 [ext_resource type="Texture2D" uid="uid://8oksjvw0la3e" path="res://assets/UI/field_invaders_title.png" id="5_h03rr"]
 
@@ -104,6 +104,7 @@ offset_right = -14.0
 offset_bottom = -15.0
 grow_horizontal = 0
 grow_vertical = 0
+theme = ExtResource("1_qoywa")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 text = "By Matías Aduco & Matías Cabrera"
 
