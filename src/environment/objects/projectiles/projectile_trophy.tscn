@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://rwdwhl1my170"]
+
+[ext_resource type="PackedScene" uid="uid://dw0m636ojn622" path="res://src/abstract_projectile.tscn" id="1"]
+[ext_resource type="Texture2D" uid="uid://c5oobbwd0p8s4" path="res://assets/Objects/Projectils/Trophy.png" id="2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e0rt2"]
+size = Vector2(36, 44)
+
+[node name="Projectile" instance=ExtResource("1")]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2")
+
+[node name="Area2D" type="Area2D" parent="." index="1"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" index="0"]
+shape = SubResource("RectangleShape2D_e0rt2")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_enemy_entered"]

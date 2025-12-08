@@ -26,6 +26,20 @@ extends CharacterBody2D
 @export var growth_scale: float = 1.4 # Escala de crecimiento al obtener powerup
 
 var input_vector: Vector2 = Vector2.ZERO
+var projectile_scenes := [
+	"res://src/environment/objects/projectiles/projectile_empanada.tscn",
+	"res://src/environment/objects/projectiles/projectile_cerveza.tscn",
+	"res://src/environment/objects/projectiles/projectile_choripan.tscn",
+	"res://src/environment/objects/projectiles/projectile_ferne.tscn",
+	"res://src/environment/objects/projectiles/projectile_gaseosa_cola.tscn",
+	"res://src/environment/objects/projectiles/projectile_gaseosa_cola_marca.tscn",
+	"res://src/environment/objects/projectiles/projectile_mate.tscn",
+	"res://src/environment/objects/projectiles/projectile_shovel.tscn",
+	"res://src/environment/objects/projectiles/projectile_sneaker.tscn",
+	"res://src/environment/objects/projectiles/projectile_soda_sifon_azul.tscn",
+	"res://src/environment/objects/projectiles/projectile_tetra_tinto.tscn",
+	"res://src/environment/objects/projectiles/projectile_trophy.tscn"
+]
 var is_invading: bool = false
 var is_pacman_powered_up: bool = false
 var run_speed_scale: float = 1.0
@@ -126,15 +140,20 @@ func _process_input(delta: float) -> void:
 
 
 func fire():
-	var projectile_instance: Projectile = projectile_scene.instantiate()
-	projectile_container.add_child(projectile_instance)
-	projectile_instance.set_starting_values(
-		fire_position.global_position,
-		(get_global_mouse_position() - global_position).normalized()
-	)
-	projectile_instance.delete_requested.connect(_on_projectile_delete_requested)
-	can_fire = false
-	fire_coldown.start()
+	# Elegir escena aleatoria de proyectil
+	var scene_path = projectile_scenes[randi() % projectile_scenes.size()]
+	var proj_scene = load(scene_path)
+	if proj_scene:
+		var projectile_instance = proj_scene.instantiate()
+		projectile_container.add_child(projectile_instance)
+		if projectile_instance.has_method("set_starting_values"):
+			projectile_instance.set_starting_values(
+				fire_position.global_position,
+				(get_global_mouse_position() - global_position).normalized()
+			)
+		projectile_instance.delete_requested.connect(_on_projectile_delete_requested)
+		can_fire = false
+		fire_coldown.start()
 
 
 func _on_projectile_delete_requested(projectile):
