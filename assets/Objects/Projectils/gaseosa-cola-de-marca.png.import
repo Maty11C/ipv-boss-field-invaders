@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqv6vo0n6585m"
-path="res://.godot/imported/sneaker.png-70d22ac8259e887e2858a9956b6051e8.ctex"
+uid="uid://roufbo8mxc2p"
+path="res://.godot/imported/gaseosa-cola-de-marca.png-bd98f996a03b7a46d584c556328119ba.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Entities/Player/sneaker.png"
-dest_files=["res://.godot/imported/sneaker.png-70d22ac8259e887e2858a9956b6051e8.ctex"]
+source_file="res://assets/Objects/Projectils/gaseosa-cola-de-marca.png"
+dest_files=["res://.godot/imported/gaseosa-cola-de-marca.png-bd98f996a03b7a46d584c556328119ba.ctex"]
 
 [params]
 
