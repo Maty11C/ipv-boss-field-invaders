@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://hlwedpo03fav"]
 
 [ext_resource type="Script" uid="uid://5lddg8gqjk0h" path="res://src/environment/entities/enemies/indicator.gd" id="1_indicator"]
-[ext_resource type="Texture2D" uid="uid://d1p2uku4tfnnm" path="res://assets/Indicator/white_arrow.png" id="2_ow4h4"]
+[ext_resource type="Texture2D" uid="uid://d1p2uku4tfnnm" path="res://assets/UI/Indicator/white_arrow.png" id="2_ow4h4"]
 
 [node name="Indicator" type="Node2D"]
 z_index = 100

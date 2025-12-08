@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://griirf4q52tc" path="res://src/ui/pause_menu.tscn" id="4_i4jpw"]
 [ext_resource type="PackedScene" uid="uid://bx0sfl8s8l1u7" path="res://src/ui/controls_modal.tscn" id="5_k9m5l"]
 [ext_resource type="PackedScene" uid="uid://ccb80t57p483y" path="res://src/ui/options_modal.tscn" id="6_options"]
-[ext_resource type="Texture2D" uid="uid://bjic4lrwefafc" path="res://assets/Score/Score_arg_fra.png" id="6_score"]
+[ext_resource type="Texture2D" uid="uid://bjic4lrwefafc" path="res://assets/UI/Score/Score_arg_fra.png" id="6_score"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_eqvli")

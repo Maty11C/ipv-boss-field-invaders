@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://fojntspdqrij" path="res://src/ui/main_menu.gd" id="1_f0s2b"]
 [ext_resource type="Theme" uid="uid://dxo350gmmg0af" path="res://src/ui/hud.tres" id="1_qoywa"]
-[ext_resource type="AudioStream" uid="uid://boj4au3yx4yfd" path="res://assets/Free Football Assets/Muchachos 8-bit simple.wav" id="2_5mgu5"]
-[ext_resource type="Texture2D" uid="uid://8oksjvw0la3e" path="res://assets/field_invaders_title.png" id="5_h03rr"]
+[ext_resource type="AudioStream" uid="uid://doejvlcnottdm" path="res://assets/UI/Muchachos 8-bit simple.wav" id="2_5mgu5"]
+[ext_resource type="Texture2D" uid="uid://8oksjvw0la3e" path="res://assets/UI/field_invaders_title.png" id="5_h03rr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r2cn7"]
 draw_center = false
