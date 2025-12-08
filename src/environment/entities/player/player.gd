@@ -272,6 +272,7 @@ func _on_pacman_powerup_timer_timeout() -> void:
 	hud.hide_pacman_powerup()
 	powerup_bar.visible = false
 	giant_steps_sfx.stop()
+	goal_sfx.stop()
 
 	# Restaurar SFX de pasos a normal
 	current_steps_sfx = steps_sfx

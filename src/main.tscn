@@ -1,19 +1,21 @@
-[gd_scene load_steps=40 format=4 uid="uid://b8dbb33q34baa"]
+[gd_scene load_steps=47 format=4 uid="uid://b8dbb33q34baa"]
 
 [ext_resource type="Script" uid="uid://c6frtrysqxj2l" path="res://src/main.gd" id="1_5q4o7"]
 [ext_resource type="PackedScene" uid="uid://dw4kwo4qls4mc" path="res://src/environment/entities/player/player.tscn" id="1_eewff"]
 [ext_resource type="PackedScene" uid="uid://d38o8rpqaubat" path="res://src/environment/entities/enemies/police.tscn" id="2_fyndt"]
-[ext_resource type="Texture2D" uid="uid://cetbnkpmuy2kh" path="res://assets/2D Soccer.png" id="3_kmhfv"]
+[ext_resource type="Texture2D" uid="uid://cetbnkpmuy2kh" path="res://assets/Background/2D Soccer.png" id="3_kmhfv"]
 [ext_resource type="PackedScene" uid="uid://dt6k0o713vafu" path="res://src/ui/hud.tscn" id="4_3cfgd"]
+[ext_resource type="AudioStream" uid="uid://dlkuabddn3svy" path="res://assets/Sfx/invasion_de_campo_messi.mp3" id="4_tb146"]
 [ext_resource type="AudioStream" uid="uid://gex5ybimwcmc" path="res://assets/Sfx/referee-whistle.mp3" id="5_d3u4l"]
 [ext_resource type="PackedScene" uid="uid://dwlmj82h3cwuh" path="res://src/environment/entities/soccer_players/soccer_player.tscn" id="6_5mrjc"]
-[ext_resource type="Texture2D" uid="uid://clkndp61jo32" path="res://assets/SoccerPlayer/Argentina/goalkeeper_idle.png" id="7_kf8lf"]
+[ext_resource type="Texture2D" uid="uid://clkndp61jo32" path="res://assets/Entities/SoccerPlayer/Argentina/goalkeeper_idle.png" id="7_kf8lf"]
 [ext_resource type="PackedScene" uid="uid://ceuekjfunn8d6" path="res://src/environment/objects/soccer_ball.tscn" id="8_kf8lf"]
-[ext_resource type="Texture2D" uid="uid://tb8xxeaqldhk" path="res://assets/SoccerPlayer/Argentina/idle.png" id="8_mgm53"]
-[ext_resource type="Texture2D" uid="uid://dl2v42jjvc3ml" path="res://assets/SoccerPlayer/Francia/goalkeeper_idle.png" id="9_uewes"]
-[ext_resource type="Texture2D" uid="uid://bxkejyvpgafjd" path="res://assets/SoccerPlayer/Francia/idle.png" id="10_kqbth"]
+[ext_resource type="Texture2D" uid="uid://tb8xxeaqldhk" path="res://assets/Entities/SoccerPlayer/Argentina/idle.png" id="8_mgm53"]
+[ext_resource type="Texture2D" uid="uid://dl2v42jjvc3ml" path="res://assets/Entities/SoccerPlayer/Francia/goalkeeper_idle.png" id="9_uewes"]
+[ext_resource type="Texture2D" uid="uid://bxkejyvpgafjd" path="res://assets/Entities/SoccerPlayer/Francia/idle.png" id="10_kqbth"]
 [ext_resource type="AudioStream" uid="uid://d20rssia10jwl" path="res://assets/Sfx/stadium_ambience.mp3" id="11_ambie"]
 [ext_resource type="AudioStream" uid="uid://bscdi2oohnfb8" path="res://assets/Sfx/stadium_boo.mp3" id="12_boo"]
+[ext_resource type="Texture2D" uid="uid://b4dahft33ton1" path="res://assets/Entities/SoccerPlayer/Argentina/idle_messi.png" id="12_mlv6i"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rlaii"]
 texture = ExtResource("3_kmhfv")
@@ -2114,6 +2116,42 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_adv81"]
+atlas = ExtResource("12_mlv6i")
+region = Rect2(0, 0, 13, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lovvn"]
+atlas = ExtResource("12_mlv6i")
+region = Rect2(13, 0, 13, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jitvu"]
+atlas = ExtResource("12_mlv6i")
+region = Rect2(26, 0, 13, 19)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2usk"]
+atlas = ExtResource("12_mlv6i")
+region = Rect2(39, 0, 13, 19)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_luju6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_adv81")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lovvn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jitvu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c2usk")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_e7lu8"]
 atlas = ExtResource("9_uewes")
 region = Rect2(0, 0, 13, 19)
@@ -2197,6 +2235,10 @@ script = ExtResource("1_5q4o7")
 enemy_scene = ExtResource("2_fyndt")
 soccer_ball_scene = ExtResource("8_kf8lf")
 
+[node name="Invasion" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_tb146")
+bus = &"Comments"
+
 [node name="StadiumAmbience" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_ambie")
 volume_db = -10.0
@@ -2275,9 +2317,9 @@ animation_resource = SubResource("SpriteFrames_kf8lf")
 position = Vector2(872, 240)
 animation_resource = SubResource("SpriteFrames_kf8lf")
 
-[node name="Forward2" parent="Environment/Entities/SoccerPlayers/Home" instance=ExtResource("6_5mrjc")]
+[node name="Messi" parent="Environment/Entities/SoccerPlayers/Home" instance=ExtResource("6_5mrjc")]
 position = Vector2(960, 573)
-animation_resource = SubResource("SpriteFrames_kf8lf")
+animation_resource = SubResource("SpriteFrames_luju6")
 
 [node name="Forward3" parent="Environment/Entities/SoccerPlayers/Home" instance=ExtResource("6_5mrjc")]
 position = Vector2(884, 854)

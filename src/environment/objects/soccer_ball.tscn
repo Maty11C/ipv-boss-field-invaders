@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://ceuekjfunn8d6"]
 
-[ext_resource type="Texture2D" uid="uid://cjh7ryudpcy47" path="res://assets/Soccer Ball.png" id="1_rs30o"]
+[ext_resource type="Texture2D" uid="uid://cjh7ryudpcy47" path="res://assets/Objects/Soccer Ball.png" id="1_rs30o"]
 [ext_resource type="Script" uid="uid://g545xsa5hui1" path="res://src/environment/objects/soccer_ball.gd" id="2_script"]
 [ext_resource type="Shader" uid="uid://cihq18co4u5im" path="res://src/environment/objects/soccer_ball_outline.gdshader" id="3_shader"]
 
@@ -8,6 +8,7 @@
 shader = ExtResource("3_shader")
 shader_parameter/outline_color = Color(1, 1, 0, 1)
 shader_parameter/outline_width = 3.5
+shader_parameter/blink_speed = 4.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rs30o"]
 radius = 6.0827627

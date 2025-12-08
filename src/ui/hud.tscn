@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://griirf4q52tc" path="res://src/ui/pause_menu.tscn" id="4_i4jpw"]
 [ext_resource type="PackedScene" uid="uid://bx0sfl8s8l1u7" path="res://src/ui/controls_modal.tscn" id="5_k9m5l"]
 [ext_resource type="PackedScene" uid="uid://ccb80t57p483y" path="res://src/ui/options_modal.tscn" id="6_options"]
-[ext_resource type="Texture2D" uid="uid://bjic4lrwefafc" path="res://assets/Score/Score_arg_fra.png" id="6_score"]
+[ext_resource type="Texture2D" uid="uid://bjic4lrwefafc" path="res://assets/UI/Score/Score_arg_fra.png" id="6_score"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_eqvli")
@@ -32,9 +32,9 @@ visible = false
 [node name="Score" type="TextureRect" parent="."]
 visible = false
 offset_left = 20.0
-offset_top = 20.0
+offset_top = 40.000004
 offset_right = 741.5
-offset_bottom = 60.0
+offset_bottom = 80.0
 scale = Vector2(0.9, 0.9)
 texture = ExtResource("6_score")
 expand_mode = 1
