@@ -1,5 +1,7 @@
 extends Control
 
+const Audio = preload("res://src/utils/audio.gd")
+
 signal modal_opened
 signal modal_closed
 
@@ -36,6 +38,7 @@ func hide_modal() -> void:
 	modal_closed.emit()
 
 func _on_close_button_pressed() -> void:
+	Audio.play_whoosh(self)
 	hide_modal()
 
 # Permitir cerrar el modal con ESC
