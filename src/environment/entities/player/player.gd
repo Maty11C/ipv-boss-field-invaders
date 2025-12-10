@@ -7,10 +7,12 @@ extends CharacterBody2D
 @onready var camera: Camera2D = $Camera2D
 @onready var stamina_bar: ProgressBar = $ProgressBar
 @onready var powerup_bar: ProgressBar = $PowerupBar
-@onready var steps_sfx: AudioStreamPlayer2D = $Steps
-@onready var giant_steps_sfx: AudioStreamPlayer2D = $GiantSteps
-@onready var breathing_sfx: AudioStreamPlayer2D = $Breathing
-@onready var goal_sfx: AudioStreamPlayer2D = $Goal
+@onready var steps_sfx: AudioStreamPlayer2D = $SFX/Steps
+@onready var giant_steps_sfx: AudioStreamPlayer2D = $SFX/GiantSteps
+@onready var breathing_sfx: AudioStreamPlayer2D = $SFX/Breathing
+@onready var goal_sfx: AudioStreamPlayer2D = $SFX/Goal
+@onready var item_collected_sfx: AudioStreamPlayer2D = $SFX/ItemCollected
+@onready var lose_sfx: AudioStreamPlayer2D = $SFX/Lose
 @onready var fire_position: Marker2D = $FirePosition
 @onready var fire_coldown: Timer = $FireColdown
 @onready var pacman_powerup_timer: Timer = $PacmanPowerupTimer
@@ -253,6 +255,7 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 			body.queue_free()
 		else:
 			caught_by_police.emit()
+			lose_sfx.play()
 	elif body.name == "SoccerBall":
 		_on_pacman_powerup_picked()
 		body.queue_free()
@@ -266,6 +269,7 @@ func _on_pacman_powerup_picked():
 	powerup_bar.visible = true
 	powerup_bar.max_value = pacman_powerup_duration
 	powerup_bar.value = pacman_powerup_duration
+	item_collected_sfx.play()
 	goal_sfx.play()
 
 	# Cambiar SFX de pasos a gigante

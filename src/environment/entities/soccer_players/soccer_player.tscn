@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dwlmj82h3cwuh"]
+[gd_scene load_steps=4 format=3 uid="uid://dwlmj82h3cwuh"]
 
 [ext_resource type="Script" path="res://src/environment/entities/soccer_players/soccer_player.gd" id="1_0f3eg"]
+[ext_resource type="AudioStream" uid="uid://djp7fhted58br" path="res://assets/Sfx/error.wav" id="2_oxhmm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oxhmm"]
 size = Vector2(13, 19)
@@ -15,3 +16,7 @@ shape = SubResource("RectangleShape2D_oxhmm")
 [node name="Body" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -10)
 scale = Vector2(1.5, 1.5)
+
+[node name="Impact" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_oxhmm")
+bus = &"SFX"
