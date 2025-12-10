@@ -1,9 +1,10 @@
 extends Node
 
-@onready var invasion_audio: AudioStreamPlayer = $Invasion
-@onready var stadium_ambience_audio: AudioStreamPlayer = $StadiumAmbience
-@onready var boo_audio: AudioStreamPlayer = $Boo
-@onready var referee_whistle: AudioStreamPlayer = $RefereeWhistle
+@onready var invasion_audio: AudioStreamPlayer = $Audio/Invasion
+@onready var stadium_ambience_audio: AudioStreamPlayer = $Audio/StadiumAmbience
+@onready var boo_audio: AudioStreamPlayer = $Audio/Boo
+@onready var referee_whistle_audio: AudioStreamPlayer = $Audio/RefereeWhistle
+@onready var enemy_defeated_audio: AudioStreamPlayer = $Audio/EnemyDefeated
 
 @onready var start_timer: Timer = $StartTimer
 @onready var score_timer: Timer = $ScoreTimer
@@ -70,7 +71,7 @@ func new_game():
 	hud.update_score(score)
 	
 	AudioUtils.fade_bus_volume(self, "Ambience", AMBIENCE_GAME_START_DB, 1.5)
-	referee_whistle.play()
+	referee_whistle_audio.play()
 	
 	player.show()
 	player.set_game_active(true) # Activar inputs del jugador
@@ -273,6 +274,7 @@ func _on_player_left_soccer_player(soccer_player: Node2D) -> void:
 
 
 func _on_police_defeated() -> void:
+	enemy_defeated_audio.play()
 	# Sumar 5 segundos al score cuando se elimina un policía
 	score += score_per_policie_defeated
 	elapsed_time += score_per_policie_defeated  # Sumar 5 segundos al tiempo transcurrido

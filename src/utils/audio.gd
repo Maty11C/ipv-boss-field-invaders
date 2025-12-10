@@ -1,6 +1,8 @@
 extends Node
 class_name AudioUtils
 
+static var whoosh_stream: AudioStream = preload("res://assets/UI/whoosh.wav")
+
 ## Hace un fade del volumen de un bus de audio
 ## @param node: El nodo que crea el tween (necesario para create_tween())
 ## @param bus_name: Nombre del bus de audio
@@ -31,3 +33,12 @@ static func fade_bus_volume(
 		tween.tween_callback(callback)
 	
 	return tween
+
+
+static func play_whoosh(node: Node) -> void:
+	var player := AudioStreamPlayer.new()
+	player.stream = whoosh_stream
+	player.bus = "SFX"
+	node.add_child(player)
+	player.play()
+	player.connect("finished", Callable(player, "queue_free"))

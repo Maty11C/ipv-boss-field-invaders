@@ -1,5 +1,7 @@
 extends Control
 
+const Audio = preload("res://src/utils/audio.gd")
+
 signal return_to_main_menu
 signal controls_requested
 signal options_requested
@@ -20,12 +22,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		if hud_parent and hud_parent.has_method("is_controls_modal_visible") and hud_parent.is_controls_modal_visible():
 			return
 		visible = !visible
+		Audio.play_whoosh(self)
 		get_tree().paused = visible	
 
 func _on_resume_button_pressed() -> void:
 	# No permitir despausar si el modal de controles está visible
 	if hud_parent and hud_parent.has_method("is_controls_modal_visible") and hud_parent.is_controls_modal_visible():
 		return
+	Audio.play_whoosh(self)
 	hide()
 	get_tree().paused = false
 
@@ -33,12 +37,15 @@ func _on_main_menu_button_pressed() -> void:
 	# No permitir regresar al menú principal si el modal de controles está visible
 	if hud_parent and hud_parent.has_method("is_controls_modal_visible") and hud_parent.is_controls_modal_visible():
 		return
+	Audio.play_whoosh(self)
 	get_tree().paused = false
 	hide()
 	return_to_main_menu.emit()
 
 func _on_controls_button_pressed() -> void:
+	Audio.play_whoosh(self)
 	controls_requested.emit()
 
 func _on_options_button_pressed() -> void:
+	Audio.play_whoosh(self)
 	options_requested.emit()

@@ -4,8 +4,10 @@ extends CharacterBody2D
 
 signal player_penalized
 
-@onready var body_anim: AnimatedSprite2D = $Body
 @export var animation_resource: SpriteFrames
+
+@onready var body_anim: AnimatedSprite2D = $Body
+@onready var impact_sfx: AudioStreamPlayer2D = $Impact
 
 func _ready() -> void:
 	if animation_resource != null:
@@ -19,3 +21,4 @@ func _play_animation(animation: String) -> void:
 
 func take_damage(_damage: int) -> void:
 	player_penalized.emit()
+	impact_sfx.play()

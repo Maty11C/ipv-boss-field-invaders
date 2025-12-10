@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=4 uid="uid://b8dbb33q34baa"]
+[gd_scene load_steps=48 format=4 uid="uid://b8dbb33q34baa"]
 
 [ext_resource type="Script" uid="uid://c6frtrysqxj2l" path="res://src/main.gd" id="1_5q4o7"]
 [ext_resource type="PackedScene" uid="uid://dw4kwo4qls4mc" path="res://src/environment/entities/player/player.tscn" id="1_eewff"]
@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://gex5ybimwcmc" path="res://assets/Sfx/referee-whistle.mp3" id="5_d3u4l"]
 [ext_resource type="PackedScene" uid="uid://dwlmj82h3cwuh" path="res://src/environment/entities/soccer_players/soccer_player.tscn" id="6_5mrjc"]
 [ext_resource type="Texture2D" uid="uid://clkndp61jo32" path="res://assets/Entities/SoccerPlayer/Argentina/goalkeeper_idle.png" id="7_kf8lf"]
+[ext_resource type="AudioStream" uid="uid://chcxorohsju07" path="res://assets/Sfx/defeated.wav" id="8_e7lu8"]
 [ext_resource type="PackedScene" uid="uid://ceuekjfunn8d6" path="res://src/environment/objects/soccer_ball.tscn" id="8_kf8lf"]
 [ext_resource type="Texture2D" uid="uid://tb8xxeaqldhk" path="res://assets/Entities/SoccerPlayer/Argentina/idle.png" id="8_mgm53"]
 [ext_resource type="Texture2D" uid="uid://dl2v42jjvc3ml" path="res://assets/Entities/SoccerPlayer/Francia/goalkeeper_idle.png" id="9_uewes"]
@@ -2235,24 +2236,31 @@ script = ExtResource("1_5q4o7")
 enemy_scene = ExtResource("2_fyndt")
 soccer_ball_scene = ExtResource("8_kf8lf")
 
-[node name="Invasion" type="AudioStreamPlayer" parent="."]
+[node name="Audio" type="Node" parent="."]
+
+[node name="Invasion" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("4_tb146")
 bus = &"Comments"
 
-[node name="StadiumAmbience" type="AudioStreamPlayer" parent="."]
+[node name="StadiumAmbience" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("11_ambie")
 volume_db = -10.0
 autoplay = true
 bus = &"Ambience"
 
-[node name="Boo" type="AudioStreamPlayer" parent="."]
+[node name="Boo" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("12_boo")
 volume_db = -6.0
 bus = &"Ambience"
 
-[node name="RefereeWhistle" type="AudioStreamPlayer" parent="."]
+[node name="RefereeWhistle" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("5_d3u4l")
 volume_db = -12.0
+bus = &"SFX"
+
+[node name="EnemyDefeated" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("8_e7lu8")
+volume_db = -10.0
 bus = &"SFX"
 
 [node name="Background" type="Node" parent="."]
