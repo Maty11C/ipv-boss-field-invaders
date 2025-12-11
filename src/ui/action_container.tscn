@@ -23,7 +23,9 @@ shadow_size = 3
 shadow_offset = Vector2(2, 2)
 
 [node name="ActionContainer" type="MarginContainer"]
-theme_override_constants/margin_left = 20
+offset_right = 282.0
+offset_bottom = 18.0
+theme_override_constants/margin_left = 25
 script = ExtResource("1_11fyd")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]

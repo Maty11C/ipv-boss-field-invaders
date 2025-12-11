@@ -78,7 +78,7 @@ layout_mode = 2
 [node name="ControlsContainer" type="VBoxContainer" parent="Background/Panel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 15
+theme_override_constants/separation = 50
 
 [node name="MovementSection" type="VBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer"]
 layout_mode = 2
@@ -115,10 +115,6 @@ layout_mode = 2
 action = "Run"
 keys = "Shift"
 
-[node name="Spacer1" type="Control" parent="Background/Panel/VBoxContainer/ControlsContainer"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
-
 [node name="CombatSection" type="VBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer"]
 layout_mode = 2
 theme_override_constants/separation = 15
@@ -138,10 +134,6 @@ keys = "Left click"
 layout_mode = 2
 action = "Aim"
 keys = "Mouse"
-
-[node name="Spacer2" type="Control" parent="Background/Panel/VBoxContainer/ControlsContainer"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
 
 [node name="GameSection" type="VBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer"]
 layout_mode = 2
