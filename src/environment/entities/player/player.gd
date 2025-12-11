@@ -17,6 +17,7 @@ extends CharacterBody2D
 @onready var fire_coldown: Timer = $FireColdown
 @onready var pacman_powerup_timer: Timer = $PacmanPowerupTimer
 
+@export var god_mode: bool = false  # Modo invencible - el jugador no puede ser atrapado por la policía
 @export var max_stamina: float = 100.0
 @export var stamina_recovery_rate: float = 20
 @export var speed = 350 # (pixels/sec).
@@ -57,6 +58,7 @@ signal invasion_finished
 signal near_soccer_player(soccer_player: Node2D)
 signal left_soccer_player(soccer_player: Node2D)
 signal caught_by_police
+signal pacman_powerup_ended
 
 func _ready() -> void:
 	set_physics_process(false)
@@ -253,7 +255,7 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 			if body.has_signal("police_defeated"):
 				body.police_defeated.emit()  # Emitir señal antes de destruir
 			body.queue_free()
-		else:
+		elif not god_mode:  # Solo emitir si god_mode está desactivado
 			caught_by_police.emit()
 			lose_sfx.play()
 	elif body.name == "SoccerBall":
@@ -299,6 +301,9 @@ func _on_pacman_powerup_timer_timeout() -> void:
 
 	# Restaurar SFX de pasos a normal
 	current_steps_sfx = steps_sfx
+	
+	# Emitir señal de que el powerup terminó
+	pacman_powerup_ended.emit()
 
 	# Restaurar tamaño
 	var original_scale = scale / growth_scale

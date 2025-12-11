@@ -80,6 +80,7 @@ func new_game():
 	player.near_soccer_player.connect(_on_player_near_soccer_player)
 	player.left_soccer_player.connect(_on_player_left_soccer_player)
 	player.caught_by_police.connect(game_over)
+	player.pacman_powerup_ended.connect(_on_pacman_powerup_ended)
 	for sp in get_tree().get_nodes_in_group("soccer_players"):
 		sp.player_penalized.connect(_on_player_penalized)
 	
@@ -185,7 +186,12 @@ func _on_invasion_finished():
 	
 	# Parar el relato
 	#invasion_audio.stop()
-	
+
+
+func _on_pacman_powerup_ended() -> void:
+	current_soccer_balls_count = 0
+
+
 func _on_start_timer_timeout() -> void:
 	score_timer.start()
 

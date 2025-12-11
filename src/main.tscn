@@ -2240,7 +2240,6 @@ soccer_ball_scene = ExtResource("8_kf8lf")
 
 [node name="Invasion" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("4_tb146")
-bus = &"Comments"
 
 [node name="StadiumAmbience" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("11_ambie")
