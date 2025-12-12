@@ -2,10 +2,13 @@ extends Control
 
 const Audio = preload("res://src/utils/audio.gd")
 
+@onready var time_score_label: Label = $ScoreContainer/TimeScoreLabel
+
 signal restart_game
 signal return_to_main_menu
 
-func show_end_menu() -> void:
+func show_end_menu(score: String) -> void:
+	time_score_label.text = "Score " + score
 	show()
 
 func hide_end_menu() -> void:

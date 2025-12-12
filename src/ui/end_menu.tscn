@@ -1,7 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://dy1reil0uf2q"]
+[gd_scene load_steps=5 format=3 uid="uid://dy1reil0uf2q"]
 
-[ext_resource type="Theme" uid="uid://dxo350gmmg0af" path="res://src/ui/hud.tres" id="1_4dbti"]
+[ext_resource type="Theme" uid="uid://b8j4k2n1m0p" path="res://src/ui/hud.tres" id="1_4dbti"]
 [ext_resource type="Script" uid="uid://e0u4g01wwnec" path="res://src/ui/end_menu.gd" id="1_xkw1n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtnm0"]
+bg_color = Color(0, 0, 0, 0.19607843)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r2cn7"]
 draw_center = false
@@ -15,6 +18,39 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xkw1n")
 
+[node name="ScoreContainer" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -140.0
+offset_top = -120.0
+offset_right = 140.0
+offset_bottom = -84.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qtnm0")
+
+[node name="TimeScoreLabel" type="Label" parent="ScoreContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -9.5
+offset_right = 120.0
+offset_bottom = 9.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Score 00:00"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
 [node name="ButtonsContainer" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -23,9 +59,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -250.0
-offset_top = -100.0
+offset_top = -54.0
 offset_right = 250.0
-offset_bottom = 100.0
+offset_bottom = 146.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_r2cn7")
