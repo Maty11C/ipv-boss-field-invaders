@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bx0sfl8s8l1u7"]
+[gd_scene load_steps=5 format=3 uid="uid://bx0sfl8s8l1u7"]
 
 [ext_resource type="Script" uid="uid://qhc25tkipo0u" path="res://src/ui/controls_modal.gd" id="1_x1l8k"]
-[ext_resource type="Theme" uid="uid://dxo350gmmg0af" path="res://src/ui/hud.tres" id="2_j8m4l"]
+[ext_resource type="Theme" uid="uid://b8j4k2n1m0p" path="res://src/ui/hud.tres" id="2_j8m4l"]
+[ext_resource type="PackedScene" uid="uid://bxud0d3qckg4p" path="res://src/ui/action_container.tscn" id="3_eil17"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
 bg_color = Color(0, 0, 0, 0.8)
@@ -33,10 +34,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = -200.0
-offset_right = 400.0
-offset_bottom = 200.0
+offset_left = -300.0
+offset_top = -300.0
+offset_right = 300.0
+offset_bottom = 300.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_j8m4l")
@@ -52,6 +53,7 @@ offset_right = -20.0
 offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 20
 
 [node name="Header" type="HBoxContainer" parent="Background/Panel/VBoxContainer"]
 layout_mode = 2
@@ -76,9 +78,11 @@ layout_mode = 2
 [node name="ControlsContainer" type="VBoxContainer" parent="Background/Panel/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_constants/separation = 50
 
 [node name="MovementSection" type="VBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="MovementTitle" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection"]
 layout_mode = 2
@@ -86,45 +90,34 @@ theme = ExtResource("2_j8m4l")
 theme_override_font_sizes/font_size = 18
 text = "MOVEMENT:"
 
-[node name="MovementControls" type="VBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection"]
+[node name="MoveUpActionContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection" instance=ExtResource("3_eil17")]
 layout_mode = 2
+action = "Move up"
+keys = "W / ↑"
 
-[node name="Move" type="HBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection/MovementControls"]
+[node name="MoveDownActionContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection" instance=ExtResource("3_eil17")]
 layout_mode = 2
+action = "Move down"
+keys = "S / ↓"
 
-[node name="Keys" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection/MovementControls/Move"]
+[node name="MoveLeftActionContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection" instance=ExtResource("3_eil17")]
 layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("2_j8m4l")
-text = "WASD / ↑←↓→"
+action = "Move left"
+keys = "A / ←"
 
-[node name="Action" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection/MovementControls/Move"]
+[node name="MoveRightActionContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection" instance=ExtResource("3_eil17")]
 layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("2_j8m4l")
-text = "Move Player"
+action = "Move right"
+keys = "D / →"
 
-[node name="Run" type="HBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection/MovementControls"]
+[node name="RunActionContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection" instance=ExtResource("3_eil17")]
 layout_mode = 2
-
-[node name="Keys" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection/MovementControls/Run"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("2_j8m4l")
-text = "Shift"
-
-[node name="Action" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/MovementSection/MovementControls/Run"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("2_j8m4l")
-text = "Run"
-
-[node name="Spacer1" type="Control" parent="Background/Panel/VBoxContainer/ControlsContainer"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
+action = "Run"
+keys = "Shift"
 
 [node name="CombatSection" type="VBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="CombatTitle" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection"]
 layout_mode = 2
@@ -132,45 +125,19 @@ theme = ExtResource("2_j8m4l")
 theme_override_font_sizes/font_size = 18
 text = "COMBAT:"
 
-[node name="CombatControls" type="VBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection"]
+[node name="ShootActionContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection" instance=ExtResource("3_eil17")]
 layout_mode = 2
+action = "Shoot"
+keys = "Left click"
 
-[node name="Shoot" type="HBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection/CombatControls"]
+[node name="AimActionContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection" instance=ExtResource("3_eil17")]
 layout_mode = 2
-
-[node name="Keys" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection/CombatControls/Shoot"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("2_j8m4l")
-text = "Left Click"
-
-[node name="Action" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection/CombatControls/Shoot"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("2_j8m4l")
-text = "Shoot"
-
-[node name="Aim" type="HBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection/CombatControls"]
-layout_mode = 2
-
-[node name="Keys" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection/CombatControls/Aim"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("2_j8m4l")
-text = "Mouse"
-
-[node name="Action" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/CombatSection/CombatControls/Aim"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("2_j8m4l")
-text = "Aim"
-
-[node name="Spacer2" type="Control" parent="Background/Panel/VBoxContainer/ControlsContainer"]
-custom_minimum_size = Vector2(0, 10)
-layout_mode = 2
+action = "Aim"
+keys = "Mouse"
 
 [node name="GameSection" type="VBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer"]
 layout_mode = 2
+theme_override_constants/separation = 15
 
 [node name="GameTitle" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/GameSection"]
 layout_mode = 2
@@ -178,23 +145,10 @@ theme = ExtResource("2_j8m4l")
 theme_override_font_sizes/font_size = 18
 text = "GAME:"
 
-[node name="GameControls" type="VBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/GameSection"]
+[node name="PauseActionContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/GameSection" instance=ExtResource("3_eil17")]
 layout_mode = 2
-
-[node name="Pause" type="HBoxContainer" parent="Background/Panel/VBoxContainer/ControlsContainer/GameSection/GameControls"]
-layout_mode = 2
-
-[node name="Keys" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/GameSection/GameControls/Pause"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("2_j8m4l")
-text = "ESC"
-
-[node name="Action" type="Label" parent="Background/Panel/VBoxContainer/ControlsContainer/GameSection/GameControls/Pause"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("2_j8m4l")
-text = "Pause/Resume Game"
+action = "Pause / Resume"
+keys = "Esc"
 
 [connection signal="gui_input" from="." to="." method="_gui_input"]
 [connection signal="gui_input" from="Background/Panel" to="." method="_on_panel_gui_input"]
