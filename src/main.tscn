@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://b8dbb33q34baa"]
+[gd_scene load_steps=47 format=4 uid="uid://b8dbb33q34baa"]
 
 [ext_resource type="Script" uid="uid://c6frtrysqxj2l" path="res://src/main.gd" id="1_5q4o7"]
 [ext_resource type="PackedScene" uid="uid://dw4kwo4qls4mc" path="res://src/environment/entities/player/player.tscn" id="1_eewff"]
@@ -15,7 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://dl2v42jjvc3ml" path="res://assets/Entities/SoccerPlayer/Francia/goalkeeper_idle.png" id="9_uewes"]
 [ext_resource type="Texture2D" uid="uid://bxkejyvpgafjd" path="res://assets/Entities/SoccerPlayer/Francia/idle.png" id="10_kqbth"]
 [ext_resource type="AudioStream" uid="uid://d20rssia10jwl" path="res://assets/Sfx/stadium_ambience.mp3" id="11_ambie"]
-[ext_resource type="AudioStream" uid="uid://bscdi2oohnfb8" path="res://assets/Sfx/stadium_boo.mp3" id="12_boo"]
 [ext_resource type="Texture2D" uid="uid://b4dahft33ton1" path="res://assets/Entities/SoccerPlayer/Argentina/idle_messi.png" id="12_mlv6i"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_rlaii"]
@@ -2234,7 +2233,17 @@ point_count = 5
 [node name="Main" type="Node"]
 script = ExtResource("1_5q4o7")
 enemy_scene = ExtResource("2_fyndt")
+enemy_spawn_time = null
+min_spawn_coldown = null
+spawn_acceleration_time = null
+camera_smooth_duration = null
 soccer_ball_scene = ExtResource("8_kf8lf")
+soccer_ball_min_spawn_time = null
+soccer_ball_max_spawn_time = null
+max_soccer_balls = null
+score_per_soccer_ball = null
+score_per_policie_defeated = null
+score_penalty = null
 
 [node name="Audio" type="Node" parent="."]
 
@@ -2245,11 +2254,6 @@ stream = ExtResource("4_tb146")
 stream = ExtResource("11_ambie")
 volume_db = -10.0
 autoplay = true
-bus = &"Ambience"
-
-[node name="Boo" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("12_boo")
-volume_db = -6.0
 bus = &"Ambience"
 
 [node name="RefereeWhistle" type="AudioStreamPlayer" parent="Audio"]

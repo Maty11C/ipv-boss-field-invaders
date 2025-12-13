@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dt6k0o713vafu"]
+[gd_scene load_steps=9 format=3 uid="uid://dt6k0o713vafu"]
 
 [ext_resource type="Script" uid="uid://cuobua60xuvxa" path="res://src/ui/hud.gd" id="1_eqvli"]
 [ext_resource type="PackedScene" uid="uid://dcef4fhvhqvk1" path="res://src/ui/main_menu.tscn" id="2_r2cn7"]
@@ -7,6 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://bx0sfl8s8l1u7" path="res://src/ui/controls_modal.tscn" id="5_k9m5l"]
 [ext_resource type="PackedScene" uid="uid://ccb80t57p483y" path="res://src/ui/options_modal.tscn" id="6_options"]
 [ext_resource type="Texture2D" uid="uid://bjic4lrwefafc" path="res://assets/UI/Score/Score_arg_fra.png" id="6_score"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vbpn1"]
+bg_color = Color(0, 0, 0, 0.19607843)
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_eqvli")
@@ -125,6 +128,43 @@ vertical_alignment = 1
 
 [node name="TimerTimeModifier" type="Timer" parent="Score"]
 one_shot = true
+
+[node name="HighScore" type="Control" parent="Score"]
+anchors_preset = 0
+offset_left = -22.222223
+offset_top = -44.44445
+offset_right = 17.777777
+offset_bottom = -4.4444504
+
+[node name="HighScoreContainer" type="Panel" parent="."]
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -140.0
+offset_top = 40.0
+offset_right = 140.0
+offset_bottom = 76.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vbpn1")
+
+[node name="HighScoreTimeLabel" type="Label" parent="HighScoreContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -9.5
+offset_right = 120.0
+offset_bottom = 9.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Highscore 00:00"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
 
 [node name="PacmanPowerup" type="Control" parent="."]
 visible = false

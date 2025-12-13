@@ -2,6 +2,8 @@ extends CanvasLayer
 
 @onready var score_node: Control = $Score
 @onready var score_time_label: Label = $Score/TimeLabel
+@onready var high_score_container: Panel = $HighScoreContainer
+@onready var high_score_time_label: Label = $HighScoreContainer/HighScoreTimeLabel
 @onready var score_powerup_label: Label = $Score/PowerupLabel
 @onready var time_modifier_label: Label = $Score/TimeModifierLabel
 @onready var timer_time_modifier: Timer = $Score/TimerTimeModifier
@@ -14,6 +16,9 @@ extends CanvasLayer
 
 signal start_game
 
+const HighScoreManager = preload("res://src/utils/high_score_manager.gd")
+
+var high_score_manager := HighScoreManager.new()
 var pending_start_game: bool = false
 var game_is_active: bool = false
 
@@ -34,10 +39,14 @@ func _ready() -> void:
 	options_modal.modal_opened.connect(_on_options_modal_opened)
 	options_modal.modal_closed.connect(_on_options_modal_closed)
 
+	high_score_manager.load_high_score()
+	_update_high_score_time_label()
+
 func update_score(score):
 	var minutes = score / 60
 	var seconds = score % 60
 	score_time_label.text = "%02d:%02d" % [minutes, seconds]
+	_update_high_score_time_label()
 
 func update_home_score(score_value: int):
 	$Score/HomeScore.text = str(score_value)
@@ -50,6 +59,12 @@ func show_score():
 
 func hide_score():
 	score_node.visible = false
+	
+func show_highscore():
+	high_score_container.visible = true
+
+func hide_highscore():
+	high_score_container.visible = false
 
 func show_timer_powerup():
 	score_powerup_label.show()
@@ -70,16 +85,36 @@ func _on_main_menu_start_game() -> void:
 func _on_main_open_loser_hud() -> void:
 	game_is_active = false
 	hide_score()
-	end_menu.show_end_menu()
+	hide_highscore()
+	var show_new_high_score: bool
+	if high_score_manager.check_and_save_high_score(_get_score_seconds()):
+		_update_high_score_time_label()
+		show_new_high_score = true
+	end_menu.show_end_menu(score_time_label.text, show_new_high_score)
+
+func _get_score_seconds() -> int:
+	var text = score_time_label.text
+	var parts = text.split(":")
+	if parts.size() == 2:
+		return int(parts[0]) * 60 + int(parts[1])
+	return 0
+
+func _update_high_score_time_label() -> void:
+	var hs = high_score_manager.get_high_score()
+	var min = hs / 60
+	var sec = hs % 60
+	high_score_time_label.text = "Highscore " + "%02d:%02d" % [min, sec]
 
 func _on_end_menu_restart_game() -> void:
 	game_is_active = true
 	show_score()
+	show_highscore()
 	start_game.emit()
 
 func _on_menu_return_to_main_menu() -> void:
 	game_is_active = false
 	hide_score()
+	hide_highscore()
 	hide_pacman_powerup()
 	main_menu.show_main_menu()
 	get_parent().return_to_main_menu()
@@ -108,6 +143,7 @@ func _on_controls_modal_closed() -> void:
 		game_is_active = true
 		start_game.emit()
 		show_score()
+		show_highscore()
 		pending_start_game = false
 
 func show_options_modal() -> void:
