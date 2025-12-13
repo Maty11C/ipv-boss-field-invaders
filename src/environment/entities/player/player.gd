@@ -10,7 +10,6 @@ extends CharacterBody2D
 @onready var steps_sfx: AudioStreamPlayer2D = $SFX/Steps
 @onready var giant_steps_sfx: AudioStreamPlayer2D = $SFX/GiantSteps
 @onready var breathing_sfx: AudioStreamPlayer2D = $SFX/Breathing
-@onready var goal_sfx: AudioStreamPlayer2D = $SFX/Goal
 @onready var item_collected_sfx: AudioStreamPlayer2D = $SFX/ItemCollected
 @onready var lose_sfx: AudioStreamPlayer2D = $SFX/Lose
 @onready var fire_position: Marker2D = $FirePosition
@@ -272,7 +271,11 @@ func _on_pacman_powerup_picked():
 	powerup_bar.max_value = pacman_powerup_duration
 	powerup_bar.value = pacman_powerup_duration
 	item_collected_sfx.play()
-	goal_sfx.play()
+	
+	# Silenciar el bus de audio Ambience
+	var ambience_bus_index = AudioServer.get_bus_index("Ambience")
+	if ambience_bus_index != -1:
+		AudioServer.set_bus_mute(ambience_bus_index, true)
 
 	# Cambiar SFX de pasos a gigante
 	current_steps_sfx = giant_steps_sfx
@@ -297,7 +300,11 @@ func _on_pacman_powerup_timer_timeout() -> void:
 	hud.hide_pacman_powerup()
 	powerup_bar.visible = false
 	giant_steps_sfx.stop()
-	goal_sfx.stop()
+
+	# Restaurar el volumen del bus de audio Ambience
+	var ambience_bus_index = AudioServer.get_bus_index("Ambience")
+	if ambience_bus_index != -1:
+		AudioServer.set_bus_mute(ambience_bus_index, false)
 
 	# Restaurar SFX de pasos a normal
 	current_steps_sfx = steps_sfx

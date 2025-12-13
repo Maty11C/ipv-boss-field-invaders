@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dy1reil0uf2q"]
+[gd_scene load_steps=7 format=3 uid="uid://dy1reil0uf2q"]
 
 [ext_resource type="Theme" uid="uid://b8j4k2n1m0p" path="res://src/ui/hud.tres" id="1_4dbti"]
 [ext_resource type="Script" uid="uid://e0u4g01wwnec" path="res://src/ui/end_menu.gd" id="1_xkw1n"]
+[ext_resource type="AudioStream" uid="uid://bscdi2oohnfb8" path="res://assets/Sfx/stadium_boo.mp3" id="2_lseun"]
+[ext_resource type="AudioStream" uid="uid://dbos20lulp0rk" path="res://assets/Sfx/goal.mp3" id="2_qtnm0"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtnm0"]
 bg_color = Color(0, 0, 0, 0.19607843)
@@ -17,6 +19,17 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xkw1n")
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="Boo" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("2_lseun")
+volume_db = 10.0
+bus = &"Ambience"
+
+[node name="Goal" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("2_qtnm0")
+bus = &"Ambience"
 
 [node name="NewHighScore" type="Control" parent="."]
 visible = false

@@ -2,7 +2,6 @@ extends Node
 
 @onready var invasion_audio: AudioStreamPlayer = $Audio/Invasion
 @onready var stadium_ambience_audio: AudioStreamPlayer = $Audio/StadiumAmbience
-@onready var boo_audio: AudioStreamPlayer = $Audio/Boo
 @onready var referee_whistle_audio: AudioStreamPlayer = $Audio/RefereeWhistle
 @onready var enemy_defeated_audio: AudioStreamPlayer = $Audio/EnemyDefeated
 
@@ -138,7 +137,6 @@ func game_over() -> void:
 	player.set_game_active(false) # Desactivar inputs del jugador
 	player.disable_camera_smooth(1)
 	player.hide()
-	boo_audio.play()
 	AudioUtils.fade_bus_volume(self, "Ambience", -20.0, 1.5)
 	clean_game()
 	open_loser_hud.emit()
@@ -146,14 +144,8 @@ func game_over() -> void:
 
 func setup_sounds() -> void:
 	stadium_ambience_audio.bus = "Ambience"
-	boo_audio.bus = "SFX"
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Ambience"), -20.0) # Se inicia el sonido ambiente en volumen bajo
 	stadium_ambience_audio.play()
-
-
-func stop_boo_sound() -> void:
-	if boo_audio.playing:
-		boo_audio.stop()
 
 
 func return_to_main_menu() -> void:
@@ -162,15 +154,12 @@ func return_to_main_menu() -> void:
 	clean_game()
 	player.hide()
 	AudioUtils.fade_bus_volume(self, "Ambience", -20.0, 1.5)
-	stop_boo_sound()
 
 #endregion
 
 #region Señales
 
 func _on_hud_start_game() -> void:
-	if boo_audio.playing:
-		boo_audio.stop()
 	new_game()
 
 
