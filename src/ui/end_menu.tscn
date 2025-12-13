@@ -18,6 +18,33 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xkw1n")
 
+[node name="NewHighScore" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -192.0
+offset_top = 350.0
+offset_right = 198.0
+offset_bottom = 411.0
+grow_horizontal = 2
+
+[node name="NewHighScoreLabel" type="Label" parent="NewHighScore"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "New HighScore!"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
 [node name="ScoreContainer" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 8

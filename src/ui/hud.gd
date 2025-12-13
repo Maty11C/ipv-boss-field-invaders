@@ -86,9 +86,11 @@ func _on_main_open_loser_hud() -> void:
 	game_is_active = false
 	hide_score()
 	hide_highscore()
-	end_menu.show_end_menu(score_time_label.text)
+	var show_new_high_score: bool
 	if high_score_manager.check_and_save_high_score(_get_score_seconds()):
 		_update_high_score_time_label()
+		show_new_high_score = true
+	end_menu.show_end_menu(score_time_label.text, show_new_high_score)
 
 func _get_score_seconds() -> int:
 	var text = score_time_label.text
